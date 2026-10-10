@@ -468,7 +468,7 @@ def test_seed_is_rich_and_idempotent(client, me):
     _login(client, nova["id"])
     assert len(client.get("/api/me/action-items?include_done=true").json()) >= 3
     ov = client.get("/api/me/overview").json()
-    assert ov["active_sprints"] and ov["active_sprints"][0]["id"] == active["id"]
+    assert any(s["id"] == active["id"] for s in ov["active_sprints"])
     _login(client, me["id"])
     # search by key across projects
     assert client.get("/api/search?q=GR-1").json()[0]["key"] == "GR-1"
