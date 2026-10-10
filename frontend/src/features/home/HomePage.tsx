@@ -32,8 +32,8 @@ export default function HomePage() {
   );
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <div className="space-y-7">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <Greeting name={me?.name} emoji={me?.emoji} flavor={ui.flavor} />
         <div className="flex items-center gap-2 flex-wrap">
           <Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button>
@@ -44,12 +44,12 @@ export default function HomePage() {
 
       <HealthStrip metrics={metrics.data} summary={summary.data} loading={metrics.isLoading || (metrics.isError && summary.isLoading)} estimation={project?.settings.estimation} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="lg:col-span-2 space-y-5">
           <ActiveSprintCard sprint={activeSprint} project={project} />
           <YourLane overview={overview.data} loading={overview.isLoading} project={project} meId={me?.id} />
         </div>
-        <div className="space-y-4">
+        <div className="space-y-5">
           <ActionItemsCard overview={overview.data} />
           <IntakeCard />
           <ActivityFeed pid={pid} />

@@ -103,8 +103,7 @@ export function Greeting({ name, emoji }: { name: string | undefined; emoji: str
   const ask = (text: string) => { if (!text.trim()) return; ui.setAgentOpen(true, { prefill: text, nonce: Date.now() }); setQ(""); };
   const chips = ["How is the sprint tracking?", "What should we pull into next sprint?", "Draft stories for a new feature", "Summarize this week"];
   return (
-    <div className="panel tone tone-purple p-6 md:p-7 overflow-hidden relative">
-      <div className="absolute -right-10 -top-10 w-56 h-56 rounded-full bg-[radial-gradient(circle,rgba(228,185,99,0.35),transparent_65%)] pointer-events-none" />
+    <div className="panel tone tone-purple !rounded-[20px] p-8 overflow-hidden relative w-full">
       <div className="eyebrow">Home</div>
       <h1 className="text-[28px] md:text-[32px] leading-none mt-1 text-cream">{tod}, {name?.split(" ")[0] ?? "there"} <span className="inline-block animate-float">{emoji ?? "✨"}</span></h1>
       <p className="text-cream/80 text-sm mt-2">Here's where things stand. Ask me anything about the project.</p>

@@ -10,8 +10,8 @@ export function CardBody({ item, project, dragging, overlay }: { item: WorkItem;
   const done = isDone(project, item.status);
   const typeColor = project?.item_types.find((t) => t.key === item.type)?.color ?? "var(--gold)";
   return (
-    <div className={cn("panel p-3 pl-4 relative select-none transition-shadow overflow-hidden", "hover:shadow-[var(--shadow-lg)]", dragging && "opacity-40", overlay && "glow-gold rotate-[1.5deg] cursor-grabbing", done && "opacity-75")}>
-      <span className="absolute left-0 top-0 bottom-0 w-[5px]" style={{ background: typeColor }} aria-hidden />
+    <div className={cn("panel !rounded-[12px] px-4 py-3.5 pl-[18px] relative select-none transition-shadow overflow-hidden", "hover:shadow-[var(--shadow-lg)]", dragging && "opacity-40", overlay && "glow-gold rotate-[1.5deg] cursor-grabbing", done && "opacity-75")}>
+      <span className="absolute left-0 top-0 bottom-0 w-1" style={{ background: typeColor }} aria-hidden />
       {item.blocked && <span className="absolute left-0 right-0 top-0 h-[3px] stripe" aria-hidden />}
       <div className="flex items-center gap-1.5 text-[11px]">
         <TypeIcon project={project} type={item.type} />
@@ -20,8 +20,8 @@ export function CardBody({ item, project, dragging, overlay }: { item: WorkItem;
         <span className="flex-1" />
         {item.blocked && <BlockedTag reason={item.blocked_reason} />}
       </div>
-      <div className={cn("text-[13px] leading-snug mt-1 font-medium", done && "line-through text-text-2")}>{item.title}</div>
-      <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+      <div className={cn("text-sm leading-snug mt-1.5 font-semibold", done && "line-through text-text-2")}>{item.title}</div>
+      <div className="flex items-center gap-1.5 mt-2.5 flex-wrap">
         <LabelChips labels={item.labels} max={2} />
         <span className="flex-1" />
         <DueChip due={item.due_date} done={done} />

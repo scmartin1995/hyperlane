@@ -133,7 +133,7 @@ export default function BacklogPage() {
     <div>
       <PageHeader eyebrow={ui.flavor ? "Backlog" : undefined} title={label("backlog", ui.flavor)} subtitle={`${typesByLevel(project).map((t) => t.plural).join(" → ")} · drag to reorder, hold Shift while dropping to nest`}
         actions={<><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build with the assistant</Button><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button></>} />
-      <div className="flex flex-wrap items-center gap-2 mb-3">
+      <div className="flex flex-wrap items-center gap-2 mb-5">
         <Tabs value={view} onChange={setView} tabs={[{ key: "tree", label: <span className="inline-flex items-center gap-1"><ListTree size={13} />Tree</span> }, { key: "list", label: <span className="inline-flex items-center gap-1"><List size={13} />List</span> }]} />
         <div className="relative"><Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-3" /><Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search key or title…" aria-label="Search backlog" className="h-8 pl-8 text-xs w-[220px]" /></div>
         <Toggle checked={hideDone} onChange={setHideDone} label={<span className="text-xs">Hide done</span>} />
@@ -143,9 +143,9 @@ export default function BacklogPage() {
       </div>
 
       <TriagePanel project={project} sprints={sprints ?? []} onOpen={setOpenId} />
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-4 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-5 items-start">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={(e) => setActiveId(String(e.active.id))} onDragEnd={onDragEnd} onDragCancel={() => setActiveId(null)}>
-          <div className="panel p-2 min-h-[300px]">
+          <div className="panel px-3 py-2 min-h-[300px]">
             {view === "list" ? (
               <ListView items={flatQ.data ?? []} project={project} sprints={sprints} q={q} loading={flatQ.isLoading} selected={selected} onSelect={(id, e) => toggleSelect(id, e.shiftKey)} onOpen={setOpenId} />
             ) : treeQ.isLoading ? <div className="space-y-2 p-2">{[0, 1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-9" />)}</div>

@@ -16,18 +16,18 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant; size?: Size; icon?: LucideIcon; loading?: boolean; iconRight?: LucideIcon;
 }
 const variantCls: Record<Variant, string> = {
-  primary: "bg-[linear-gradient(135deg,var(--purple),var(--purple-deep))] text-cream hover:brightness-110 font-semibold shadow-[0_6px_16px_-8px_var(--purple)]",
-  secondary: "bg-surface text-text hover:bg-surface-2 border border-border-strong/60 shadow-sm",
+  primary: "bg-purple text-cream hover:brightness-110 font-semibold",
+  secondary: "bg-surface text-text hover:bg-surface-2 border border-border-strong font-semibold",
   ghost: "bg-transparent text-text-2 hover:text-text hover:bg-surface-2",
   danger: "bg-rust text-cream hover:brightness-110 font-semibold",
   teal: "bg-teal text-cream hover:brightness-110 font-semibold",
-  outline: "bg-transparent border-2 border-gold text-text hover:bg-gold-tint",
+  outline: "bg-surface border border-border-strong text-text hover:border-purple font-semibold",
 };
-const sizeCls: Record<Size, string> = { xs: "h-6 px-2 text-[11px] gap-1 rounded-[5px]", sm: "h-8 px-3 text-xs gap-1.5 rounded-[7px]", md: "h-9 px-4 text-sm gap-2 rounded-[8px]", lg: "h-11 px-6 text-base gap-2 rounded-[10px]" };
+const sizeCls: Record<Size, string> = { xs: "h-7 px-2.5 text-xs gap-1 rounded-[8px]", sm: "h-8 px-3 text-[13px] gap-1.5 rounded-[10px]", md: "h-10 px-4 text-sm gap-2 rounded-[10px]", lg: "h-12 px-5 text-[15px] gap-2 rounded-[12px]" };
 export function Button({ variant = "secondary", size = "md", icon: Icon, iconRight: IconR, loading, className, children, disabled, ...rest }: ButtonProps) {
   const iconSize = size === "xs" ? 12 : size === "sm" ? 14 : 16;
   return (
-    <button className={cn("inline-flex items-center justify-center font-display transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap select-none", variantCls[variant], sizeCls[size], className)} disabled={disabled || loading} {...rest}>
+    <button className={cn("inline-flex items-center justify-center transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap select-none", variantCls[variant], sizeCls[size], className)} disabled={disabled || loading} {...rest}>
       {loading ? <Loader2 size={iconSize} className="animate-spin" /> : Icon ? <Icon size={iconSize} /> : null}
       {children}
       {IconR ? <IconR size={iconSize} /> : null}
@@ -42,9 +42,9 @@ export function IconButton({ icon: Icon, label, size = "sm", className, ...rest 
 export type Tone = "purple" | "rust" | "teal" | "dark" | "gold" | "cream";
 export function Panel({ className, children, cut, title, eyebrow, actions, padded = true, tone, ...rest }: { className?: string; children?: ReactNode; cut?: boolean; title?: ReactNode; eyebrow?: ReactNode; actions?: ReactNode; padded?: boolean; tone?: Tone } & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <section className={cn("panel", cut && "panel-cut", padded && "p-4", tone && `tone tone-${tone}`, className)} {...rest}>
+    <section className={cn("panel", cut && "panel-cut", padded && "px-6 py-5", tone && `tone tone-${tone}`, className)} {...rest}>
       {(title || eyebrow || actions) && (
-        <header className={cn("flex items-start justify-between gap-3 mb-3", !padded && "px-4 pt-4")}>
+        <header className={cn("flex items-start justify-between gap-3 mb-4", !padded && "px-6 pt-5")}>
           <div>
             {eyebrow && <div className="eyebrow">{eyebrow}</div>}
             {title && <h2 className="text-base leading-tight">{title}</h2>}
@@ -85,9 +85,9 @@ export function AvatarStack({ users, max = 4, size = 22 }: { users: UserBrief[];
 
 /* ---------- Inputs ---------- */
 const fieldCls = "w-full bg-surface-2 border border-border rounded-[8px] px-3 text-sm placeholder:text-text-3 transition-colors focus:border-teal focus:outline-none disabled:opacity-60";
-export function Input({ className, ref, ...rest }: InputHTMLAttributes<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> }) { return <input ref={ref} className={cn(fieldCls, "h-9", className)} {...rest} />; }
+export function Input({ className, ref, ...rest }: InputHTMLAttributes<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> }) { return <input ref={ref} className={cn(fieldCls, "h-10", className)} {...rest} />; }
 export function Textarea({ className, ref, ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement> & { ref?: React.Ref<HTMLTextAreaElement> }) { return <textarea ref={ref} className={cn(fieldCls, "py-2 min-h-[80px] leading-relaxed", className)} {...rest} />; }
-export function Select({ className, children, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) { return <select className={cn(fieldCls, "h-9 pr-8 appearance-none bg-no-repeat bg-[right_0.6rem_center] bg-[length:12px]", className)} style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath fill='%23869791' d='M3 4.5l3 3 3-3'/%3e%3c/svg%3e\")" }} {...rest}>{children}</select>; }
+export function Select({ className, children, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) { return <select className={cn(fieldCls, "h-10 pr-8 appearance-none bg-no-repeat bg-[right_0.6rem_center] bg-[length:12px]", className)} style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath fill='%23869791' d='M3 4.5l3 3 3-3'/%3e%3c/svg%3e\")" }} {...rest}>{children}</select>; }
 export function Field({ label, hint, children, className, required }: { label?: ReactNode; hint?: ReactNode; children: ReactNode; className?: string; required?: boolean }) {
   return <label className={cn("block", className)}>{label && <span className="block mb-1 text-xs font-display font-semibold text-text-2">{label}{required && <span className="text-rust"> *</span>}</span>}{children}{hint && <span className="block mt-1 text-[11px] text-text-3">{hint}</span>}</label>;
 }
@@ -107,9 +107,9 @@ export function Progress({ value, max = 100, color = "var(--teal)", className, h
 }
 export function Stat({ label, value, sub, color, className, icon: Icon, tone }: { label: ReactNode; value: ReactNode; sub?: ReactNode; color?: string; className?: string; icon?: LucideIcon; tone?: Tone }) {
   return (
-    <div className={cn("panel p-4 min-w-0", tone && `tone tone-${tone}`, className)}>
+    <div className={cn("panel px-6 py-5 min-w-0", tone && `tone tone-${tone}`, className)}>
       <div className="flex items-center justify-between"><span className="eyebrow">{label}</span>{Icon && <Icon size={14} className="opacity-70" />}</div>
-      <div className="num text-[28px] font-bold mt-1.5 leading-none" style={{ color: tone ? undefined : color }}>{value}</div>
+      <div className="num font-display text-[30px] font-extrabold mt-2 leading-none" style={{ color: tone ? undefined : color }}>{value}</div>
       {sub && <div className="text-[11px] text-text-3 mt-1.5">{sub}</div>}
     </div>
   );
@@ -189,8 +189,8 @@ export function Skeleton({ className }: { className?: string }) { return <div cl
 export function Spinner({ size = 18, className }: { size?: number; className?: string }) { return <Loader2 size={size} className={cn("animate-spin text-text-3", className)} />; }
 export function PageHeader({ eyebrow, title, subtitle, actions, children }: { eyebrow?: ReactNode; title: ReactNode; subtitle?: ReactNode; actions?: ReactNode; children?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
-      <div>{eyebrow && <div className="eyebrow mb-1">{eyebrow}</div>}<h1 className="text-2xl leading-none">{title}</h1>{subtitle && <p className="text-text-3 text-sm mt-1.5">{subtitle}</p>}{children}</div>
+    <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
+      <div>{eyebrow && <div className="eyebrow mb-1">{eyebrow}</div>}<h1 className="text-[28px] leading-tight">{title}</h1>{subtitle && <p className="text-text-2 text-sm mt-1">{subtitle}</p>}{children}</div>
       {actions && <div className="flex items-center gap-2 flex-wrap">{actions}</div>}
     </div>
   );

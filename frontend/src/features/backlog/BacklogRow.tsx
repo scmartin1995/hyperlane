@@ -23,13 +23,13 @@ export function BacklogRow({ row, project, selected, focused, collapsed, onToggl
   const r = row.rollup;
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Translate.toString(transform), transition }} data-row-id={n.id}
-      className={cn("group flex items-center gap-1.5 h-10 pr-2 rounded-[8px] border border-transparent text-sm transition-colors", selected ? "bg-teal/10 border-teal/40" : "hover:bg-surface-2", focused && "ring-1 ring-gold/60", isDragging && "opacity-40", isOver && shiftHeld && "border-purple-light bg-purple/15")}>
+      className={cn("group flex items-center gap-2.5 h-12 pr-3 rounded-[10px] border border-transparent text-sm transition-colors", selected ? "bg-teal/10 border-teal/40" : "hover:bg-surface-2", focused && "ring-1 ring-gold/60", isDragging && "opacity-40", isOver && shiftHeld && "border-purple-light bg-purple/15")}>
       <span ref={setActivatorNodeRef} {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-text-3 opacity-0 group-hover:opacity-100 focus:opacity-100 px-1" aria-label={`Drag ${n.key}`}><GripVertical size={14} /></span>
       <input type="checkbox" checked={selected} onChange={() => undefined} onClick={onSelect} aria-label={`Select ${n.key}`} className="accent-[var(--teal)] cursor-pointer" />
-      <span style={{ width: row.depth * 22 }} className="shrink-0" aria-hidden />
+      <span style={{ width: row.depth * 24 }} className="shrink-0" aria-hidden />
       {row.hasChildren ? <button type="button" onClick={onToggle} aria-label={collapsed ? "Expand" : "Collapse"} aria-expanded={!collapsed} className="w-5 h-5 grid place-items-center text-text-3 hover:text-text rounded">{collapsed ? <ChevronRight size={14} /> : <ChevronDown size={14} />}</button> : <span className="w-5" />}
       <TypeIcon project={project} type={n.type} />
-      <span className="num text-[11px] text-text-3 w-14 shrink-0">{n.key}</span>
+      <span className="num text-xs text-text-3 w-14 shrink-0">{n.key}</span>
       {editing ? (
         <Input autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} onBlur={commit} aria-label="Rename" className="h-7 text-sm flex-1 min-w-0" onKeyDown={(e) => { if (e.key === "Enter") commit(); if (e.key === "Escape") { e.stopPropagation(); setEditing(false); } }} />
       ) : (

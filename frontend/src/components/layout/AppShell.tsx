@@ -32,7 +32,7 @@ function AskBar() {
   };
   return (
     <form onSubmit={(e) => { e.preventDefault(); submit(); }} className="flex-1 max-w-[680px] mx-auto">
-      <div className="group flex items-center gap-2 h-10 pl-3 pr-1.5 rounded-full bg-surface border border-border-strong/50 shadow-sm focus-within:border-purple focus-within:shadow-[0_0_0_3px_var(--purple-tint)] transition-all">
+      <div className="group flex items-center gap-2.5 h-10 pl-4 pr-1.5 rounded-full bg-surface border border-border focus-within:border-purple focus-within:shadow-[0_0_0_3px_var(--purple-tint)] transition-all">
         <Sparkles size={16} className="text-purple shrink-0" />
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask anything, or search… (Enter asks the assistant · Ctrl K jumps)" className="flex-1 bg-transparent outline-none text-sm placeholder:text-text-3 min-w-0" />
         <button type="button" onClick={palette.toggle} className="hidden md:inline-flex items-center gap-1 text-text-3 hover:text-text px-1" title="Search & jump (Ctrl K)"><Search size={14} /></button>
@@ -82,39 +82,39 @@ export function AppShell() {
 
   return (
     <div className="h-screen flex overflow-hidden">
-      <aside className={cn("shrink-0 flex flex-col bg-surface-2/70 backdrop-blur border-r border-border transition-[width] duration-200", collapsed ? "w-[64px]" : "w-[228px]")}>
-        <div className="h-16 flex items-center gap-2.5 px-4">
+      <aside className={cn("shrink-0 flex flex-col bg-surface-2/70 backdrop-blur border-r border-border transition-[width] duration-200", collapsed ? "w-[64px]" : "w-[232px]")}>
+        <div className="flex items-center gap-3 px-5 pt-5 pb-5">
           <span className="w-8 h-8 rounded-[10px] bg-[linear-gradient(135deg,var(--purple),var(--rust))] text-cream inline-flex items-center justify-center font-display font-extrabold text-sm shadow-sm">H</span>
           {!collapsed && <div className="min-w-0"><div className="font-display font-bold text-[15px] leading-none">Hyperlane</div><div className="text-[11px] text-text-3 truncate mt-0.5">{ws?.name ?? ""}</div></div>}
         </div>
-        <nav className="flex-1 px-2.5 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
           {NAV.map((n) => {
             const Icon = n.icon;
             const text = label(n.key, ui.flavor);
             return (
-              <NavLink key={n.key} to={n.to} end={"end" in n ? n.end : false} title={collapsed ? text : undefined} className={({ isActive }) => cn("flex items-center gap-3 h-10 px-3 rounded-[12px] text-sm font-display font-semibold transition-colors", isActive ? "bg-purple text-cream shadow-[0_6px_16px_-8px_var(--purple)]" : "text-text-2 hover:text-text hover:bg-surface")}>
+              <NavLink key={n.key} to={n.to} end={"end" in n ? n.end : false} title={collapsed ? text : undefined} className={({ isActive }) => cn("flex items-center gap-3 h-10 px-3 rounded-[10px] text-sm transition-colors", isActive ? "bg-purple text-cream font-semibold" : "text-text-2 font-medium hover:text-text hover:bg-surface")}>
                 <Icon size={18} className="shrink-0" />
                 {!collapsed && <span>{text}</span>}
               </NavLink>
             );
           })}
         </nav>
-        <div className="p-2.5 space-y-1 border-t border-border">
-          <button onClick={() => ui.setAgentOpen(true)} className={cn("w-full flex items-center gap-3 h-11 px-3 rounded-[12px] text-cream bg-[linear-gradient(135deg,var(--purple),var(--teal))] hover:brightness-110 transition animate-sweep", collapsed && "justify-center px-0")} title="Open the assistant (/)">
+        <div className="px-3 pt-3 pb-4 space-y-1">
+          <button onClick={() => ui.setAgentOpen(true)} className={cn("w-full flex items-center gap-3 h-12 px-3 rounded-[12px] text-cream bg-teal hover:brightness-110 transition", collapsed && "justify-center px-0")} title="Open the assistant (/)">
             <Sparkles size={17} className="shrink-0" />
-            {!collapsed && <span className="flex-1 text-left leading-tight"><span className="block font-display font-bold text-sm">{label("agent", ui.flavor)}</span><span className="block text-[10.5px] opacity-80">Ask, plan, draft stories</span></span>}
+            {!collapsed && <span className="flex-1 text-left leading-tight"><span className="block font-semibold text-sm">{label("agent", ui.flavor)}</span><span className="block text-[10.5px] opacity-80">Ask, plan, draft stories</span></span>}
           </button>
-          <NavLink to="/settings" className={({ isActive }) => cn("flex items-center gap-3 h-9 px-3 rounded-[12px] text-sm font-display font-semibold transition-colors", isActive ? "bg-purple text-cream" : "text-text-2 hover:text-text hover:bg-surface", collapsed && "justify-center px-0")} title="Settings"><Settings size={17} />{!collapsed && label("settings", ui.flavor)}</NavLink>
+          <NavLink to="/settings" className={({ isActive }) => cn("flex items-center gap-3 h-10 px-3 rounded-[10px] text-sm transition-colors", isActive ? "bg-purple text-cream font-semibold" : "text-text-2 font-medium hover:text-text hover:bg-surface", collapsed && "justify-center px-0")} title="Settings"><Settings size={17} />{!collapsed && label("settings", ui.flavor)}</NavLink>
           <button onClick={ui.toggleSidebar} className="w-full h-7 flex items-center justify-center text-text-3 hover:text-text rounded-[8px]" title="Toggle sidebar">{collapsed ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}</button>
         </div>
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 shrink-0 flex items-center gap-3 px-5">
+        <header className="h-[72px] shrink-0 flex items-center gap-3 px-10">
           {projects && projects.length > 0 && (
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-lg">{project?.icon ?? "✨"}</span>
-              <Select value={ui.projectId ?? ""} onChange={(e) => ui.setProjectId(e.target.value)} className="h-9 !w-auto min-w-[170px] text-sm font-display font-semibold rounded-full !bg-surface">
+              <Select value={ui.projectId ?? ""} onChange={(e) => ui.setProjectId(e.target.value)} className="h-10 !w-auto min-w-[200px] text-sm font-semibold !rounded-full !bg-surface">
                 {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
               </Select>
             </div>
@@ -127,7 +127,7 @@ export function AppShell() {
           )}
         </header>
         <main className="flex-1 overflow-y-auto">
-          <div key={loc.pathname.split("/")[1]} className="animate-in px-6 pb-8 pt-1 max-w-[1560px] mx-auto">
+          <div key={loc.pathname.split("/")[1]} className="animate-in px-10 pb-10 pt-2 max-w-[1600px] mx-auto">
             <Outlet />
           </div>
         </main>

@@ -95,12 +95,12 @@ export default function BoardPage() {
         actions={<><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, view: "board" })}>Ask the assistant</Button><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button></>} />
       <BoardFilters f={f} set={set} users={users} labels={labels} project={project} activeSprint={activeSprint} />
 
-      {itemsQ.isLoading ? <div className="flex gap-3">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-72 w-[272px] shrink-0" />)}</div>
+      {itemsQ.isLoading ? <div className="flex gap-3">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-72 w-[288px] shrink-0" />)}</div>
         : all.length === 0 ? <EmptyState icon="🗂️" title="The board is empty" body="Add your first work item, or let the assistant draft a backlog from a paragraph." action={<div className="flex gap-2"><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>Create an item</Button><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build it with the assistant</Button></div>} />
         : (
           <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd} onDragCancel={() => { setActiveId(null); setLocal(null); }}>
             <div className="overflow-x-auto pb-4 -mx-1 px-1 flex-1">
-              <div className="flex gap-3 mb-1 sticky top-0 z-10 bg-bg/80 backdrop-blur py-1 min-w-max">
+              <div className="flex gap-4 mb-1 sticky top-0 z-10 bg-bg/80 backdrop-blur py-1 min-w-max">
                 {workflow.map((s) => collapsed.has(s.key)
                   ? <div key={s.key} className="w-10" />
                   : <ColumnHeader key={s.key} state={s} count={countByStatus[s.key] ?? 0} points={pointsByStatus[s.key]} collapsed={false} onToggle={() => toggleCol(s.key)} />)}
@@ -109,7 +109,7 @@ export default function BoardPage() {
               {lanes.map((lane) => (
                 <section key={lane.key} className={cn("min-w-max", f.lane !== "none" && "mb-3 panel p-2 pt-1")} aria-label={lane.title}>
                   {f.lane !== "none" && <div className="flex items-center gap-2 h-8 px-1 mb-1"><span className="w-1.5 h-4 rounded-sm" style={{ background: lane.color ?? "var(--smoke)" }} /><span className="font-display font-bold text-sm truncate max-w-[480px]">{lane.title}</span>{lane.subtitle && <span className="num text-[11px] text-text-3">{lane.subtitle}</span>}<span className="num text-[11px] text-text-3 ml-1">{lane.items.length} cards</span></div>}
-                  <div className="flex gap-3 items-stretch">
+                  <div className="flex gap-4 items-stretch">
                     {workflow.map((s) => collapsed.has(s.key)
                       ? <ColumnHeader key={s.key} state={s} count={countByStatus[s.key] ?? 0} collapsed onToggle={() => toggleCol(s.key)} />
                       : <ColumnBody key={s.key} containerId={cid(lane.key, s.key)} state={s} ids={containers[cid(lane.key, s.key)] ?? []} byId={byId} project={project} onOpen={setOpenId}

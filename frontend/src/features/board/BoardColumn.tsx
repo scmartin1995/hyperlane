@@ -8,7 +8,7 @@ import { categoryColor } from "@/lib/format";
 import { IconButton, Input, cn } from "@/components/ui";
 import { BoardCard } from "./BoardCard";
 
-export const COL_W = 272;
+export const COL_W = 288;
 
 export function ColumnHeader({ state, count, collapsed, onToggle, points }: { state: WorkflowState; count: number; collapsed: boolean; onToggle: () => void; points?: number }) {
   const over = state.wip_limit != null && count > state.wip_limit;
@@ -21,9 +21,9 @@ export function ColumnHeader({ state, count, collapsed, onToggle, points }: { st
     </button>
   );
   return (
-    <div className="flex items-center gap-2 pl-3 pr-1 h-10 rounded-full" style={{ width: COL_W, background: `color-mix(in oklab, ${color} 16%, var(--surface))`, boxShadow: `inset 0 0 0 1px color-mix(in oklab, ${color} 35%, transparent)` }}>
+    <div className="flex items-center gap-2 px-4 h-10" style={{ width: COL_W }}>
       <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: color }} />
-      <span className="font-display font-bold text-[13px] truncate" style={{ color: `color-mix(in oklab, ${color} 70%, var(--text))` }}>{state.name}</span>
+      <span className="font-bold text-sm truncate">{state.name}</span>
       <span className={cn("num text-[11px] font-semibold px-1.5 h-5 inline-flex items-center rounded-full border", over ? "border-rust text-rust-light bg-rust/15 animate-pop" : "border-border text-text-3 bg-surface-2")} title={state.wip_limit != null ? `WIP limit ${state.wip_limit}` : "Cards"}>
         {count}{state.wip_limit != null && <span className="opacity-70">/{state.wip_limit}</span>}
       </span>
@@ -41,7 +41,7 @@ export function ColumnBody({ containerId, state, ids, byId, project, onOpen, onQ
   const { setNodeRef, isOver } = useDroppable({ id: containerId, data: { type: "column", status: state.key } });
   const over = state.wip_limit != null && ids.length > state.wip_limit;
   return (
-    <div ref={setNodeRef} style={{ width: COL_W, minHeight }} className={cn("flex flex-col gap-2.5 p-2 rounded-[16px] border border-dashed transition-colors", isOver ? "border-purple bg-purple-tint/60" : "border-transparent bg-surface-2/60", over && !isOver && "bg-rust-tint/60")}>
+    <div ref={setNodeRef} style={{ width: COL_W, minHeight }} className={cn("flex flex-col gap-3 p-3 rounded-[16px] border border-dashed transition-colors", isOver ? "border-purple bg-purple-tint/60" : "border-transparent bg-surface-3/70", over && !isOver && "bg-rust-tint/60")}>
       <SortableContext id={containerId} items={ids} strategy={verticalListSortingStrategy}>
         {ids.map((id) => { const it = byId.get(id); return it ? <BoardCard key={id} item={it} project={project} onOpen={onOpen} /> : null; })}
       </SortableContext>
