@@ -175,3 +175,13 @@ export interface ImportCommitResult { created: WorkItem[]; skipped: number; warn
 export interface SeedResult { project?: Project; users?: User[]; [k: string]: unknown }
 
 export interface EvmSnapshot { id: Id; project_id: Id; as_of: string; sprint_id: Id | null; bac: number; pv: number; ev: number; ac: number; planned_points: number; completed_points: number; total_points: number; metrics: Record<string, number>; note: string | null; created_at: string }
+
+// ---- triage (requests surfaced in the backlog) ----
+export interface IntakeMeta {
+  request_id: Id; state: "new" | "clarifying" | "ready" | "snoozed" | "accepted" | "declined"; channel: string;
+  requester_name: string | null; requester_email: string | null; confidence: number | null; questions_asked: number; max_questions: number;
+  needs_human: boolean; summary: string | null; open_questions: string[]; proposed_count: number; snoozed_until: string | null; last_activity_at: string | null;
+  escalated_to?: Id | null; reason?: string | null;
+}
+export interface TriageItem extends WorkItem { intake: IntakeMeta & { proposed_items: NonNullable<IntakeRequirements["proposed_items"]>; requirements: IntakeRequirements } }
+export interface TriageResult { item: WorkItem; created: WorkItem[] }

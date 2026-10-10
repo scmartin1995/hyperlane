@@ -226,6 +226,7 @@ def ingest(parsed: dict[str, Any]) -> str | None:
             if req.state in ("new", "clarifying"):
                 req.state = "clarifying"
             db.flush()
+            _mirror(db, req)
             request_id = req.id
         else:
             req = IntakeRequest(
@@ -249,6 +250,8 @@ def ingest(parsed: dict[str, Any]) -> str | None:
                     meta={"subject": parsed.get("subject")},
                 )
             )
+            db.flush()
+            _mirror(db, req)
             request_id = req.id
     if request_id:
         bus.emit(
@@ -259,6 +262,15 @@ def ingest(parsed: dict[str, Any]) -> str | None:
         )
         _analyze(request_id)
     return request_id
+
+
+def _mirror(db, req) -> None:
+    try:
+        from ..services import triage
+
+        triage.sync_work_item(db, req)
+    except Exception:  # noqa: BLE001
+        log.exception("could not mirror request %s into the backlog", req.id)
 
 
 def _analyze(request_id: str) -> None:

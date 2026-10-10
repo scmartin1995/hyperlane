@@ -59,8 +59,10 @@ smart parts of import/planning). Slack, Teams and email intake are documented in
   burndown, close with carry-over, retro board with an assistant summary that turns actions into private tasks.
 - **Insights** – velocity, cumulative flow, cycle-time scatter, throughput, Monte Carlo forecast,
   and full EVM (PV/EV/AC, SPI/CPI, EAC/ETC/VAC/TCPI, S-curve, daily snapshots).
-- **Inbox** – requests arrive by email or form; the assistant extracts requirements, asks up to N
-  focused questions, then proposes backlog items you can convert in one click.
+- **Email connector → backlog** – point Hyperlane at a mailbox and every request becomes an item at the top of
+  the backlog, labelled `needs-triage`. The assistant extracts requirements, asks the requester up to N focused
+  questions by reply (the thread shows up as the item's discussion), then you accept, escalate into the sprint,
+  snooze or decline from the backlog.
 - **My tasks** – private per-person to-dos with notes, due dates, snooze; fed by retros,
   Slack `/hyperlane todo …`, and the assistant.
 - **Team** – profiles, skills, capacity defaults, learned capacity and insights.

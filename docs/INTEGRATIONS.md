@@ -16,6 +16,14 @@ Check everything from the UI (Settings → Integrations → *Test*) or with
 
 ---
 
+## How requests flow
+
+With the mailbox configured, Hyperlane polls it every `INTAKE_POLL_SECONDS`. Each new email becomes a work item at the
+top of the backlog (labelled `needs-triage`) in the project chosen under Settings → Integrations → Request routing, or
+the project whose key appears in the subject as `[KEY]`. The assistant reads the request, asks the sender up to
+`max_questions` clarifying questions by reply, and keeps the item's description and discussion in sync. Replies are
+matched by email threading headers. Nobody needs to look at the mailbox; triage happens in the backlog.
+
 ## 1. Slack
 
 Socket Mode means the bot opens an outbound websocket to Slack; your machine never has to accept

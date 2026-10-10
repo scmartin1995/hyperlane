@@ -74,3 +74,17 @@ export const useMeOverview = () =>
   useQuery({ queryKey: [...qk.me, "overview"] as const, queryFn: () => api.get<import("./types").MeOverview>("/me/overview") });
 export const useProjectActivity = (pid: string | undefined, limit = 20) =>
   useQuery({ queryKey: [...qk.activity(pid ?? ""), { limit }] as const, queryFn: () => api.get<import("./types").Activity[]>(`/projects/${pid}/activity?limit=${limit}`), enabled: !!pid });
+
+import type { TriageItem, TriageResult } from "./types";
+export const useTriage = (pid: string | undefined) => useQuery({ queryKey: ["triage", pid ?? ""], queryFn: () => api.get<TriageItem[]>(`/projects/${pid}/triage`), enabled: !!pid });
+export function useTriageAction() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { id: string; action: "accept" | "escalate" | "decline" | "snooze"; type?: string; sprint_id?: string; until?: string; reason?: string; create_children?: boolean }) => api.post<TriageResult>(`/items/${v.id}/triage`, v),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["triage"] }); qc.invalidateQueries({ queryKey: ["items"] }); qc.invalidateQueries({ queryKey: ["item"] }); qc.invalidateQueries({ queryKey: ["intake"] }); },
+  });
+}
+export function useMessageRequester() {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: (v: { id: string; body: string }) => api.post(`/items/${v.id}/message-requester`, { body: v.body }), onSuccess: () => { qc.invalidateQueries({ queryKey: ["item"] }); qc.invalidateQueries({ queryKey: ["triage"] }); } });
+}

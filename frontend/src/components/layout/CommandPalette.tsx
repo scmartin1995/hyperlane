@@ -24,7 +24,7 @@ export function CommandPalette() {
     { id: "backlog", label: `${label("backlog", ui.flavor)} · Backlog`, hint: "Go", run: () => nav("/backlog") },
     { id: "sprints", label: `${label("sprints", ui.flavor)} · Sprints`, hint: "Go", run: () => nav("/sprints") },
     { id: "reports", label: `${label("reports", ui.flavor)} · Reports`, hint: "Go", run: () => nav("/reports") },
-    { id: "intake", label: `${label("intake", ui.flavor)} · Intake`, hint: "Go", run: () => nav("/intake") },
+    { id: "requests", label: "Request log (email connector)", hint: "Go", run: () => nav("/intake") },
     { id: "actions", label: `${label("actionItems", ui.flavor)} · Action items`, hint: "Go", run: () => nav("/action-items") },
     { id: "people", label: `${label("people", ui.flavor)} · People`, hint: "Go", run: () => nav("/people") },
     { id: "settings", label: `${label("settings", ui.flavor)} · Settings`, hint: "Go", run: () => nav("/settings") },

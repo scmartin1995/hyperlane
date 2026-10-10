@@ -14,6 +14,7 @@ from ..agent import intake as intake_agent
 from ..db import utcnow
 from ..models import IntakeMessage, IntakeRequest, Project, User
 from ..schemas.common import IntakeRequestOut
+from ..services import triage
 from ..services.auth import DB, CurrentUser
 from ..services.events import bus
 
@@ -98,6 +99,8 @@ async def create_intake(body: IntakeIn, db: DB, user: CurrentUser):
         owner_id=user.id,
     )
     db.add(req)
+    db.flush()
+    triage.ensure_work_item(db, req)
     db.commit()
     db.refresh(req)
     _emit(req, user, created=True)
@@ -122,6 +125,8 @@ async def add_message(request_id: str, body: IntakeMessageIn, db: DB, user: Curr
     author = body.author or (req.requester_name or req.requester_email or "requester" if direction == "inbound" else user.name)
     db.add(IntakeMessage(request_id=req.id, direction=direction, author=author, body=body.body))
     req.last_activity_at = utcnow()
+    db.flush()
+    triage.sync_work_item(db, req)
     db.commit()
     _emit(req, user)
     db.close()

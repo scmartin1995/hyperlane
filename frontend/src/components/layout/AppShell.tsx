@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Home, KanbanSquare, Layers, Flag, BarChart3, Inbox, CheckSquare, Users, Settings, Sparkles, PanelLeftClose, PanelLeftOpen, Sun, Moon, LogOut, Search, ArrowRight } from "lucide-react";
+import { Home, KanbanSquare, Layers, Flag, BarChart3, CheckSquare, Users, Settings, Sparkles, PanelLeftClose, PanelLeftOpen, Sun, Moon, LogOut, Search, ArrowRight } from "lucide-react";
 import { useUI, label } from "@/lib/store";
 import { useMe, useProjects, useLogout, useWorkspace } from "@/api/queries";
 import { useLiveEvents } from "@/lib/live";
@@ -15,7 +15,6 @@ const NAV = [
   { key: "backlog", to: "/backlog", icon: Layers },
   { key: "sprints", to: "/sprints", icon: Flag },
   { key: "reports", to: "/reports", icon: BarChart3 },
-  { key: "intake", to: "/intake", icon: Inbox },
   { key: "actionItems", to: "/action-items", icon: CheckSquare },
   { key: "people", to: "/people", icon: Users },
 ] as const;
@@ -69,7 +68,7 @@ export function AppShell() {
       const w = window as unknown as { __g?: number };
       if (!typing && !e.ctrlKey && !e.metaKey && e.key === "g") { w.__g = Date.now(); }
       else if (!typing && w.__g && Date.now() - (w.__g ?? 0) < 800) {
-        const map: Record<string, string> = { h: "/", b: "/board", l: "/backlog", s: "/sprints", r: "/reports", i: "/intake", a: "/action-items", p: "/people" };
+        const map: Record<string, string> = { h: "/", b: "/board", l: "/backlog", s: "/sprints", r: "/reports", i: "/backlog", a: "/action-items", p: "/people" };
         if (map[e.key]) nav(map[e.key]);
         w.__g = 0;
       }

@@ -3,6 +3,7 @@ import { useIntegrationsStatus } from "@/api/queries";
 import { fmtDateTime } from "@/lib/format";
 import { Badge, Button, Skeleton, toast } from "@/components/ui";
 import { useNotificationLog, useTestIntegration } from "./hooks";
+import { EmailRouting } from "./EmailRouting";
 
 export function IntegrationsTab() {
   const { data: s, isLoading } = useIntegrationsStatus();
@@ -12,7 +13,7 @@ export function IntegrationsTab() {
   const cards = s ? [
     { kind: "slack" as const, icon: Hash, title: "Slack", enabled: s.slack.enabled, detail: `${s.slack.detail}${s.slack.channel ? ` · #${s.slack.channel}` : ""}`, extra: s.slack.connected ? "socket connected" : s.slack.enabled ? "not connected" : undefined },
     { kind: "teams" as const, icon: MessageSquare, title: "Microsoft Teams", enabled: s.teams.enabled, detail: s.teams.detail },
-    { kind: "email" as const, icon: Mail, title: "Email intake", enabled: s.email.enabled, detail: s.email.detail, extra: s.email.last_poll ? `last poll ${fmtDateTime(s.email.last_poll)}` : undefined },
+    { kind: "email" as const, icon: Mail, title: "Email connector", enabled: s.email.enabled, detail: `${s.email.detail} New mail becomes backlog items needing triage; the assistant asks follow-up questions by reply.`, extra: s.email.last_poll ? `last poll ${fmtDateTime(s.email.last_poll)}` : undefined },
   ] : [];
   return (
     <div className="space-y-4">
@@ -25,6 +26,7 @@ export function IntegrationsTab() {
           </section>
         ))}
       </div>
+      <EmailRouting />
       <p className="text-xs text-text-3">Configure with env vars in <code>.env</code> — see <code>docs/INTEGRATIONS.md</code> in the Hyperlane folder. Nothing is sent anywhere unless the matching variables are set.</p>
       <section className="panel overflow-hidden">
         <header className="px-4 pt-4 pb-2"><div className="eyebrow">Notification log</div><h2 className="text-base">Everything that went out</h2></header>

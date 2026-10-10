@@ -244,6 +244,7 @@ class IntakeMessageOut(ORM):
 
 
 class IntakeRequestOut(ORM):
+    work_item_id: str | None = None
     id: str
     project_id: str | None = None
     channel: str

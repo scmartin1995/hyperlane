@@ -16,6 +16,7 @@ import { CreateItemModal } from "@/features/items/CreateItemModal";
 import { BacklogRow, CreateRow } from "./BacklogRow";
 import { SprintRail } from "./SprintRail";
 import { BulkBar } from "./BulkBar";
+import { TriagePanel } from "./TriagePanel";
 import { ListView } from "./ListView";
 import { computeRollups, flatten, insertionIndex, moveNode } from "./tree";
 
@@ -140,6 +141,7 @@ export default function BacklogPage() {
         <span className="text-[11px] text-text-3 hidden lg:inline-flex items-center gap-1"><Kbd>↑</Kbd><Kbd>↓</Kbd> move · <Kbd>↵</Kbd> open · <Kbd>space</Kbd> select · shift-click for ranges</span>
       </div>
 
+      <TriagePanel project={project} sprints={sprints ?? []} onOpen={setOpenId} />
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-4 items-start">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={(e) => setActiveId(String(e.active.id))} onDragEnd={onDragEnd} onDragCancel={() => setActiveId(null)}>
           <div className="panel p-2 min-h-[300px]">

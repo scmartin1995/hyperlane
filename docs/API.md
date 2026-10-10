@@ -108,3 +108,17 @@ Conventions
 ## Events (`services/events.py`)
 `bus.emit(type, project_id=, entity_type=, entity_id=, actor_id=, data={})`. Types used by the UI live in `frontend/src/lib/live.ts` (`known` list) — add new ones there too:
 `work_item.created|updated|moved|deleted`, `comment.created|updated|deleted`, `sprint.created|updated|started|closed`, `project.created|updated|deleted`, `user.created|updated`, `action_item.created|updated|deleted`, `intake.created|updated`, `workspace.updated`, `evm.snapshot`, `capacity.updated`, `retro.updated`, `chat.message`, `notification.sent`.
+
+## Triage (requests in the backlog) — `services/triage.py`, `api/triage.py`
+Every `IntakeRequest` is mirrored into a `WorkItem` the moment it arrives (`triage.ensure_work_item`), in the project
+named by `[KEY]` in the subject → `workspace.settings.intake_project_id` → first active project. The item carries
+`custom.intake` (`IntakeMeta`), the label `needs-triage`, the request body + the assistant's findings in `description`,
+and the clarification thread as comments (`external_ref = intake-msg:<id>`). `triage.sync_work_item` runs after every
+analysis / reply.
+- `GET /projects/{pid}/triage?include_snoozed=true` → `TriageItem[]` (open states: new, clarifying, ready, snoozed)
+- `POST /items/{id}/triage` `{action: accept|escalate|decline|snooze, type?, sprint_id?, until?, reason?, create_children?}` → `{item, created}`.
+  accept drops the label, optionally expands the assistant's proposed items as children (or adopts the first proposal's
+  detail on leaf-level items) and marks the request converted; escalate = accept + move into the active sprint;
+  decline archives the item and rejects the request; snooze hides it until a date (a 06:05 job wakes it).
+- `POST /items/{id}/message-requester` `{body}` → sends by email when the connector is configured, always threads it.
+- `PATCH /workspace {settings: {intake_project_id}}` sets the default project.

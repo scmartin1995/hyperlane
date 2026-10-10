@@ -742,6 +742,12 @@ class _Seeder:
             m = IntakeMessage(request_id=clar.id, direction=direction, author=author, body=body)
             m.created_at = m.updated_at = at
             self.db.add(m)
+        self.db.flush()
+        from . import triage
+
+        for req in (fresh, clar):
+            self.db.refresh(req)
+            triage.sync_work_item(self.db, req)
 
     def finish(self) -> dict[str, Any]:
         ws = self.db.get(Workspace, "default")

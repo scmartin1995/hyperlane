@@ -22,7 +22,7 @@ export function useLiveEvents() {
         listeners.forEach((l) => l(e));
         const t = e.type;
         if (t.startsWith("work_item") || t.startsWith("comment")) {
-          qc.invalidateQueries({ queryKey: ["items"] }); qc.invalidateQueries({ queryKey: ["item"] });
+          qc.invalidateQueries({ queryKey: ["items"] }); qc.invalidateQueries({ queryKey: ["triage"] }); qc.invalidateQueries({ queryKey: ["item"] });
           qc.invalidateQueries({ queryKey: ["project"] }); qc.invalidateQueries({ queryKey: ["metrics"] }); qc.invalidateQueries({ queryKey: ["activity"] });
         } else if (t.startsWith("sprint")) {
           qc.invalidateQueries({ queryKey: ["sprints"] }); qc.invalidateQueries({ queryKey: ["sprint"] }); qc.invalidateQueries({ queryKey: ["items"] });
@@ -30,7 +30,7 @@ export function useLiveEvents() {
         } else if (t.startsWith("project")) { qc.invalidateQueries({ queryKey: ["projects"] }); qc.invalidateQueries({ queryKey: ["project"] }); }
         else if (t.startsWith("user")) { qc.invalidateQueries({ queryKey: ["users"] }); qc.invalidateQueries({ queryKey: ["profiles"] }); }
         else if (t.startsWith("action_item")) qc.invalidateQueries({ queryKey: ["action-items"] });
-        else if (t.startsWith("intake")) qc.invalidateQueries({ queryKey: ["intake"] });
+        else if (t.startsWith("intake")) { qc.invalidateQueries({ queryKey: ["intake"] }); qc.invalidateQueries({ queryKey: ["triage"] }); qc.invalidateQueries({ queryKey: ["items"] }); qc.invalidateQueries({ queryKey: ["item"] }); }
         else if (t.startsWith("workspace")) qc.invalidateQueries({ queryKey: ["workspace"] });
         else if (t.startsWith("evm")) qc.invalidateQueries({ queryKey: ["evm"] });
         else if (t.startsWith("capacity") || t.startsWith("retro")) { qk(qc, "capacity"); qk(qc, "sprint-capacity"); qk(qc, "retro"); }

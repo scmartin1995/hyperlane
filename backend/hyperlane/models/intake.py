@@ -31,6 +31,7 @@ class IntakeRequest(Base, IdMixin, TimestampMixin):
     max_questions: Mapped[int] = mapped_column(default=3)
     converted_item_ids: Mapped[list] = mapped_column(JSON, default=list)
     owner_id: Mapped[str | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    work_item_id: Mapped[str | None] = mapped_column(ForeignKey("work_items.id", ondelete="SET NULL"), index=True)
     last_activity_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     needs_human: Mapped[bool] = mapped_column(Boolean, default=False)
 

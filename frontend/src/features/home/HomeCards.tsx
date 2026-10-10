@@ -77,15 +77,15 @@ export function ActionItemsCard({ overview }: { overview: MeOverview | undefined
 
 export function IntakeCard() {
   const ui = useUI();
-  const q = useQuery({ queryKey: ["intake", { state: "new" }], queryFn: () => api.get<IntakeRequest[]>("/intake?state=new"), retry: false });
+  const q = useQuery({ queryKey: ["triage", ui.projectId ?? ""], queryFn: () => api.get<WorkItem[]>(`/projects/${ui.projectId}/triage`), enabled: !!ui.projectId, retry: false });
   const n = q.data?.length ?? 0;
   return (
-    <Link to="/intake" className="no-underline text-text">
-      <div className="panel p-4 flex items-center gap-3 hover:border-teal transition-colors">
-        <span className="relative"><Inbox size={22} className="text-teal" />{n > 0 && <span className="absolute -top-1.5 -right-2 num text-[10px] font-bold bg-rust text-cream rounded-full px-1.5 min-w-[18px] text-center animate-pop">{n}</span>}</span>
-        <div className="flex-1 min-w-0"><div className="eyebrow">{label("intake", ui.flavor)}</div><div className="text-sm">{n === 0 ? "Inbox clear" : <><span className="num text-xl font-bold">{n}</span> new request{n === 1 ? "" : "s"}</>}</div></div>
+    <Link to="/backlog" className="no-underline text-text">
+      <Panel className="flex items-center gap-3 hover:border-rust transition-colors">
+        <span className="relative w-9 h-9 rounded-full bg-rust-tint text-rust inline-flex items-center justify-center shrink-0"><Inbox size={16} />{n > 0 && <span className="absolute -top-1 -right-1 num text-[10px] bg-rust text-cream rounded-full px-1.5 leading-4">{n}</span>}</span>
+        <div className="flex-1 min-w-0"><div className="eyebrow">Needs triage</div><div className="text-sm">{n === 0 ? "No requests waiting" : <><span className="num text-xl font-bold">{n}</span> request{n === 1 ? "" : "s"} from your connector</>}</div></div>
         <ArrowRight size={16} className="text-text-3" />
-      </div>
+      </Panel>
     </Link>
   );
 }

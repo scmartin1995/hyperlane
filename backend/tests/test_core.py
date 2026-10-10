@@ -477,7 +477,10 @@ def test_seed_is_rich_and_idempotent(client, me):
 def test_tree_endpoint(client, me):
     pid = client.post("/api/dev/seed", json={"project_name": "Galactic Racer"}).json()["project"]["id"]
     tree = client.get(f"/api/projects/{pid}/items/tree").json()
-    assert len(tree) == 4 and all(n["type"] == "epic" for n in tree)
+    # 4 epics + the demo's inbound requests, which surface as top-level items needing triage
+    assert sum(1 for n in tree if n["type"] == "epic") == 4
+    assert all(n["type"] == "epic" or (n["custom"].get("intake") or {}).get("state") for n in tree)
+    tree = [n for n in tree if n["type"] == "epic"]
     assert all(n["children"] and all(f["type"] == "feature" for f in n["children"]) for n in tree)
     leaves = [leaf for e in tree for f in e["children"] for leaf in f["children"]]
     assert len(leaves) >= 30 and all(leaf["key"].startswith("GR-") for leaf in leaves)

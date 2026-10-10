@@ -6,7 +6,7 @@ export const useShortcutHelp = create<S>((set) => ({ open: false, set: (open) =>
 
 const GROUPS: { title: string; rows: [string[], string][] }[] = [
   { title: "Anywhere", rows: [[["Ctrl", "K"], "Search or jump anywhere"], [["/"], "Open the assistant"], [["?"], "This cheatsheet"], [["Esc"], "Close drawer / modal"]] },
-  { title: "Go to", rows: [[["g", "h"], "Home"], [["g", "b"], "Board"], [["g", "l"], "Backlog"], [["g", "s"], "Sprints"], [["g", "r"], "Insights"], [["g", "i"], "Inbox"], [["g", "a"], "My tasks"], [["g", "p"], "Team"]] },
+  { title: "Go to", rows: [[["g", "h"], "Home"], [["g", "b"], "Board"], [["g", "l"], "Backlog"], [["g", "s"], "Sprints"], [["g", "r"], "Insights"], [["g", "i"], "Backlog (triage)"], [["g", "a"], "My tasks"], [["g", "p"], "Team"]] },
   { title: "Work items", rows: [[["c"], "Create item"], [["e"], "Edit description"], [["Ctrl", "Enter"], "Save / send"], [["Enter"], "Chain-create next item"]] },
 ];
 

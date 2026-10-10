@@ -115,6 +115,7 @@ async def analyze(request_id: str) -> IntakeRequest:
             raise ValueError("Intake request not found")
         if req.state in ("converted", "rejected"):
             return req
+        _mirror(db, req, create_only=True)
         prompt = _analysis_prompt(db, req)
 
     try:
@@ -128,6 +129,7 @@ async def analyze(request_id: str) -> IntakeRequest:
             req.summary = req.summary or f"Agent unavailable: {exc}"
             req.last_activity_at = utcnow()
             db.flush()
+            _mirror(db, req)
             _emit(req)
             return req
 
@@ -168,8 +170,22 @@ async def analyze(request_id: str) -> IntakeRequest:
     with session_scope() as db:
         req = db.get(IntakeRequest, req_id)
         _ = req.messages  # load for the caller
+        _mirror(db, req)
         _emit(req)
         return req
+
+
+def _mirror(db: Session, req: IntakeRequest, create_only: bool = False) -> None:
+    """Keep the request's backlog item in step (the backlog is the inbox)."""
+    try:
+        from ..services import triage
+
+        if create_only:
+            triage.ensure_work_item(db, req)
+        else:
+            triage.sync_work_item(db, req)
+    except Exception:  # noqa: BLE001
+        log.exception("could not mirror request %s into the backlog", req.id)
 
 
 def _try_send_reply(request_id: str, body: str) -> None:

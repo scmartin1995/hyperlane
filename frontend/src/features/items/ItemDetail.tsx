@@ -10,6 +10,7 @@ import { Button, EmptyState, IconButton, Select, Skeleton, Tabs, celebrate, cn, 
 import { useDeleteItem, useHotkey, useItem, useUpdateItem } from "./hooks";
 import { TypeIcon, isDone } from "./common";
 import { ItemFields } from "./ItemFields";
+import { RequestPanel } from "./RequestPanel";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { ItemChildren } from "./ItemChildren";
 import { ItemDiscussion } from "./ItemDiscussion";
@@ -61,6 +62,7 @@ export function ItemDetail({ id, compact, onOpenItem, onArchived }: { id: string
         <div className="text-[11px] text-text-3">Created {ago(item.created_at)} · updated {ago(item.updated_at)}{item.sprint && <> · in <span className="text-text-2">{item.sprint.name}</span></>}</div>
       </header>
 
+      {!!item.custom?.intake && <RequestPanel item={item} project={project} />}
       <ItemFields item={item} project={project} onPatch={patch} compact={compact} />
 
       <MarkdownEditor label="Description" value={item.description} placeholder="Describe the why and the what. Press e to edit." onSave={(v) => patch({ description: v || null })} editing={descEditing} onEditingChange={setDescEditing} />
