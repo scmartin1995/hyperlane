@@ -20,19 +20,25 @@ export function ActivityList({ rows, loading, emptyText = "Nothing has happened 
   if (loading) return <div className="space-y-2">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-8" />)}</div>;
   if (!rows?.length) return <div className="text-sm text-text-3 py-3">{emptyText}</div>;
   return (
-    <ul className="space-y-1">
+    <ul className="flex flex-col gap-4">
       {rows.map((a) => { const { icon: Icon, color } = actionIcon(a.action); return (
-        <li key={a.id} className="flex items-start gap-2.5 py-1.5 text-sm">
-          <span className="mt-0.5 inline-flex w-6 h-6 items-center justify-center rounded-full bg-surface-2 border border-border shrink-0" style={{ color }}><Icon size={12} /></span>
-          <div className="flex-1 min-w-0">
-            <div className="truncate"><span className="font-display font-semibold">{a.actor_name ?? "System"}</span> <span className="text-text-2">{a.summary}</span></div>
-            {a.changes && Object.keys(a.changes).length > 0 && <div className="text-[11px] text-text-3 truncate">{Object.entries(a.changes).slice(0, 3).map(([k, [from, to]]) => `${k}: ${fmt(from)} → ${fmt(to)}`).join(" · ")}</div>}
+        <li key={a.id} className="flex items-start gap-3 text-sm">
+          <span className="inline-flex w-8 h-8 items-center justify-center rounded-full shrink-0" style={{ color, background: `color-mix(in oklab, ${color} 14%, var(--surface))` }}><Icon size={14} /></span>
+          <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+            <div className="line-clamp-2 leading-snug"><span className="font-semibold">{a.actor_name ?? "System"}</span> <span className="text-text-2">{tidySummary(a.summary, a.actor_name)}</span></div>
+            <div className="text-xs text-text-3" title={fmtDateTime(a.at)}>{ago(a.at)}</div>
           </div>
-          <span className="text-[11px] text-text-3 shrink-0" title={fmtDateTime(a.at)}>{ago(a.at)}</span>
         </li>
       ); })}
     </ul>
   );
+}
+/** "Kai Tanaka commented on AP-3" → "commented on AP-3"; "Created story…" → "created story…"; status keys read as words. */
+function tidySummary(summary: string, actor: string | null): string {
+  let t = summary;
+  if (actor && t.startsWith(actor)) t = t.slice(actor.length).trim();
+  else if (/^[A-Z][a-z]/.test(t)) t = t.charAt(0).toLowerCase() + t.slice(1);
+  return t.replace(/\b([a-z]+)_([a-z]+)\b/g, "$1 $2");
 }
 const fmt = (v: unknown) => (v == null || v === "" ? "∅" : typeof v === "object" ? JSON.stringify(v) : String(v));
 

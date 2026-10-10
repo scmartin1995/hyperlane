@@ -462,7 +462,7 @@ class _Seeder:
         self.items.append(item)
         self.by_title[title] = item
         self._transition(item, None, "backlog", self.users[4], created)
-        self._activity("work_item", item.id, "created", f"Created {type_} GR-{item.number}: {title}", self.users[4],
+        self._activity("work_item", item.id, "created", f"Created {type_} {self.project.key}-{item.number}: {title}", self.users[4],
                        created)  # fmt: skip
         return item
 
@@ -667,7 +667,7 @@ class _Seeder:
                 self.db.add(c)
                 self.db.flush()
                 self._activity("work_item", item.id, "commented",
-                               f"{author.name} commented on GR-{item.number}" + (" (decision)" if decision else ""),
+                               f"{author.name} commented on {self.project.key}-{item.number}" + (" (decision)" if decision else ""),
                                author, at, {"comment_id": [None, c.id]})  # fmt: skip
 
     def action_items_step(self) -> None:

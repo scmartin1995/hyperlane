@@ -65,12 +65,12 @@ export function ActionItemsCard({ overview }: { overview: MeOverview | undefined
   const ui = useUI();
   const open = overview?.action_items_open ?? 0; const od = overview?.action_items_overdue ?? 0;
   return (
-    <Link to="/action-items" className="no-underline text-text">
-      <div className="panel p-4 flex items-center gap-3 hover:border-gold transition-colors">
-        <CheckSquare size={22} className="text-gold shrink-0" />
-        <div className="flex-1 min-w-0"><div className="eyebrow">{label("actionItems", ui.flavor)}</div><div className="text-sm"><span className="num text-xl font-bold">{open}</span> open{od > 0 && <span className="text-rust-light"> · {od} overdue</span>}</div></div>
-        <ArrowRight size={16} className="text-text-3" />
-      </div>
+    <Link to="/action-items" className="block no-underline text-text">
+      <Panel className="flex items-center gap-4 hover:border-purple transition-colors">
+        <span className="num font-display text-[30px] font-extrabold leading-none text-purple w-9 text-center">{open}</span>
+        <div className="flex-1 min-w-0"><div className="font-semibold">{label("actionItems", ui.flavor)}</div><div className="text-[13px] text-text-3">{od > 0 ? <span className="text-rust">{od} overdue</span> : "Private to you"}</div></div>
+        <ArrowRight size={16} className="text-text-3 shrink-0" />
+      </Panel>
     </Link>
   );
 }
@@ -80,11 +80,11 @@ export function IntakeCard() {
   const q = useQuery({ queryKey: ["triage", ui.projectId ?? ""], queryFn: () => api.get<WorkItem[]>(`/projects/${ui.projectId}/triage`), enabled: !!ui.projectId, retry: false });
   const n = q.data?.length ?? 0;
   return (
-    <Link to="/backlog" className="no-underline text-text">
-      <Panel className="flex items-center gap-3 hover:border-rust transition-colors">
-        <span className="relative w-9 h-9 rounded-full bg-rust-tint text-rust inline-flex items-center justify-center shrink-0"><Inbox size={16} />{n > 0 && <span className="absolute -top-1 -right-1 num text-[10px] bg-rust text-cream rounded-full px-1.5 leading-4">{n}</span>}</span>
-        <div className="flex-1 min-w-0"><div className="eyebrow">Needs triage</div><div className="text-sm">{n === 0 ? "No requests waiting" : <><span className="num text-xl font-bold">{n}</span> request{n === 1 ? "" : "s"} from your connector</>}</div></div>
-        <ArrowRight size={16} className="text-text-3" />
+    <Link to="/backlog" className="block no-underline">
+      <Panel tone={n > 0 ? "rust" : undefined} className="flex items-center gap-4 hover:brightness-105 transition">
+        <span className={cn("num font-display text-[30px] font-extrabold leading-none w-9 text-center", n === 0 && "text-text-3")}>{n}</span>
+        <div className="flex-1 min-w-0"><div className="font-semibold">{n === 1 ? "Request needs triage" : "Requests need triage"}</div><div className={cn("text-[13px]", n > 0 ? "text-cream/80" : "text-text-3")}>From your email connector</div></div>
+        <ArrowRight size={16} className="opacity-70 shrink-0" />
       </Panel>
     </Link>
   );
@@ -92,7 +92,7 @@ export function IntakeCard() {
 
 export function ActivityFeed({ pid }: { pid: string | undefined }) {
   const q = useProjectActivity(pid, 20);
-  return <Panel eyebrow="Recent" title="Activity"><ActivityList rows={q.data} loading={q.isLoading} emptyText="Quiet so far. Create or move something and it shows up here." /></Panel>;
+  return <Panel title="Recent activity"><ActivityList rows={q.data} loading={q.isLoading} emptyText="Quiet so far. Create or move something and it shows up here." /></Panel>;
 }
 
 export function Greeting({ name, emoji }: { name: string | undefined; emoji: string | undefined; flavor?: boolean }) {

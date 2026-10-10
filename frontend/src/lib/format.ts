@@ -1,4 +1,7 @@
-import { format, formatDistanceToNowStrict, isPast, parseISO } from "date-fns";
+import { format, formatDistanceToNowStrict, isPast, parseISO as parseRaw } from "date-fns";
+
+/** Server datetimes are naive UTC ("2026-10-10T14:03:00"); date-only strings stay local calendar dates. */
+export const parseISO = (d: string) => parseRaw(d.includes("T") && !/(Z|[+-]\d\d:?\d\d)$/.test(d) ? d + "Z" : d);
 import type { Priority, Project, StatusCategory, WorkflowState } from "@/api/types";
 
 export const fmtDate = (d: string | null | undefined, f = "MMM d") => (d ? format(parseISO(d), f) : "");
