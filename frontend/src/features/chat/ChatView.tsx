@@ -15,6 +15,9 @@ const SUGGESTIONS = ["Draft stories for an onboarding epic", "How is the sprint 
 type ToolChip = { id: string; name: string; input: unknown; ok?: boolean; summary?: string };
 type Live = { text: string; tools: ToolChip[]; error?: string } | null;
 
+let consumedPrefill: unknown = null;
+const stripContext = (t: string) => t.replace(/^\[context:[^\]]*\]\n?/, "");
+
 export function ChatView({ threadId, onThreadCreated, compact }: { threadId: string | null; onThreadCreated: (t: ChatThread) => void; compact?: boolean }) {
   const ui = useUI();
   const qc = useQueryClient();
@@ -31,7 +34,14 @@ export function ChatView({ threadId, onThreadCreated, compact }: { threadId: str
   const bottom = useRef<HTMLDivElement>(null);
   const ta = useRef<HTMLTextAreaElement>(null);
   const streaming = !!live;
-  useEffect(() => { const { prefill, nonce, ...rest } = (ui.agentContext ?? {}) as Record<string, unknown>; setCtx(rest); if (typeof prefill === "string" && prefill.trim()) { setInput(prefill); setTimeout(() => void sendRef.current?.(prefill), 50); } }, [ui.agentContext]);
+  useEffect(() => {
+    const { prefill, nonce, ...rest } = (ui.agentContext ?? {}) as Record<string, unknown>;
+    setCtx(rest);
+    if (typeof prefill === "string" && prefill.trim() && nonce !== consumedPrefill) {
+      consumedPrefill = nonce;  // module-level guard: the drawer and the full page may both be mounted
+      setTimeout(() => void sendRef.current?.(prefill), 50);
+    }
+  }, [ui.agentContext]);
   const sendRef = useRef<((raw?: string) => Promise<void>) | null>(null);
   useEffect(() => { bottom.current?.scrollIntoView({ behavior: "smooth" }); }, [thread?.messages?.length, live?.text, pending]);
   useEffect(() => () => abort.current?.abort(), []);
@@ -92,7 +102,7 @@ export function ChatView({ threadId, onThreadCreated, compact }: { threadId: str
           </div>
         )}
         {messages.map((m) => <MessageBubble key={m.id} msg={m} />)}
-        {pending && <UserBubble text={pending} />}
+        {pending && !(messages.length > 0 && messages[messages.length - 1].role === "user" && stripContext(messages[messages.length - 1].content) === pending) && <UserBubble text={pending} />}
         {live && (
           <div className="flex justify-start"><div className="max-w-[92%] rounded-[12px] px-3 py-2 bg-surface-2 border border-border animate-in">
             <div className="text-[10px] text-text-3 font-display font-semibold uppercase tracking-wider mb-1 inline-flex items-center gap-1"><Sparkles size={10} /> Assistant {!live.text && live.tools.length === 0 && <Spinner size={10} />}</div>
@@ -117,7 +127,7 @@ export function ChatView({ threadId, onThreadCreated, compact }: { threadId: str
 
 const Dot = ({ d = 0 }: { d?: number }) => <span className="w-1.5 h-1.5 rounded-full bg-text-3 animate-bounce" style={{ animationDelay: `${d}s` }} />;
 
-function UserBubble({ text }: { text: string }) { return <div className="flex justify-end"><div className="max-w-[85%] rounded-[12px] px-3 py-2 bg-teal-deep/40 border border-teal/30 text-sm whitespace-pre-wrap animate-in">{text.replace(/^\[context:[^\]]*\]\n/, "")}</div></div>; }
+function UserBubble({ text }: { text: string }) { return <div className="flex justify-end"><div className="max-w-[85%] rounded-[12px] px-3 py-2 bg-purple-tint border border-purple/20 text-sm whitespace-pre-wrap animate-in">{text.replace(/^\[context:[^\]]*\]\n/, "")}</div></div>; }
 
 export function MessageBubble({ msg }: { msg: ChatMessage }) {
   if (msg.role === "user") return <UserBubble text={msg.content} />;
