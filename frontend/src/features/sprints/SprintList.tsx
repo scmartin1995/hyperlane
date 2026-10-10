@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { addDays, format, parseISO } from "date-fns";
-import { Plus, Flag } from "lucide-react";
+import { Plus, CalendarRange } from "lucide-react";
 import type { Sprint } from "@/api/types";
 import { useProject, useSprintList } from "@/api/queries";
 import { useUI, label } from "@/lib/store";
@@ -70,7 +70,7 @@ function SprintCard({ sprint: s, focused }: { sprint: Sprint; focused: boolean }
       <div className="mt-3 flex items-center justify-between text-xs text-text-3">
         <span><span className="num text-text">{done}</span> / <span className="num">{total}</span> {useCount ? "items" : "pts"} done</span>
         {s.state === "active" && <span>day <span className="num text-text">{day}</span> of <span className="num">{days}</span></span>}
-        {s.state === "planned" && <span className="inline-flex items-center gap-1"><Flag size={11} /> {s.committed_count} items planned</span>}
+        {s.state === "planned" && <span className="inline-flex items-center gap-1"><CalendarRange size={11} /> {s.committed_count} items planned</span>}
       </div>
       <Progress className="mt-2" value={done} max={total || 1} color={s.state === "closed" ? "var(--green)" : "var(--teal)"} />
     </Link>

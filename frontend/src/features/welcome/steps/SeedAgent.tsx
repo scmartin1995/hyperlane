@@ -56,7 +56,7 @@ export function SeedAgent({ projectId, onDone }: { projectId: string; onDone: (c
             {tree.map(({ item, depth }) => (
               <label key={item.temp_id} className={cn("flex items-start gap-2 px-2 py-1.5 text-sm cursor-pointer hover:bg-surface-2", !checked.has(item.temp_id) && "opacity-50")} style={{ paddingLeft: 8 + depth * 20 }}>
                 <input type="checkbox" checked={checked.has(item.temp_id)} onChange={() => toggle(item.temp_id)} className="mt-1 accent-[var(--teal)]" />
-                <span className="flex-1 min-w-0"><span className="font-display text-[10px] uppercase tracking-wider text-text-3 mr-1.5">{item.type}</span><span className="font-medium">{item.title}</span>{item.description && <span className="block text-xs text-text-3 line-clamp-1">{item.description}</span>}</span>
+                <span className="flex-1 min-w-0"><span className="font-display text-[10px] text-text-3 mr-1.5">{item.type}</span><span className="font-medium">{item.title}</span>{item.description && <span className="block text-xs text-text-3 line-clamp-1">{item.description}</span>}</span>
                 {item.points != null && <span className="num text-[11px] text-text-3">{item.points}pt</span>}
               </label>
             ))}

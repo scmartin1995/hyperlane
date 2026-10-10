@@ -26,7 +26,7 @@ def user(client):
     """A logged-in user (creates one if needed)."""
     users = client.get("/api/users").json()
     if not users:
-        u = client.post("/api/users", json={"name": "Test Pilot", "role": "developer"}).json()
+        u = client.post("/api/users", json={"name": "Test User", "role": "developer"}).json()
     else:
         u = users[0]
     client.post("/api/auth/login", json={"user_id": u["id"]})

@@ -36,7 +36,7 @@ def test_request_becomes_backlog_item_and_mirrors_thread(client):
     tri = client.get(f"/api/projects/{proj['id']}/triage").json()
     assert any(t["id"] == item["id"] for t in tri)
     # requester replies → mirrored as a comment, re-analysed
-    client.post(f"/api/intake/{req['id']}/messages", json={"body": "Top 10 by best lap, resets weekly.", "direction": "inbound"})
+    client.post(f"/api/intake/{req['id']}/messages", json={"body": "Top 10 by points, resets weekly.", "direction": "inbound"})
     item = client.get(f"/api/items/{item['id']}").json()
     assert any("Top 10" in c["body"] for c in item["comments"])
 

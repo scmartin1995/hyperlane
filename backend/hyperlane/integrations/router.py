@@ -228,7 +228,7 @@ def _on_item_change(event: Event) -> None:
                 d = item_dict(item)
                 slack.post_dm(
                     assignee.slack_user_id,
-                    f"🏁 {actor} assigned you <{d['url']}|{d['key']}> {d['title']}",
+                    f"👋 {actor} assigned you <{d['url']}|{d['key']}> {d['title']}",
                     blocks=slack.format_item_blocks(d, f"Assigned to you by {actor}"),
                     kind="assignment",
                     entity_type="work_item",
@@ -305,7 +305,7 @@ def _on_sprint(event: Event) -> None:
         data = event.data or {}
         if event.type == "sprint.started":
             committed = sprint.committed_points if unit == "pts" else sprint.committed_count
-            title = f"🏁 {project.name} · {sprint.name} started"
+            title = f"▶️ {project.name} · {sprint.name} started"
             lines = [
                 f"*{sprint.start_date} → {sprint.end_date}*",
                 f"Goal: {sprint.goal or '_none set_'}",
@@ -459,7 +459,7 @@ def _digest_text(
 
     return (
         f"*{project.icon} {project.name} — daily digest · {today.isoformat()}*\n"
-        + block("✅ Done yesterday", done, "nothing crossed the line")
+        + block("✅ Done yesterday", done, "nothing finished")
         + "\n"
         + block("🔄 In progress today", wip, "nothing in progress")
         + "\n"

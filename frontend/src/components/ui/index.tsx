@@ -27,7 +27,7 @@ const sizeCls: Record<Size, string> = { xs: "h-6 px-2 text-[11px] gap-1 rounded-
 export function Button({ variant = "secondary", size = "md", icon: Icon, iconRight: IconR, loading, className, children, disabled, ...rest }: ButtonProps) {
   const iconSize = size === "xs" ? 12 : size === "sm" ? 14 : 16;
   return (
-    <button className={cn("inline-flex items-center justify-center font-display tracking-wide transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap select-none", variantCls[variant], sizeCls[size], className)} disabled={disabled || loading} {...rest}>
+    <button className={cn("inline-flex items-center justify-center font-display transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap select-none", variantCls[variant], sizeCls[size], className)} disabled={disabled || loading} {...rest}>
       {loading ? <Loader2 size={iconSize} className="animate-spin" /> : Icon ? <Icon size={iconSize} /> : null}
       {children}
       {IconR ? <IconR size={iconSize} /> : null}
@@ -61,7 +61,7 @@ export function Panel({ className, children, cut, title, eyebrow, actions, padde
 export function Badge({ children, color, className, dot, size = "sm", onClick }: { children: ReactNode; color?: string; className?: string; dot?: boolean; size?: "xs" | "sm"; onClick?: () => void }) {
   const style = color ? { color, borderColor: `color-mix(in oklab, ${color} 45%, transparent)`, background: `color-mix(in oklab, ${color} 12%, transparent)` } : undefined;
   return (
-    <span onClick={onClick} style={style} className={cn("inline-flex items-center gap-1 rounded-full border border-transparent bg-surface-3 text-text-2 font-display font-semibold tracking-wide whitespace-nowrap", size === "xs" ? "h-[18px] px-1.5 text-[10px]" : "h-[22px] px-2 text-[11px]", onClick && "cursor-pointer hover:brightness-125", className)}>
+    <span onClick={onClick} style={style} className={cn("inline-flex items-center gap-1 rounded-full border border-transparent bg-surface-3 text-text-2 font-display font-semibold whitespace-nowrap", size === "xs" ? "h-[18px] px-1.5 text-[10px]" : "h-[22px] px-2 text-[11px]", onClick && "cursor-pointer hover:brightness-125", className)}>
       {dot && <span className="w-1.5 h-1.5 rounded-full" style={{ background: color ?? "currentColor" }} />}
       {children}
     </span>
@@ -89,7 +89,7 @@ export function Input({ className, ref, ...rest }: InputHTMLAttributes<HTMLInput
 export function Textarea({ className, ref, ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement> & { ref?: React.Ref<HTMLTextAreaElement> }) { return <textarea ref={ref} className={cn(fieldCls, "py-2 min-h-[80px] leading-relaxed", className)} {...rest} />; }
 export function Select({ className, children, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) { return <select className={cn(fieldCls, "h-9 pr-8 appearance-none bg-no-repeat bg-[right_0.6rem_center] bg-[length:12px]", className)} style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath fill='%23869791' d='M3 4.5l3 3 3-3'/%3e%3c/svg%3e\")" }} {...rest}>{children}</select>; }
 export function Field({ label, hint, children, className, required }: { label?: ReactNode; hint?: ReactNode; children: ReactNode; className?: string; required?: boolean }) {
-  return <label className={cn("block", className)}>{label && <span className="block mb-1 text-xs font-display font-semibold tracking-wide text-text-2 uppercase">{label}{required && <span className="text-rust"> *</span>}</span>}{children}{hint && <span className="block mt-1 text-[11px] text-text-3">{hint}</span>}</label>;
+  return <label className={cn("block", className)}>{label && <span className="block mb-1 text-xs font-display font-semibold text-text-2">{label}{required && <span className="text-rust"> *</span>}</span>}{children}{hint && <span className="block mt-1 text-[11px] text-text-3">{hint}</span>}</label>;
 }
 export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label?: ReactNode }) {
   return (
@@ -120,7 +120,7 @@ export function Tabs<T extends string>({ tabs, value, onChange, className }: { t
   return (
     <div className={cn("inline-flex items-center gap-1 p-1 rounded-[9px] bg-surface-2 border border-border", className)} role="tablist">
       {tabs.map((t) => (
-        <button key={t.key} role="tab" aria-selected={value === t.key} onClick={() => onChange(t.key)} className={cn("h-7 px-3 rounded-[6px] text-xs font-display font-semibold tracking-wide transition-colors inline-flex items-center gap-1.5", value === t.key ? "bg-surface text-purple shadow dark:text-gold" : "text-text-2 hover:text-text")}>
+        <button key={t.key} role="tab" aria-selected={value === t.key} onClick={() => onChange(t.key)} className={cn("h-7 px-3 rounded-[6px] text-xs font-display font-semibold transition-colors inline-flex items-center gap-1.5", value === t.key ? "bg-surface text-purple shadow dark:text-gold" : "text-text-2 hover:text-text")}>
           {t.label}{t.count != null && <span className="num text-[10px] text-text-3">{t.count}</span>}
         </button>
       ))}

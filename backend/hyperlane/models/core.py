@@ -30,10 +30,10 @@ class Workspace(Base, IdMixin, TimestampMixin):
     __tablename__ = "workspace"
 
     name: Mapped[str] = mapped_column(String(120), default="Hyperlane")
-    tagline: Mapped[str] = mapped_column(String(200), default="No prophecy. Just skill, strategy, and the will to ship.")
+    tagline: Mapped[str] = mapped_column(String(200), default="Plan, build and ship with an AI analyst on the team.")
     onboarded: Mapped[bool] = mapped_column(Boolean, default=False)
     theme: Mapped[str] = mapped_column(String(20), default="dark")  # dark | light | system
-    flavor: Mapped[bool] = mapped_column(Boolean, default=True)  # racing-flavored copy on/off
+    flavor: Mapped[bool] = mapped_column(Boolean, default=True)  # playful toasts and confetti on/off
     settings: Mapped[dict] = mapped_column(JSON, default=dict)  # misc non-secret settings
 
 
@@ -80,7 +80,7 @@ class Project(Base, IdMixin, TimestampMixin):
     methodology: Mapped[str] = mapped_column(String(20), default="scrum")  # scrum | kanban | hybrid
     status: Mapped[str] = mapped_column(String(20), default="active")  # active | paused | done | archived
     color: Mapped[str] = mapped_column(String(16), default="#e4b963")
-    icon: Mapped[str] = mapped_column(String(16), default="🏁")
+    icon: Mapped[str] = mapped_column(String(16), default="📋")
     item_types: Mapped[list] = mapped_column(JSON, default=list)
     workflow: Mapped[list] = mapped_column(JSON, default=list)
     settings: Mapped[dict] = mapped_column(JSON, default=dict)

@@ -75,7 +75,7 @@ function Bubble({ msg }: { msg: IntakeMessage }) {
   return (
     <div className={cn("flex", out ? "justify-end" : "justify-start")}>
       <div className={cn("max-w-[85%] rounded-[12px] px-3 py-2 text-sm", out ? "bg-teal-deep/40 border border-teal/30" : internal ? "bg-gold/10 border border-dashed border-gold/40" : "bg-surface-2 border border-border")}>
-        <div className="flex items-center gap-2 text-[10px] text-text-3 mb-1"><span className="font-display font-semibold uppercase tracking-wider">{out ? "✨ Agent" : internal ? "📝 Internal" : msg.author}</span><span>{fmtDateTime(msg.created_at)}</span></div>
+        <div className="flex items-center gap-2 text-[10px] text-text-3 mb-1"><span className="font-display font-semibold">{out ? "✨ Agent" : internal ? "📝 Internal" : msg.author}</span><span>{fmtDateTime(msg.created_at)}</span></div>
         <Markdown>{msg.body}</Markdown>
       </div>
     </div>

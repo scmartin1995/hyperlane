@@ -97,7 +97,7 @@ def summarize_retro(retro: Any, stats: dict[str, Any] | None) -> str:
 def _heuristic_retro(cols: dict[str, list[str]], stats: dict[str, Any], avg_mood: float | None) -> str:
     committed = stats.get("committed_points") or stats.get("committed")
     completed = stats.get("completed_points") or stats.get("completed")
-    lines = ["## Lap debrief"]
+    lines = ["## Sprint summary"]
     if committed is not None and completed is not None:
         try:
             pct = round(100 * float(completed) / float(committed)) if float(committed) else 0

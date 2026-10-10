@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { differenceInCalendarDays, parseISO } from "date-fns";
-import { ArrowLeft, Flag, FlagOff, Play, Trash2 } from "lucide-react";
+import { ArrowLeft, CalendarRange, CalendarCheck, Play, Trash2 } from "lucide-react";
 import type { Sprint } from "@/api/types";
 import { useProject, useSprint, useSprintList } from "@/api/queries";
 import { fmtDate } from "@/lib/format";
@@ -43,7 +43,7 @@ export function SprintDetail({ sprintId, tab, projectId }: { sprintId: string; t
   const { day, days } = sprintDay(sprint);
 
   const doStart = () => start.mutate(undefined, {
-    onSuccess: () => { setConfirmStart(false); celebrate("big"); toast.fun("Lights out — sprint started!", `${sprint.name} is live.`); nav(`/sprints/${sprintId}/overview`); },
+    onSuccess: () => { setConfirmStart(false); celebrate("big"); toast.fun("Sprint started", `${sprint.name} is now active.`); nav(`/sprints/${sprintId}/overview`); },
     onError: (e) => toast.error("Couldn't start the sprint", (e as Error).message),
   });
 
@@ -63,7 +63,7 @@ export function SprintDetail({ sprintId, tab, projectId }: { sprintId: string; t
         <div className="flex items-center gap-2">
           {sprint.state === "planned" && <Button variant="ghost" icon={Trash2} onClick={() => { if (confirm("Delete this planned sprint? Items go back to the backlog.")) del.mutate(sprintId, { onSuccess: () => { toast.info("Sprint deleted"); nav("/sprints"); }, onError: (e) => toast.error("Couldn't delete", (e as Error).message) }); }}>Delete</Button>}
           {sprint.state === "planned" && <Button variant="primary" icon={Play} onClick={() => setConfirmStart(true)}>Start sprint</Button>}
-          {sprint.state === "active" && <Button variant="outline" icon={FlagOff} onClick={() => setClosing(true)}>Close sprint</Button>}
+          {sprint.state === "active" && <Button variant="outline" icon={CalendarCheck} onClick={() => setClosing(true)}>Close sprint</Button>}
         </div>
       </div>
       <Tabs className="mb-4" value={tab} onChange={(t) => nav(`/sprints/${sprintId}/${t}`)} tabs={[{ key: "overview", label: "Overview" }, { key: "plan", label: "Plan" }, { key: "retro", label: "Retro" }]} />
@@ -71,8 +71,8 @@ export function SprintDetail({ sprintId, tab, projectId }: { sprintId: string; t
       {tab === "plan" && <SprintPlan sprint={sprint} project={project} onStart={() => setConfirmStart(true)} />}
       {tab === "retro" && <SprintRetro sprint={sprint} project={project} />}
 
-      <Modal open={confirmStart} onClose={() => setConfirmStart(false)} eyebrow="Lights out" title={`Start ${sprint.name}?`}
-        footer={<><Button variant="ghost" onClick={() => setConfirmStart(false)}>Not yet</Button><Button variant="primary" icon={Flag} loading={start.isPending} onClick={doStart}>Start sprint</Button></>}>
+      <Modal open={confirmStart} onClose={() => setConfirmStart(false)} eyebrow="Ready?" title={`Start ${sprint.name}?`}
+        footer={<><Button variant="ghost" onClick={() => setConfirmStart(false)}>Not yet</Button><Button variant="primary" icon={CalendarRange} loading={start.isPending} onClick={doStart}>Start sprint</Button></>}>
         <p className="text-sm text-text-2">This snapshots the commitment ({sprint.committed_count || "the current"} items) so velocity and burndown measure against it. Only one sprint can be active at a time.</p>
       </Modal>
       <CloseSprintModal open={closing} onClose={() => setClosing(false)} sprint={sprint} projectId={projectId} />
@@ -88,7 +88,7 @@ function CloseSprintModal({ open, onClose, sprint, projectId }: { open: boolean;
   const nav = useNavigate();
   const unfinished = sprint.committed_count - sprint.completed_count;
   const submit = () => close.mutate(carry, {
-    onSuccess: (r) => { setResult(r); celebrate("big"); toast.fun("Checkered flag!", `${r.completed.length} items crossed the line.`); },
+    onSuccess: (r) => { setResult(r); celebrate("big"); toast.fun("Sprint closed", `${r.completed.length} items completed.`); },
     onError: (e) => toast.error("Couldn't close the sprint", (e as Error).message),
   });
   const finish = () => { setResult(null); onClose(); nav(`/sprints/${sprint.id}/retro`); };
@@ -97,7 +97,7 @@ function CloseSprintModal({ open, onClose, sprint, projectId }: { open: boolean;
     return (
       <Modal open={open} onClose={finish} eyebrow="Sprint closed" title={`${sprint.name} closed`} footer={<><Button variant="ghost" onClick={() => { setResult(null); onClose(); }}>Done</Button><Button variant="primary" onClick={finish}>Run the retro →</Button></>}>
         <div className="text-center py-4">
-          <div className="text-5xl mb-2">🏁</div>
+          <div className="text-5xl mb-2">✅</div>
           <div className="text-2xl font-display font-bold"><span className="num">{result.completed.length}</span> of <span className="num">{result.completed.length + result.carried.length}</span> done</div>
           <p className="text-text-2 mt-1">{result.carried.length === 0 ? "Clean sweep — nothing carried over." : `${result.carried.length} carried to ${nextName}.`}</p>
           <p className="text-text-3 text-xs mt-3">Velocity: <span className="num">{result.sprint.completed_points}</span> pts of <span className="num">{result.sprint.committed_points}</span> committed.</p>
@@ -106,7 +106,7 @@ function CloseSprintModal({ open, onClose, sprint, projectId }: { open: boolean;
     );
   }
   return (
-    <Modal open={open} onClose={onClose} eyebrow="Checkered flag" title={`Close ${sprint.name}`} footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" icon={FlagOff} loading={close.isPending} onClick={submit}>Close sprint</Button></>}>
+    <Modal open={open} onClose={onClose} eyebrow="Wrap up" title={`Close ${sprint.name}`} footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" icon={CalendarCheck} loading={close.isPending} onClick={submit}>Close sprint</Button></>}>
       <p className="text-sm text-text-2 mb-3">{unfinished > 0 ? <><span className="num text-text">{unfinished}</span> item{unfinished === 1 ? "" : "s"} {unfinished === 1 ? "isn't" : "aren't"} done yet. Where should they go?</> : "Everything's done. Closing records velocity and updates capacity profiles."}</p>
       <Field label="Carry unfinished work to">
         <Select value={carry} onChange={(e) => setCarry(e.target.value)}>

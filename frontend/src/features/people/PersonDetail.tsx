@@ -21,7 +21,7 @@ export function PersonDetail({ userId }: { userId: string }) {
   const isMe = me?.id === u.id;
   return (
     <div>
-      <Link to="/people" className="inline-flex items-center gap-1 text-xs text-text-3 hover:text-text no-underline"><ArrowLeft size={12} />  crew</Link>
+      <Link to="/people" className="inline-flex items-center gap-1 text-xs text-text-3 hover:text-text no-underline"><ArrowLeft size={12} /> Team</Link>
       <div className="flex items-center gap-3 mt-1 mb-4"><Avatar user={u} size={48} /><div><h1 className="text-2xl leading-none">{u.name}</h1><p className="text-text-3 text-sm mt-1">{u.role || "No role"} · @{u.handle}{isMe && " · this is you"}</p></div>{!u.is_active && <Badge>inactive</Badge>}</div>
       <div className="grid gap-4 lg:grid-cols-[1fr_380px]">
         <div className="space-y-4">

@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 interface UIState {
   theme: "dark" | "light";
-  flavor: boolean; // racing-flavored copy
+  flavor: boolean; // playful toasts and confetti
   projectId: string | null;
   sidebarCollapsed: boolean;
   agentOpen: boolean;

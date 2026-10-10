@@ -45,7 +45,7 @@ export default function WelcomePage() {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-[360px_1fr] max-w-[1200px] w-full mx-auto p-6 gap-8">
         <aside className="flex flex-col gap-8 lg:sticky lg:top-6 self-start">
           <div className="animate-in">
-            <div className="flex items-center gap-3"><span className="w-12 h-12 rounded-[14px] bg-[linear-gradient(135deg,var(--purple),var(--rust))] text-cream inline-flex items-center justify-center font-display font-black text-xl shadow-md animate-float">H</span><div><div className="font-display font-black uppercase tracking-[0.18em] text-gold text-xl leading-none">Hyperlane</div><div className="eyebrow mt-1">Welcome to Hyperlane</div></div></div>
+            <div className="flex items-center gap-3"><span className="w-12 h-12 rounded-[14px] bg-[linear-gradient(135deg,var(--purple),var(--rust))] text-cream inline-flex items-center justify-center font-display font-extrabold text-xl shadow-md animate-float">H</span><div><div className="font-display font-extrabold text-2xl leading-none text-text">Hyperlane</div><div className="text-sm text-text-3 mt-1">Welcome — let's get you set up</div></div></div>
             <p className="mt-4 font-display text-lg leading-snug text-text">Plan, build and ship with an AI analyst on the team.</p>
             <p className="mt-2 text-sm text-text-3">Local-first project management with an AI analyst on the team. Five quick steps; every one can be redone later from Settings.</p>
           </div>

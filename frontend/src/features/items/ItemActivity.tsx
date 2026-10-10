@@ -1,5 +1,5 @@
 // Activity feed + status transition timeline for one item.
-import { ArrowRight, Flag, MessageSquare, Pencil, PlusCircle, Trash2, Move, Sparkles, type LucideIcon } from "lucide-react";
+import { ArrowRight, CalendarRange, MessageSquare, Pencil, PlusCircle, Trash2, Move, Sparkles, type LucideIcon } from "lucide-react";
 import type { Activity, Project, StatusTransition } from "@/api/types";
 import { ago, fmtDateTime, stateOf, categoryColor } from "@/lib/format";
 import { Skeleton, cn } from "@/components/ui";
@@ -11,7 +11,7 @@ export function actionIcon(action: string): { icon: LucideIcon; color: string } 
   if (a.includes("comment")) return { icon: MessageSquare, color: "var(--teal)" };
   if (a.includes("move") || a.includes("status")) return { icon: Move, color: "var(--gold)" };
   if (a.includes("delete") || a.includes("archive")) return { icon: Trash2, color: "var(--rust)" };
-  if (a.includes("sprint")) return { icon: Flag, color: "var(--purple-light)" };
+  if (a.includes("sprint")) return { icon: CalendarRange, color: "var(--purple-light)" };
   if (a.includes("agent")) return { icon: Sparkles, color: "var(--gold)" };
   return { icon: Pencil, color: "var(--text-3)" };
 }

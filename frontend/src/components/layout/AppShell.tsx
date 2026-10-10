@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Home, KanbanSquare, Layers, Flag, BarChart3, CheckSquare, Users, Settings, Sparkles, PanelLeftClose, PanelLeftOpen, Sun, Moon, LogOut, Search, ArrowRight } from "lucide-react";
+import { Home, KanbanSquare, Layers, CalendarRange, BarChart3, CheckSquare, Users, Settings, Sparkles, PanelLeftClose, PanelLeftOpen, Sun, Moon, LogOut, Search, ArrowRight } from "lucide-react";
 import { useUI, label } from "@/lib/store";
 import { useMe, useProjects, useLogout, useWorkspace } from "@/api/queries";
 import { useLiveEvents } from "@/lib/live";
@@ -13,7 +13,7 @@ const NAV = [
   { key: "home", to: "/", icon: Home, end: true },
   { key: "board", to: "/board", icon: KanbanSquare },
   { key: "backlog", to: "/backlog", icon: Layers },
-  { key: "sprints", to: "/sprints", icon: Flag },
+  { key: "sprints", to: "/sprints", icon: CalendarRange },
   { key: "reports", to: "/reports", icon: BarChart3 },
   { key: "actionItems", to: "/action-items", icon: CheckSquare },
   { key: "people", to: "/people", icon: Users },
@@ -84,7 +84,7 @@ export function AppShell() {
     <div className="h-screen flex overflow-hidden">
       <aside className={cn("shrink-0 flex flex-col bg-surface-2/70 backdrop-blur border-r border-border transition-[width] duration-200", collapsed ? "w-[64px]" : "w-[228px]")}>
         <div className="h-16 flex items-center gap-2.5 px-4">
-          <span className="w-8 h-8 rounded-[10px] bg-[linear-gradient(135deg,var(--purple),var(--rust))] text-cream inline-flex items-center justify-center font-display font-black text-sm shadow-sm">H</span>
+          <span className="w-8 h-8 rounded-[10px] bg-[linear-gradient(135deg,var(--purple),var(--rust))] text-cream inline-flex items-center justify-center font-display font-extrabold text-sm shadow-sm">H</span>
           {!collapsed && <div className="min-w-0"><div className="font-display font-bold text-[15px] leading-none">Hyperlane</div><div className="text-[11px] text-text-3 truncate mt-0.5">{ws?.name ?? ""}</div></div>}
         </div>
         <nav className="flex-1 px-2.5 space-y-1 overflow-y-auto">

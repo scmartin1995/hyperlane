@@ -11,8 +11,8 @@ from typing import Any
 CATEGORIES = ("todo", "in_progress", "done")
 
 _SOFTWARE_TYPES = [
-    {"key": "epic", "name": "Epic", "plural": "Epics", "icon": "🌌", "color": "#6b3a8e", "level": 0},
-    {"key": "feature", "name": "Feature", "plural": "Features", "icon": "🛸", "color": "#306376", "level": 1},
+    {"key": "epic", "name": "Epic", "plural": "Epics", "icon": "🗺️", "color": "#6b3a8e", "level": 0},
+    {"key": "feature", "name": "Feature", "plural": "Features", "icon": "🧩", "color": "#306376", "level": 1},
     {"key": "story", "name": "Story", "plural": "Stories", "icon": "📗", "color": "#27cfc3", "level": 2},
     {"key": "task", "name": "Task", "plural": "Tasks", "icon": "🔧", "color": "#e4b963", "level": 2},
     {"key": "bug", "name": "Bug", "plural": "Bugs", "icon": "🐛", "color": "#bc553c", "level": 2},
@@ -38,8 +38,8 @@ _KANBAN_WORKFLOW = [
 TEMPLATES: dict[str, dict[str, Any]] = {
     "software-scrum": {
         "name": "Software · Scrum",
-        "tagline": "Sprints, story points, velocity. The classic racing league.",
-        "icon": "🏁",
+        "tagline": "Sprints, story points, velocity. Classic Scrum for software teams.",
+        "icon": "📋",
         "methodology": "scrum",
         "item_types": _SOFTWARE_TYPES,
         "workflow": _SCRUM_WORKFLOW,

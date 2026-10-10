@@ -19,9 +19,9 @@ export function StepWorkspace({ state, update, next }: StepProps) {
   return (
     <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); save.mutate(); }}>
       <div><div className="eyebrow">Step 1 · Workspace</div><h2 className="text-2xl mt-1">Name your workspace</h2><p className="text-text-3 text-sm mt-1">This is the name on the sidebar. Your team, your product, your company — whatever you call it.</p></div>
-      <Field label="Workspace name" required><Input autoFocus value={state.wsName} onChange={(e) => update({ wsName: e.target.value })} placeholder="e.g. Boonta Eve Racing" className="h-11 text-base" /></Field>
+      <Field label="Workspace name" required><Input autoFocus value={state.wsName} onChange={(e) => update({ wsName: e.target.value })} placeholder="e.g. Acme Product Team" className="h-11 text-base" /></Field>
       <div>
-        <span className="block mb-2 text-xs font-display font-semibold tracking-wide text-text-2 uppercase">Theme</span>
+        <span className="block mb-2 text-xs font-display font-semibold text-text-2">Theme</span>
         <div className="grid grid-cols-2 gap-3">
           {([["light", "Light", "Warm cream with bold color cards.", Sun], ["dark", "Dark", "Charcoal with the same accents.", Moon]] as const).map(([k, title, sub, Icon]) => (
             <button type="button" key={k} onClick={() => pickTheme(k)} aria-pressed={state.theme === k} className={cn("panel panel-cut p-4 text-left transition-all hover:border-gold", state.theme === k && "border-gold glow-gold")}>

@@ -27,7 +27,7 @@ def project(client):
             tpl = get_template("software-scrum")
             proj = Project(
                 key="AGT",
-                name="Agent Test League",
+                name="Agent Test Project",
                 template="software-scrum",
                 methodology=tpl["methodology"],
                 item_types=tpl["item_types"],
@@ -99,7 +99,7 @@ def test_intake_clarify_then_ready_then_convert(client, project):
     r = client.post(
         "/api/intake",
         json={
-            "subject": "Export lap times to CSV",
+            "subject": "Export ticket history to CSV",
             "body": "Could we get an export button on the results page?",
             "requester_name": "Sam Stakeholder",
             "requester_email": "sam@example.com",
@@ -117,7 +117,7 @@ def test_intake_clarify_then_ready_then_convert(client, project):
 
     r = client.post(
         f"/api/intake/{req['id']}/messages",
-        json={"body": "Success = the race director can download a CSV per race. Users: directors.", "direction": "inbound"},
+        json={"body": "Success = a support lead can download a CSV per month. Users: support leads.", "direction": "inbound"},
     )
     assert r.status_code == 200, r.text
     req = r.json()
@@ -155,9 +155,9 @@ def test_excel_import_preview_and_commit(client, project):
     ws = wb.active
     ws.title = "Backlog"
     ws.append(["Epic", "Feature", "Summary", "Issue Type", "Status", "Story Points", "Assignee", "Labels", "Due"])
-    ws.append(["Qualifying", "Timing", "As a driver I see my lap time", "Story", "To Do", 3, "Agent Tester", "frontend", "2026-11-01"])
-    ws.append(["Qualifying", "Timing", "Timing API", "Story", "In Progress", 5, "Nobody Known", "backend;api", None])
-    ws.append(["Qualifying", None, "Grid order wrong after pit", "Bug", "Done", 2, None, None, None])
+    ws.append(["Reporting", "Exports", "As an admin I can export my invoices", "Story", "To Do", 3, "Agent Tester", "frontend", "2026-11-01"])
+    ws.append(["Reporting", "Exports", "Exports API", "Story", "In Progress", 5, "Nobody Known", "backend;api", None])
+    ws.append(["Reporting", None, "Export total wrong after refund", "Bug", "Done", 2, None, None, None])
     ws.append([None, None, None, None, None, None, None, None, None])
     buf = io.BytesIO()
     wb.save(buf)
@@ -184,23 +184,23 @@ def test_excel_import_preview_and_commit(client, project):
     created = {it["title"]: it for it in out["created"]}
     assert out["skipped"] == 0
     assert any("Nobody Known" in w for w in out["warnings"])
-    epic, feature = created["Qualifying"], created["Timing"]
+    epic, feature = created["Reporting"], created["Exports"]
     assert epic["type"] == "epic" and epic["parent_id"] is None
     assert feature["type"] == "feature" and feature["parent_id"] == epic["id"]
-    story = created["As a driver I see my lap time"]
+    story = created["As an admin I can export my invoices"]
     assert story["type"] == "story" and story["parent_id"] == feature["id"]
     assert story["points"] == 3 and story["status"] == "backlog" and story["due_date"] == "2026-11-01"
     assert story["assignee_id"] == project["user_id"]
     assert [lb["name"] for lb in story["labels"]] == ["frontend"]
-    api = created["Timing API"]
+    api = created["Exports API"]
     assert api["status"] == "in_progress" and api["assignee_id"] is None
     assert sorted(lb["name"] for lb in api["labels"]) == ["api", "backend"]
-    bug = created["Grid order wrong after pit"]
+    bug = created["Export total wrong after refund"]
     assert bug["type"] == "bug" and bug["parent_id"] == epic["id"] and bug["status"] == "done"
     assert all(it["source"] == "excel" for it in out["created"])
 
     # csv works too and is re-importable (epic deduped against existing items)
-    csv_bytes = b"Summary,Epic,Priority\nPit wall radio,Qualifying,P1\n"
+    csv_bytes = b"Summary,Epic,Priority\nScheduled export emails,Reporting,P1\n"
     r = client.post(
         f"/api/projects/{project['project_id']}/import/excel/preview",
         files={"file": ("more.csv", csv_bytes, "text/csv")},
@@ -219,7 +219,7 @@ def test_excel_import_preview_and_commit(client, project):
 
 def test_backlog_generate_and_apply(client, project):
     pid = project["project_id"]
-    r = client.post(f"/api/projects/{pid}/backlog/generate", json={"prompt": "Live telemetry dashboard for pit crews"})
+    r = client.post(f"/api/projects/{pid}/backlog/generate", json={"prompt": "Live status dashboard for the support team"})
     assert r.status_code == 200, r.text
     proposal = r.json()
     assert proposal["summary"] and proposal["questions"] == []
@@ -257,10 +257,10 @@ def test_sync_helpers_without_provider(project):
 
     assert agent.quick("Say hi in five words").startswith("(agent offline)")
     summary = agent.summarize_retro(
-        {"went_well": [{"text": "Fast laps"}], "improve": [{"text": "Fewer pit stops"}], "kudos": [], "actions": [], "mood": {"u1": 4}},
+        {"went_well": [{"text": "Fast reviews"}], "improve": [{"text": "Fewer handoffs"}], "kudos": [], "actions": [], "mood": {"u1": 4}},
         {"committed_points": 20, "completed_points": 15},
     )
-    assert "15" in summary and "Fast laps" in summary
+    assert "15" in summary and "Fast reviews" in summary
     notes = agent.draft_capacity_insight({"sprints_observed": 3, "avg_points": 10, "commitment_accuracy": 0.6, "stddev_points": 1})
     assert notes and "over-commit" in notes[0]
     assert agent.draft_capacity_insight({"sprints_observed": 1})[0].startswith("Too early")

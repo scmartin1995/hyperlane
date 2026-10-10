@@ -50,7 +50,7 @@ function Basics({ project: p }: { project: Project }) {
         <Field label="Icon · color"><div className="flex gap-2"><Input value={f.icon} onChange={(e) => setF({ ...f, icon: e.target.value })} className="w-16 text-center" /><Input type="color" value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} className="w-16 p-1" /></div></Field>
         <Field label="Description" className="sm:col-span-2 lg:col-span-4"><Textarea value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className="min-h-[60px]" /></Field>
         <Field label="Lead" className="lg:col-span-2"><Select value={f.lead_id} onChange={(e) => setF({ ...f, lead_id: e.target.value })}><option value="">Nobody yet</option>{users?.filter((u) => u.is_active).map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}</Select></Field>
-        <Field label="Slack channel" hint="Where sprint and item updates post." className="lg:col-span-2"><Input value={f.slack_channel} onChange={(e) => setF({ ...f, slack_channel: e.target.value })} placeholder="#galactic-racer" /></Field>
+        <Field label="Slack channel" hint="Where sprint and item updates post." className="lg:col-span-2"><Input value={f.slack_channel} onChange={(e) => setF({ ...f, slack_channel: e.target.value })} placeholder="#customer-portal" /></Field>
         <button type="submit" className="hidden" />
       </form>
     </section>

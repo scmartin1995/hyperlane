@@ -3,7 +3,7 @@ import { Sparkles } from "lucide-react";
 // Home cards: active sprint, your lane, action items, intake, activity feed.
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, CheckSquare, Inbox, Flag } from "lucide-react";
+import { ArrowRight, CheckSquare, Inbox, CalendarRange } from "lucide-react";
 import { api } from "@/api/client";
 import type { IntakeRequest, MeOverview, Project, Sprint, WorkItem } from "@/api/types";
 import { useProjectActivity } from "@/api/queries";
@@ -20,8 +20,8 @@ export function ActiveSprintCard({ sprint, project }: { sprint: Sprint | undefin
   const items = useItems(sprint ? project?.id : undefined, { sprint_id: sprint?.id, include_done: true });
   if (!sprint) return (
     <Panel cut eyebrow={label("sprints", ui.flavor)} title="No active sprint">
-      <p className="text-sm text-text-3">Plan a sprint to get a burndown, a goal and a finish line.</p>
-      <Link to="/sprints" className="no-underline"><Button variant="primary" size="sm" className="mt-3" icon={Flag}>Plan a sprint</Button></Link>
+      <p className="text-sm text-text-3">Plan a sprint to get a goal, a burndown and a forecast.</p>
+      <Link to="/sprints" className="no-underline"><Button variant="primary" size="sm" className="mt-3" icon={CalendarRange}>Plan a sprint</Button></Link>
     </Panel>
   );
   const total = differenceInCalendarDays(parseISO(sprint.end_date), parseISO(sprint.start_date)) + 1;
@@ -54,7 +54,7 @@ export function YourLane({ overview, loading, project, meId }: { overview: MeOve
         : rows.length === 0 ? <p className="text-sm text-text-3">Nothing assigned to you. Grab something from the <Link to="/backlog">backlog</Link> or pull a card on the board.</p>
         : <ul className="divide-y divide-border -mx-1">{rows.slice(0, 8).map((i) => (
           <li key={i.id}><button type="button" onClick={() => nav(`/items/${i.id}`)} className="w-full flex items-center gap-2 px-1 h-9 text-sm text-left hover:bg-surface-2 rounded-[6px]">
-            <TypeIcon project={project} type={i.type} /><span className="num text-[11px] text-text-3">{i.key}</span><span className="flex-1 truncate">{i.title}</span>{i.blocked && <span className="text-[10px] text-rust-light font-display uppercase">blocked</span>}<PointsChip points={i.points} /><StatusBadge project={project} status={i.status} />
+            <TypeIcon project={project} type={i.type} /><span className="num text-[11px] text-text-3">{i.key}</span><span className="flex-1 truncate">{i.title}</span>{i.blocked && <span className="text-[10px] text-rust-light font-display">blocked</span>}<PointsChip points={i.points} /><StatusBadge project={project} status={i.status} />
           </button></li>))}</ul>}
     </Panel>
   );

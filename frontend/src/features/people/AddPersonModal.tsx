@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Field, Input, Modal, Textarea, toast } from "@/components/ui";
 import { useCreateUser } from "./hooks";
 
-const EMOJI = ["🏎️", "🚀", "🛠️", "🎯", "🧭", "⚡", "🦾", "🪐", "🔥", "🧪"];
+const EMOJI = ["💻", "🧭", "🛠️", "🎯", "📊", "🧪", "🎨", "📝", "💡", "🌱"];
 const COLORS = ["#e4b963", "#27cfc3", "#e07a5f", "#9b6bc0", "#67a671", "#306376", "#f0edeb", "#bc553c"];
 
 export function AddPersonModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -14,10 +14,10 @@ export function AddPersonModal({ open, onClose }: { open: boolean; onClose: () =
   const submit = () => {
     if (!f.name.trim()) return toast.error("A name is required");
     create.mutate({ name: f.name.trim(), role: f.role || undefined, email: f.email || undefined, skills: f.skills.split(",").map((s) => s.trim()).filter(Boolean), hours_per_week: f.hours_per_week, focus_factor: f.focus_factor, emoji: f.emoji, color: f.color, bio: f.bio || undefined },
-      { onSuccess: (u) => { toast.fun(`${u.name} joined the crew`); onClose(); setF((p) => ({ ...p, name: "", role: "", email: "", skills: "", bio: "" })); nav(`/people/${u.id}`); }, onError: (e) => toast.error("Couldn't add person", (e as Error).message) });
+      { onSuccess: (u) => { toast.fun(`${u.name} added to the team`); onClose(); setF((p) => ({ ...p, name: "", role: "", email: "", skills: "", bio: "" })); nav(`/people/${u.id}`); }, onError: (e) => toast.error("Couldn't add person", (e as Error).message) });
   };
   return (
-    <Modal open={open} onClose={onClose} eyebrow="New crew member" title="Add a person" footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" loading={create.isPending} onClick={submit}>Add person</Button></>}>
+    <Modal open={open} onClose={onClose} eyebrow="Team" title="Add a person" footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" loading={create.isPending} onClick={submit}>Add person</Button></>}>
       <form className="grid gap-3 sm:grid-cols-2" onSubmit={(e) => { e.preventDefault(); submit(); }}>
         <Field label="Name" required className="sm:col-span-2"><Input autoFocus value={f.name} onChange={(e) => set("name", e.target.value)} placeholder="Ada Lovelace" /></Field>
         <Field label="Role"><Input value={f.role} onChange={(e) => set("role", e.target.value)} placeholder="Engineer, Designer, PM…" /></Field>

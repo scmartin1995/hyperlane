@@ -38,7 +38,7 @@ export function LabelChips({ labels, max = 3 }: { labels: Label[]; max?: number 
   return <span className="inline-flex flex-wrap gap-1">{shown.map((l) => <Badge key={l.id} size="xs" color={l.color || undefined}>{l.name}</Badge>)}{labels.length > max && <Badge size="xs">+{labels.length - max}</Badge>}</span>;
 }
 export function BlockedTag({ reason }: { reason?: string | null }) {
-  return <span className="inline-flex items-center gap-1 text-[10px] font-display font-semibold uppercase tracking-wide text-rust-light" title={reason ?? "Blocked"}><Lock size={11} />Blocked</span>;
+  return <span className="inline-flex items-center gap-1 text-[10px] font-display font-semibold text-rust-light" title={reason ?? "Blocked"}><Lock size={11} />Blocked</span>;
 }
 
 /* ---------- helpers ---------- */

@@ -36,7 +36,7 @@ export function ItemDetail({ id, compact, onOpenItem, onArchived }: { id: string
   const patch = (p: Partial<WorkItemInput>) => {
     if (!item) return;
     const wasDone = isDone(project, item.status);
-    update.mutate({ id: item.id, patch: p }, { onSuccess: (res) => { if (p.status && !wasDone && isDone(project, res.status)) { celebrate("small"); toast.fun(`${res.key} crossed the line.`, "Nice work. On to the next one."); } } });
+    update.mutate({ id: item.id, patch: p }, { onSuccess: (res) => { if (p.status && !wasDone && isDone(project, res.status)) { celebrate("small"); toast.fun(`${res.key} is done.`, "Nice work."); } } });
   };
   const open = (cid: string) => (onOpenItem ? onOpenItem(cid) : nav(`/items/${cid}`));
   const copyKey = async () => { try { await navigator.clipboard.writeText(item?.key ?? ""); setCopied(true); setTimeout(() => setCopied(false), 1200); } catch { toast.info(item?.key ?? ""); } };

@@ -101,7 +101,7 @@ def data(client) -> Data:
         workflow[3]["wip_limit"] = 1  # review limit so we can breach it
         project = Project(
             key=f"AN{suffix[:2].upper()}",
-            name="Analytics League",
+            name="Analytics Project",
             template="software-scrum",
             item_types=tpl["item_types"],
             workflow=workflow,

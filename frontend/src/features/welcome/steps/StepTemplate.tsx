@@ -22,7 +22,7 @@ export function StepTemplate({ state, update, next, back }: StepProps) {
   const choose = (t: Template) => { setPicked(t); setSprintLen(t.settings.sprint_length_days); setEstimation(t.settings.estimation); };
   const create = useMutation({
     mutationFn: () => api.post<Project>("/projects", { name: name.trim(), template: picked!.key, settings: { ...picked!.settings, sprint_length_days: sprintLen, estimation } }),
-    onSuccess: (p) => { update({ projectId: p.id }); ui.setProjectId(p.id); qc.invalidateQueries({ queryKey: qk.projects }); qc.invalidateQueries({ queryKey: qk.health }); toast.fun(`${p.key} is on the grid.`, p.name); setCreateAnother(false); next(); },
+    onSuccess: (p) => { update({ projectId: p.id }); ui.setProjectId(p.id); qc.invalidateQueries({ queryKey: qk.projects }); qc.invalidateQueries({ queryKey: qk.health }); toast.fun(`${p.name} created`, `Items will be numbered ${p.key}-1, ${p.key}-2…`); setCreateAnother(false); next(); },
     onError: (e) => toast.error("Couldn't create the project", String(e)),
   });
 

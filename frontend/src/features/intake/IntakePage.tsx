@@ -1,4 +1,4 @@
-// Comms · Intake inbox. List at /intake, detail at /intake/:id.
+// Request log (email connector threads). List at /intake, detail at /intake/:id.
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Mail, MessageSquare, Globe, Hash, Plus, AlertCircle } from "lucide-react";

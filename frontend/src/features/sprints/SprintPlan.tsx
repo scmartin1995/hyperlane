@@ -1,6 +1,6 @@
 // Sprint planning: ① capacity → ② pick work → ③ commit.
 import { useEffect, useMemo, useState } from "react";
-import { Check, ChevronRight, Flag, Sparkles, RefreshCw } from "lucide-react";
+import { Check, ChevronRight, CalendarRange, Sparkles, RefreshCw } from "lucide-react";
 import type { PlanSuggestion, Project, Sprint, SprintCapacity, WorkItem } from "@/api/types";
 import { useUI } from "@/lib/store";
 import { n1, pct, priorityIcon, typeOf } from "@/lib/format";
@@ -153,7 +153,7 @@ function CommitStep({ sprint, plan, picked, onBack, onStart }: { sprint: Sprint;
   const [committed, setCommitted] = useState(false);
   const chosen = (plan?.candidates ?? []).filter((c) => picked.has(c.id));
   const pts = chosen.reduce((a, c) => a + (c.points ?? 0), 0);
-  const go = () => commit.mutate([...picked], { onSuccess: () => { setCommitted(true); celebrate("small"); toast.fun("Grid is set", `${picked.size} items committed to ${sprint.name}.`); }, onError: (e) => toast.error("Couldn't commit the plan", (e as Error).message) });
+  const go = () => commit.mutate([...picked], { onSuccess: () => { setCommitted(true); celebrate("small"); toast.fun("Sprint planned", `${picked.size} items committed to ${sprint.name}.`); }, onError: (e) => toast.error("Couldn't commit the plan", (e as Error).message) });
   return (
     <section className="panel panel-cut p-5 animate-in">
       <div className="hairline mb-4" />
@@ -168,7 +168,7 @@ function CommitStep({ sprint, plan, picked, onBack, onStart }: { sprint: Sprint;
       {committed ? (
         <div className="flex flex-wrap items-center gap-3 p-3 rounded-[10px] border border-green/40 bg-green/10">
           <Check className="text-green" size={18} /><span className="text-sm flex-1">Committed. {sprint.state === "planned" ? "Ready when you are." : "Scope updated."}</span>
-          {sprint.state === "planned" && <Button variant="primary" icon={Flag} onClick={onStart}>Start sprint</Button>}
+          {sprint.state === "planned" && <Button variant="primary" icon={CalendarRange} onClick={onStart}>Start sprint</Button>}
         </div>
       ) : (
         <div className="flex items-center justify-between gap-3"><Button variant="ghost" onClick={onBack}>← Pick work</Button><Button variant="primary" icon={Check} loading={commit.isPending} disabled={chosen.length === 0} onClick={go}>Commit {chosen.length} items</Button></div>

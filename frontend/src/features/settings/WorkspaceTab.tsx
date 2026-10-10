@@ -20,7 +20,7 @@ export function WorkspaceTab() {
         <div className="flex items-center justify-between mb-3"><div><div className="eyebrow">Workspace</div><h2 className="text-base">Identity</h2></div><Button size="sm" variant="primary" icon={Save} loading={update.isPending} onClick={save}>Save</Button></div>
         <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); save(); }}>
           <Field label="Name"><Input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></Field>
-          <Field label="Tagline" hint="Shown on the welcome screen and home."><Input value={f.tagline} onChange={(e) => setF({ ...f, tagline: e.target.value })} placeholder="No prophecy. Just skill, strategy, and the will to ship." /></Field>
+          <Field label="Tagline" hint="Shown on the welcome screen and home."><Input value={f.tagline} onChange={(e) => setF({ ...f, tagline: e.target.value })} placeholder="Plan, build and ship with an AI analyst on the team." /></Field>
           <Field label="Theme"><Select value={f.theme} onChange={(e) => setF({ ...f, theme: e.target.value as typeof f.theme })}><option value="dark">Dark</option><option value="light">Light</option><option value="system">Follow system</option></Select></Field>
           <Toggle checked={f.flavor} onChange={(v) => setF({ ...f, flavor: v })} label="Playful toasts and confetti" />
         </form>

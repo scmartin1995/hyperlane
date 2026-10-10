@@ -1,4 +1,4 @@
-"""Demo data for the welcome flow ("Load demo league")."""
+"""Demo data for the welcome flow ("Load the demo project")."""
 
 from __future__ import annotations
 

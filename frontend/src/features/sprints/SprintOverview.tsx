@@ -116,7 +116,7 @@ function GoalPanel({ sprint }: { sprint: Sprint }) {
       <div className="flex items-center justify-between"><div className="eyebrow">Sprint goal</div>{!editing && <Button size="xs" variant="ghost" icon={Pencil} onClick={() => setEditing(true)}>Edit</Button>}</div>
       {editing ? (
         <div className="mt-2 space-y-2">
-          <Textarea autoFocus value={goal} onChange={(e) => setGoal(e.target.value)} onKeyDown={(e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") save(); if (e.key === "Escape") setEditing(false); }} placeholder="What does winning this lap look like?" />
+          <Textarea autoFocus value={goal} onChange={(e) => setGoal(e.target.value)} onKeyDown={(e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") save(); if (e.key === "Escape") setEditing(false); }} placeholder="What does success look like for this sprint?" />
           <div className="flex gap-2 justify-end"><Button size="sm" variant="ghost" onClick={() => setEditing(false)}>Cancel</Button><Button size="sm" variant="primary" icon={Check} loading={update.isPending} onClick={save}>Save</Button></div>
         </div>
       ) : (

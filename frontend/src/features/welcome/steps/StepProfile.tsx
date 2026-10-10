@@ -49,11 +49,11 @@ export function StepProfile({ next, back }: StepProps) {
         </div>
       </div>
       <div>
-        <span className="block mb-1.5 text-xs font-display font-semibold tracking-wide text-text-2 uppercase">Emoji</span>
+        <span className="block mb-1.5 text-xs font-display font-semibold text-text-2">Emoji</span>
         <div className="flex flex-wrap gap-1" role="radiogroup" aria-label="Emoji">{EMOJIS.map((e) => <button type="button" key={e} role="radio" aria-checked={emoji === e} onClick={() => setEmoji(e)} className={cn("w-9 h-9 grid place-items-center rounded-[8px] text-xl border transition-transform hover:scale-110", emoji === e ? "border-gold bg-gold/15" : "border-transparent hover:border-border")}>{e}</button>)}</div>
       </div>
       <div>
-        <span className="block mb-1.5 text-xs font-display font-semibold tracking-wide text-text-2 uppercase">Color</span>
+        <span className="block mb-1.5 text-xs font-display font-semibold text-text-2">Color</span>
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Color">{SWATCHES.map((c) => <button type="button" key={c} role="radio" aria-checked={color === c} aria-label={c} onClick={() => setColor(c)} className={cn("w-8 h-8 rounded-full border-2 transition-transform hover:scale-110", color === c ? "border-text scale-110" : "border-transparent")} style={{ background: c }} />)}</div>
       </div>
       <div className="flex justify-between"><Button type="button" variant="ghost" icon={ArrowLeft} onClick={() => (me ? setAddingAnother(false) : back())}>Back</Button><Button type="submit" variant="primary" size="lg" iconRight={ArrowRight} loading={create.isPending} disabled={!name.trim() || !pinOk}>Create & sign in</Button></div>

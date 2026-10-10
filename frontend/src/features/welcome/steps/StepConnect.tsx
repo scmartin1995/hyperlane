@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Flag, Check, Minus, RefreshCw } from "lucide-react";
+import { ArrowLeft, CalendarRange, Check, Minus, RefreshCw } from "lucide-react";
 import { api } from "@/api/client";
 import { useHealth } from "@/api/queries";
 import type { Workspace } from "@/api/types";
@@ -27,7 +27,7 @@ export function StepConnect({ state, back, next }: StepProps & { next: () => voi
           {rows.map((r) => (
             <li key={r.name} className="flex items-center gap-3 px-4 py-3">
               <span className={cn("w-7 h-7 rounded-full grid place-items-center border", r.ok ? "border-green text-green bg-green/10" : "border-border text-text-3")}>{r.ok ? <Check size={14} /> : <Minus size={14} />}</span>
-              <div className="flex-1 min-w-0"><div className="font-display font-semibold text-sm">{r.name} <span className={cn("text-[10px] uppercase tracking-wider ml-1", r.ok ? "text-green" : "text-text-3")}>{r.ok ? "connected" : "off"}</span></div><div className="text-xs text-text-3 truncate">{r.detail}</div></div>
+              <div className="flex-1 min-w-0"><div className="font-display font-semibold text-sm">{r.name} <span className={cn("text-[10px] ml-1", r.ok ? "text-green" : "text-text-3")}>{r.ok ? "connected" : "off"}</span></div><div className="text-xs text-text-3 truncate">{r.detail}</div></div>
               {!r.ok && <code className="text-[10px] text-text-3 hidden sm:block">{r.vars}</code>}
             </li>
           ))}
@@ -37,7 +37,7 @@ export function StepConnect({ state, back, next }: StepProps & { next: () => voi
         <p>To connect something: add the variables to <code>.env</code> next to the launcher, then restart <code>./hyperlane</code>. Full walkthrough in <code>docs/INTEGRATIONS.md</code>.</p>
         <p className="text-xs text-text-3">Changed .env already? <button type="button" className="underline inline-flex items-center gap-1" onClick={() => refetch()}><RefreshCw size={11} className={cn(isFetching && "animate-spin")} /> Re-check</button></p>
       </div>
-      <div className="flex justify-between"><Button variant="ghost" icon={ArrowLeft} onClick={back}>Back</Button><Button variant="primary" size="lg" icon={Flag} loading={finish.isPending} onClick={() => finish.mutate()}>Lights out — let's go</Button></div>
+      <div className="flex justify-between"><Button variant="ghost" icon={ArrowLeft} onClick={back}>Back</Button><Button variant="primary" size="lg" icon={Check} loading={finish.isPending} onClick={() => finish.mutate()}>Finish setup</Button></div>
     </div>
   );
 }

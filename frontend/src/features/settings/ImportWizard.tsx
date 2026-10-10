@@ -74,7 +74,7 @@ export function ImportWizard({ pid, onDone }: { pid: string; onDone?: (r: Result
       {step === 4 && result && (
         <div className="panel panel-cut p-6">
           <div className="hairline mb-4" />
-          <EmptyState icon="🏁" title={`${result.created.length} items imported`} body={`${result.skipped} skipped.${result.warnings.length ? ` ${result.warnings.length} warnings below.` : ""}`}
+          <EmptyState icon="✅" title={`${result.created.length} items imported`} body={`${result.skipped} skipped.${result.warnings.length ? ` ${result.warnings.length} warnings below.` : ""}`}
             action={<div className="flex gap-2"><Button variant="ghost" onClick={reset}>Import another</Button><Link to="/backlog"><Button variant="primary">Open the backlog</Button></Link></div>} />
           {result.warnings.length > 0 && <ul className="mt-4 text-xs text-text-2 list-disc pl-5 space-y-0.5">{result.warnings.map((w, i) => <li key={i}>{w}</li>)}</ul>}
         </div>

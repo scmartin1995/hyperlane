@@ -1,4 +1,4 @@
-"""Demo league: "Galactic Racer" — 5 pilots, ~45 items, 3 closed sprints with real-looking history, 1 active.
+"""Demo project: "Atlas Customer Portal" — 5 people, ~45 items, 3 closed sprints with real-looking history, 1 active.
 
 Idempotent: if a project with that name exists it is returned untouched. Timestamps are backdated so the
 cycle-time / CFD / velocity / burndown / EVM charts have something to show on first run.
@@ -39,21 +39,21 @@ from .users import unique_handle
 # ---------------------------------------------------------------------------------------------- content
 
 USERS: list[dict[str, Any]] = [
-    {"name": "Nova Reyes", "role": "lead", "emoji": "🚀", "color": "#e4b963",
-     "skills": ["architecture", "python", "react"], "email": "nova@galactic.example",
-     "bio": "Crew chief. Keeps the hyperlane clear and the sprints honest."},
-    {"name": "Kai Tanaka", "role": "developer", "emoji": "🛸", "color": "#27cfc3",
-     "skills": ["react", "typescript", "webgl"], "email": "kai@galactic.example",
-     "bio": "Front-end pilot. If it moves on screen, Kai tuned it."},
-    {"name": "Priya Okafor", "role": "developer", "emoji": "🔥", "color": "#bc553c",
-     "skills": ["python", "fastapi", "sqlalchemy", "infra"], "email": "priya@galactic.example",
-     "bio": "Backend engineer. Netcode, servers, and the occasional 3am hotfix."},
+    {"name": "Nova Reyes", "role": "lead", "emoji": "🧭", "color": "#e4b963",
+     "skills": ["architecture", "python", "react"], "email": "nova@atlas.example",
+     "bio": "Engineering lead. Keeps scope honest and sprints realistic."},
+    {"name": "Kai Tanaka", "role": "developer", "emoji": "💻", "color": "#27cfc3",
+     "skills": ["react", "typescript", "accessibility"], "email": "kai@atlas.example",
+     "bio": "Front-end engineer. Owns the portal UI and the design system."},
+    {"name": "Priya Okafor", "role": "developer", "emoji": "🛠️", "color": "#bc553c",
+     "skills": ["python", "fastapi", "sqlalchemy", "infra"], "email": "priya@atlas.example",
+     "bio": "Backend engineer. APIs, billing integrations and the occasional 3am hotfix."},
     {"name": "Marco Lindqvist", "role": "qa", "emoji": "🧪", "color": "#67a671",
-     "skills": ["playwright", "testing", "automation"], "email": "marco@galactic.example",
-     "bio": "Finds the bug before the players do. Usually."},
+     "skills": ["playwright", "testing", "automation"], "email": "marco@atlas.example",
+     "bio": "Finds the bug before customers do. Usually."},
     {"name": "Zara Chen", "role": "po", "emoji": "🎨", "color": "#6b3a8e",
-     "skills": ["product", "ux", "figma"], "email": "zara@galactic.example",
-     "bio": "Product owner. Decides what ships and argues for the players.", "hours_per_week": 32},
+     "skills": ["product", "ux", "figma"], "email": "zara@atlas.example",
+     "bio": "Product owner. Decides what ships and speaks for the customer.", "hours_per_week": 32},
 ]  # fmt: skip
 
 # leaf: (type, title, points, assignee idx, sprint no (0 = backlog), outcome, description, acceptance criteria)
@@ -61,204 +61,204 @@ USERS: list[dict[str, Any]] = [
 # backlog -> "backlog" | "ready"
 EPICS: list[dict[str, Any]] = [
     {
-        "title": "Race core",
-        "description": "The feel of driving: hover physics, tracks, laps. Everything else is decoration.",
+        "title": "Account & identity",
+        "description": "Getting in and managing who has access. Every other feature depends on it.",
         "features": [
             {
-                "title": "Vehicle physics",
-                "description": "Hover-car handling model: acceleration, drift, collisions.",
+                "title": "Sign-in & SSO",
+                "description": "Magic-link, password and SAML sign-in.",
                 "items": [
-                    ("story", "Implement hover-car acceleration curve", 5, 1, 1, "done",
-                     "Replace the linear throttle with a tuned curve so cars feel heavy at launch and light at top speed.",
-                     "- 0→100 in 2.4s on the Nebula track\n- Curve editable from the tuning panel\n- No change to top speed"),
-                    ("story", "Drift handling with lateral grip model", 8, 1, 1, "done",
-                     "Add a lateral grip model so players can hold a drift through long corners without spinning out.",
-                     "- Drift initiates on handbrake + steer\n- Counter-steer recovers within 0.5s\n- Works with gamepad and keyboard"),
-                    ("story", "Collision damage and recovery", 5, 2, 1, "carry",
-                     "Collisions reduce speed and shield; a reset places the car back on the track line.",
-                     "- Shield drops by impact energy\n- Reset after 3s off-track\n- Damage visible on the HUD"),
-                    ("bug", "Car clips through barrier at high speed", 3, 2, 1, "done",
-                     "At >300 km/h the car tunnels through thin barriers on the Rift track.",
-                     "- Continuous collision detection enabled for cars\n- Repro no longer passes on Rift"),
-                    ("task", "Tune gravity constants per track", 2, 0, 1, "done",
-                     "Low-gravity tracks need a separate gravity constant and jump arc.",
-                     "- Per-track gravity in track metadata\n- Defaults preserved for existing tracks"),
+                    ("story", "Magic-link sign-in", 5, 1, 1, "done",
+                     "Let customers sign in with a one-time email link instead of a password.",
+                     "- Link expires after 15 minutes\n- Works from mobile mail apps\n- Rate limited per address"),
+                    ("story", "SAML single sign-on", 8, 1, 1, "done",
+                     "Enterprise customers sign in through their own identity provider.",
+                     "- Okta and Azure AD verified\n- Just-in-time user provisioning\n- Org admins can enforce SSO"),
+                    ("story", "Session timeout and re-authentication", 5, 2, 1, "carry",
+                     "Idle sessions expire; sensitive pages ask the user to confirm their identity again.",
+                     "- Idle timeout configurable per org\n- Re-auth before changing billing details\n- No form data lost on timeout"),
+                    ("bug", "Login loop after password reset", 3, 2, 1, "done",
+                     "After resetting a password, Safari users are redirected back to the login page.",
+                     "- Session cookie set before redirect\n- Repro passes on Safari 18"),
+                    ("task", "Rotate signing keys for auth tokens", 2, 0, 1, "done",
+                     "Move token signing keys to scheduled rotation.",
+                     "- Rotation every 90 days\n- Old keys valid for one overlap window"),
                 ],
             },
             {
-                "title": "Track builder",
-                "description": "Spline-based editor plus the runtime pieces: checkpoints and lap timing.",
+                "title": "User management",
+                "description": "Invite teammates, assign roles, remove access.",
                 "items": [
-                    ("story", "Spline track editor with live preview", 8, 1, 1, "done",
-                     "Editors drag control points; the mesh regenerates in real time.",
-                     "- Add/remove/move control points\n- Undo/redo\n- Preview updates under 50ms for 200 points"),
-                    ("story", "Checkpoint system", 3, 2, 1, "done",
-                     "Ordered checkpoints detect progress and prevent shortcut exploits.",
-                     "- Missing a checkpoint invalidates the lap\n- Wrong-way warning after 2s"),
-                    ("story", "Lap timing and split times", 3, 2, 2, "done",
-                     "Per-sector split times with best-lap deltas on the HUD.",
-                     "- Sector deltas shown in green/red\n- Best lap persisted per track per player"),
-                    ("bug", "Lap counter double counts on tight hairpin", 2, 3, 2, "done",
-                     "Crossing the start line twice in the hairpin on Comet Alley increments the lap twice.",
-                     "- Start-line trigger requires a full checkpoint cycle\n- Regression test on Comet Alley"),
+                    ("story", "Invite teammates by email", 8, 1, 1, "done",
+                     "Org admins invite people by email and choose their role up front.",
+                     "- Bulk invite up to 50 addresses\n- Pending invites can be revoked\n- Invite email uses the org's logo"),
+                    ("story", "Role-based permissions", 3, 2, 1, "done",
+                     "Admin, member and billing-only roles with clear boundaries.",
+                     "- Billing-only users can't see tickets\n- Role changes apply immediately"),
+                    ("story", "Audit log of user changes", 3, 2, 2, "done",
+                     "Every invite, role change and removal is recorded.",
+                     "- Who, what and when for each change\n- Exportable to CSV"),
+                    ("bug", "Removed users keep API access", 2, 3, 2, "done",
+                     "Personal API tokens survive when an admin removes the user.",
+                     "- Tokens revoked on removal\n- Regression test covers token revocation"),
                 ],
             },
         ],
     },
     {
-        "title": "Multiplayer league",
-        "description": "Race against humans. Lobbies, matchmaking, servers, and the leaderboards that fuel rivalries.",
+        "title": "Billing & invoices",
+        "description": "Customers see what they owe and pay it without emailing finance.",
         "features": [
             {
-                "title": "Matchmaking",
-                "description": "Create and join lobbies; match players of similar skill.",
+                "title": "Invoices",
+                "description": "Browse, filter and download invoices.",
                 "items": [
-                    ("story", "Lobby creation and invites", 5, 2, 2, "done",
-                     "Players create a lobby, share an invite code, and pick a track together.",
-                     "- 6-char invite codes\n- Host can kick\n- Lobby survives host refresh for 60s"),
-                    ("story", "Skill-based matching", 8, 2, 2, "carry",
-                     "Match players by a rolling rating so new pilots don't meet league veterans in race one.",
-                     "- Rating widens search window every 10s\n- Max wait 90s then fill with bots"),
-                    ("spike", "Netcode latency study", 3, 0, 2, "done",
-                     "Measure rollback vs lockstep on a 120ms simulated link and recommend one.",
-                     "- Written recommendation with numbers\n- Prototype branch for the chosen approach"),
-                    ("task", "Provision game servers in two regions", 5, 2, 2, "done",
-                     "Terraform the EU and US race servers with autoscaling.",
-                     "- Servers come up from a clean apply\n- Health check endpoint wired to the lobby service"),
+                    ("story", "Invoice list with filters", 5, 2, 2, "done",
+                     "A paginated invoice list filterable by status, date range and amount.",
+                     "- Filters combine\n- Loads in under 300ms for 5,000 invoices\n- Status shown as paid / due / overdue"),
+                    ("story", "Usage-based invoice line items", 8, 2, 2, "carry",
+                     "Break metered charges down by product and day so customers can reconcile their bill.",
+                     "- Line items grouped by product\n- Daily usage chart per line\n- Totals match the ERP to the cent"),
+                    ("spike", "Evaluate invoice PDF libraries", 3, 0, 2, "done",
+                     "Compare three PDF generators on fidelity, speed and licensing.",
+                     "- Written recommendation with numbers\n- Prototype branch for the chosen library"),
+                    ("task", "Sync invoices from the ERP nightly", 5, 2, 2, "done",
+                     "A scheduled job pulls new and updated invoices from the ERP.",
+                     "- Idempotent on re-run\n- Failures alert the on-call channel"),
                 ],
             },
             {
-                "title": "Leaderboards",
-                "description": "Global and friend rankings per track and per season.",
+                "title": "Payments",
+                "description": "Pay by card or bank transfer.",
                 "items": [
-                    ("story", "Global leaderboard per track", 3, 1, 3, "done",
-                     "Top 100 times per track with the player's own position pinned.",
-                     "- Loads in under 300ms\n- Own row highlighted even outside top 100"),
-                    ("story", "Season reset with archived standings", 2, 2, 3, "done",
-                     "Seasons end monthly; previous standings stay browsable.",
-                     "- Season switcher on the leaderboard\n- Reset is a scheduled job, not manual"),
-                    ("bug", "Leaderboard ties sort wrong", 1, 3, 3, "done",
-                     "Equal times are ordered by insert order instead of by date achieved.",
-                     "- Ties ordered by earliest achievement\n- Unit test covers equal times"),
-                    ("story", "Friends leaderboard", 3, 1, 3, "carry",
-                     "Filter the leaderboard to friends only.",
-                     "- Toggle persists\n- Empty state invites adding friends"),
+                    ("story", "Pay an invoice by card", 3, 1, 3, "done",
+                     "Pay a single invoice by card with 3-D Secure.",
+                     "- Receipt emailed on success\n- Failed payments show a clear reason"),
+                    ("story", "Saved payment methods", 2, 2, 3, "done",
+                     "Customers save a card or bank account for future payments.",
+                     "- Default method selectable\n- Removing a method needs confirmation"),
+                    ("bug", "Currency shows USD for EU customers", 1, 3, 3, "done",
+                     "Invoice totals render with a dollar sign for accounts billed in euros.",
+                     "- Currency taken from the account\n- Unit test covers EUR and GBP"),
+                    ("story", "Autopay for recurring invoices", 3, 1, 3, "carry",
+                     "Charge the saved payment method automatically when an invoice is issued.",
+                     "- Opt-in per account\n- Email 3 days before charging"),
                 ],
             },
         ],
     },
     {
-        "title": "Garage & customization",
-        "description": "Make the car yours: liveries, decals, upgrades. The part players screenshot.",
+        "title": "Support center",
+        "description": "Self-service help and support tickets in one place.",
         "features": [
             {
-                "title": "Paint shop",
-                "description": "Livery editor and decal uploads.",
+                "title": "Tickets",
+                "description": "Open, track and reply to support tickets.",
                 "items": [
-                    ("story", "Livery editor with layers", 8, 1, 2, "done",
-                     "Layered paint editor: base coat, stripes, decals, with live 3D preview.",
-                     "- Up to 8 layers\n- Preview rotates with drag\n- Save/load per car"),
-                    ("story", "Decal upload with moderation queue", 5, 2, 3, "done",
-                     "Players upload PNG decals; uploads go through a moderation queue before going public.",
-                     "- PNG up to 1MB\n- Queue visible to moderators\n- Rejected decals notify the player"),
-                    ("bug", "Livery preview flickers on tab switch", 2, 1, 3, "done",
-                     "Switching browser tabs and back causes the WebGL preview to flicker for a second.",
-                     "- Context restored without flicker\n- Verified on Chrome and Firefox"),
+                    ("story", "Ticket list and detail view", 8, 1, 2, "done",
+                     "Customers see all their tickets, with status, the full thread and who's handling it.",
+                     "- Sort by last update\n- Thread shows staff and customer replies\n- Unread replies highlighted"),
+                    ("story", "File attachments on tickets", 5, 2, 3, "done",
+                     "Attach screenshots and logs to a ticket; files are virus-scanned before staff see them.",
+                     "- Up to 10MB per file\n- Scan result visible to staff\n- Blocked files notify the uploader"),
+                    ("bug", "Ticket replies lose formatting", 2, 1, 3, "done",
+                     "Bulleted lists in replies arrive as one long paragraph.",
+                     "- Markdown preserved end to end\n- Verified in Chrome and Firefox"),
                 ],
             },
             {
-                "title": "Upgrades",
-                "description": "Engine, shields, boost: an upgrade tree with an economy that doesn't break.",
+                "title": "Knowledge base",
+                "description": "Searchable help articles that deflect tickets.",
                 "items": [
-                    ("story", "Engine upgrade tree", 5, 1, 3, "done",
-                     "Three-branch upgrade tree with prerequisites and preview of stat changes.",
-                     "- Prereqs enforced\n- Stat deltas shown before purchase"),
-                    ("story", "Upgrade economy balancing", 5, 4, 3, "done",
-                     "Credits earned per race vs upgrade prices, tuned so a full tree takes about 20 races.",
-                     "- Spreadsheet model checked in\n- No upgrade is a strictly dominant choice"),
-                    ("story", "Upgrade purchase flow", 3, 1, 4, "done",
-                     "Buy, confirm, and apply an upgrade with a satisfying animation.",
-                     "- Confirmation step\n- Credits update live\n- Purchase is idempotent on double-click"),
-                    ("task", "Upgrade icons set", 2, 4, 4, "review",
-                     "24 icons for the upgrade tree in the HUD style.",
-                     "- SVG, 24px grid\n- Dark and light variants"),
+                    ("story", "Help article search", 5, 1, 3, "done",
+                     "Full-text search across help articles with highlighted matches.",
+                     "- Typo tolerant\n- Results in under 200ms"),
+                    ("story", "Article feedback", 5, 4, 3, "done",
+                     "Readers mark an article as helpful or not, with an optional comment.",
+                     "- One vote per user per article\n- Weekly report of the least helpful articles"),
+                    ("story", "Suggested articles while writing a ticket", 3, 1, 4, "done",
+                     "As a customer types a ticket subject, relevant articles appear underneath.",
+                     "- Top 3 suggestions\n- Track how often a suggestion prevents a ticket"),
+                    ("task", "Help center icon set", 2, 4, 4, "review",
+                     "24 icons for article categories.",
+                     "- SVG on a 24px grid\n- Light and dark variants"),
                 ],
             },
         ],
     },
     {
         "title": "Launch readiness",
-        "description": "What has to be true before the public beta: telemetry, onboarding, accessibility.",
+        "description": "What has to be true before general availability: observability, onboarding, accessibility.",
         "features": [
             {
-                "title": "Telemetry & observability",
-                "description": "Know what's happening in production before Discord tells us.",
+                "title": "Observability",
+                "description": "Know what's happening in production before customers tell us.",
                 "items": [
-                    ("story", "Crash reporting pipeline", 3, 2, 4, "done",
-                     "Client crashes upload a minidump and stack trace to the crash service.",
-                     "- Crashes grouped by signature\n- PII scrubbed from reports"),
+                    ("story", "Error reporting pipeline", 3, 2, 4, "done",
+                     "Front-end and API errors are captured with context and grouped by cause.",
+                     "- Errors grouped by signature\n- Personal data scrubbed from reports"),
                     ("story", "Performance dashboard", 5, 2, 4, "in_progress",
-                     "Frame time, server tick time and matchmaking wait on one dashboard.",
+                     "Page load, API latency and error rate on one dashboard.",
                      "- p50/p95 for each metric\n- Alert thresholds visible"),
-                    ("task", "Alerting rules for race servers", 2, 2, 4, "ready",
-                     "Page on server tick > 50ms for 5 minutes or lobby error rate > 2%.",
+                    ("task", "Alerting rules for the API", 2, 2, 4, "ready",
+                     "Page on p95 latency over 800ms for 5 minutes or an error rate over 2%.",
                      "- Rules in code\n- Test alert fired and acknowledged"),
                 ],
             },
             {
-                "title": "Onboarding & tutorial",
-                "description": "First five minutes: from install to a first clean lap.",
+                "title": "Onboarding",
+                "description": "First five minutes: from invite to a first useful action.",
                 "items": [
-                    ("story", "Tutorial track with guided laps", 5, 1, 4, "in_progress",
-                     "A short track that teaches throttle, drift and boost with on-track prompts.",
-                     "- Three guided laps\n- Skippable after the first\n- Completion unlocks the first livery"),
-                    ("story", "Controls hint overlay", 2, 1, 4, "ready",
-                     "Context-sensitive control hints that fade after first use.",
-                     "- Shows gamepad or keyboard glyphs\n- Dismissed per hint"),
-                    ("story", "First-run profile setup", 3, 4, 0, "ready",
-                     "Pick a pilot name and emoji before the first race.",
-                     "- Name uniqueness checked\n- Can be changed later in settings"),
-                    ("bug", "Tutorial skips step 3 on gamepad", 1, 3, 0, "backlog",
-                     "With a gamepad connected the boost tutorial step never triggers.",
-                     "- Step 3 triggers on gamepad\n- Playwright test with a virtual gamepad"),
-                    ("story", "Ghost replay of your best lap", 5, 1, 0, "ready",
-                     "Render a translucent ghost car following the player's best recorded lap.",
-                     "- Ghost toggled in settings\n- Replays within 50ms of recorded inputs"),
-                    ("story", "Photo mode", 3, 2, 0, "ready",
-                     "Pause, free camera, filters, save PNG to disk.",
-                     "- Camera orbit + FOV\n- Watermark toggle"),
-                    ("story", "Pit-stop mini game", 8, 0, 0, "backlog",
-                     "Timed button sequence during pit stops that shortens the stop when nailed.",
-                     "- Sequence randomised per stop\n- Perfect run saves 1.5s"),
-                    ("story", "Weather: rain on Mos Ravel", 5, 1, 0, "backlog",
-                     "Rain reduces grip and adds spray particles; forecast shown pre-race.",
-                     "- Grip scalar 0.85 in rain\n- Spray only behind moving cars"),
-                    ("story", "Daily challenge board", 3, 3, 0, "ready",
-                     "One seeded challenge per day with a global-free local leaderboard.",
-                     "- Seed from date\n- Local scores only"),
-                    ("task", "Telemetry export to CSV", 2, 2, 0, "backlog",
-                     "Export lap telemetry (speed, boost, inputs) for analysis.",
-                     "- CSV opens in Excel\n- One row per 100ms"),
-                    ("story", "Controller remapping UI", 5, 3, 0, "ready",
-                     "Let players remap any action to any button or axis.",
-                     "- Conflicts highlighted\n- Reset to defaults"),
-                    ("bug", "Boost sound keeps playing after crash", 1, 0, 0, "ready",
-                     "Audio source isn't stopped when the car resets.",
-                     "- Boost loop stops on reset"),
-                    ("story", "Split-screen two player", 13, 1, 0, "backlog",
-                     "Local two-player with horizontal split and shared HUD.",
-                     "- Stable 60fps on reference rig\n- Independent camera per player"),
-                    ("story", "Track editor: place checkpoints", 8, 2, 0, "backlog",
-                     "Drag checkpoints onto a track and validate lap closure.",
-                     "- Invalid layouts flagged\n- Save/load JSON"),
-                    ("spike", "Evaluate WebGPU renderer", 5, 2, 0, "backlog",
-                     "Measure frame time of the current scene on WebGPU vs WebGL2.",
-                     "- Numbers for 3 GPUs\n- Go/no-go recommendation"),
-                    ("task", "Crash reporter opt-in dialog", 2, 4, 0, "ready",
-                     "Ask once, store choice locally, never upload without consent.",
-                     "- Dialog copy reviewed\n- Choice editable in settings"),
+                    ("story", "Guided setup checklist", 5, 1, 4, "in_progress",
+                     "A checklist on the home page that walks new admins through setup.",
+                     "- Five steps with progress\n- Dismissible once complete\n- Each step deep-links to the right page"),
+                    ("story", "Contextual tooltips on first visit", 2, 1, 4, "ready",
+                     "Short tooltips explain key controls the first time someone sees them.",
+                     "- Shown once per user\n- Dismissed per tooltip"),
+                    ("story", "Company profile setup", 3, 4, 0, "ready",
+                     "Admins add the company name, logo and billing contact during setup.",
+                     "- Logo upload with crop\n- Can be changed later in settings"),
+                    ("bug", "Setup checklist skips step 3 on mobile", 1, 3, 0, "backlog",
+                     "On narrow screens the 'invite your team' step never marks as complete.",
+                     "- Step 3 completes on mobile\n- Playwright test at 375px width"),
+                    ("story", "Dark mode", 5, 1, 0, "ready",
+                     "A dark theme that follows the system setting, with a manual override.",
+                     "- All pages pass contrast checks\n- Preference saved per user"),
+                    ("story", "Export data to CSV", 3, 2, 0, "ready",
+                     "Admins export users, invoices and tickets to CSV.",
+                     "- Opens cleanly in Excel\n- Large exports emailed when ready"),
+                    ("story", "Usage analytics for admins", 8, 0, 0, "backlog",
+                     "A page showing seat usage, active users and ticket volume over time.",
+                     "- 30/90/365-day ranges\n- Downloadable as CSV"),
+                    ("story", "French and German translations", 5, 1, 0, "backlog",
+                     "Translate the portal UI and system emails into French and German.",
+                     "- Language picker in profile\n- No untranslated strings on core pages"),
+                    ("story", "In-app announcements", 3, 3, 0, "ready",
+                     "Admins of the portal post short announcements shown on the home page.",
+                     "- Scheduled start and end dates\n- Dismissible per user"),
+                    ("task", "Webhook delivery logs", 2, 2, 0, "backlog",
+                     "Show recent webhook deliveries with status codes and retry history.",
+                     "- Last 30 days kept\n- Manual re-send"),
+                    ("story", "Notification preferences", 5, 3, 0, "ready",
+                     "Users choose which emails they receive and how often.",
+                     "- Per-category toggles\n- Daily digest option"),
+                    ("bug", "Email digest sent twice on Mondays", 1, 0, 0, "ready",
+                     "The weekly digest job runs twice after the weekend.",
+                     "- One digest per user per week"),
+                    ("story", "Mobile-friendly ticket view", 13, 1, 0, "backlog",
+                     "Rework the ticket pages so they're usable on a phone.",
+                     "- Usable at 375px width\n- Attachments viewable inline"),
+                    ("story", "Custom fields on tickets", 8, 2, 0, "backlog",
+                     "Org admins define extra fields that customers fill in when opening a ticket.",
+                     "- Text, select and date fields\n- Required flag per field"),
+                    ("spike", "Evaluate search engine options", 5, 2, 0, "backlog",
+                     "Compare Postgres full-text, Meilisearch and OpenSearch for help and ticket search.",
+                     "- Relevance and latency numbers\n- Go/no-go recommendation"),
+                    ("task", "Cookie consent banner", 2, 4, 0, "ready",
+                     "Ask once, store the choice, never load analytics without consent.",
+                     "- Copy reviewed by legal\n- Choice editable in settings"),
                     ("spike", "Accessibility review", 3, 4, 0, "backlog",
-                     "Audit colour contrast, motion settings and remappable controls against WCAG 2.2 AA.",
+                     "Audit colour contrast, keyboard navigation and screen-reader labels against WCAG 2.2 AA.",
                      "- Findings doc with severity\n- Follow-up stories created"),
                 ],
             },
@@ -268,73 +268,73 @@ EPICS: list[dict[str, Any]] = [
 
 COMMENTS: dict[str, list[tuple[int, str, bool]]] = {
     # item title -> [(author idx, body, is_decision)]
-    "Drift handling with lateral grip model": [
-        (1, "First pass is in. Drift feels floaty on Comet Alley, tightening the grip curve.", False),
-        (4, "Played it for an hour: this is the feel we want. Ship it, tune later.", False),
-        (0, "Decision: we keep the handbrake-initiated drift. No auto-drift mode for beta.", True),
+    "SAML single sign-on": [
+        (1, "Okta flow works end to end. Azure AD rejects our signing certificate, looking into it.", False),
+        (4, "Two enterprise prospects asked for this in the last week. Worth the extra days.", False),
+        (0, "Decision: we support SAML only for now. OIDC waits until a customer asks for it.", True),
     ],
-    "Skill-based matching": [
-        (2, "Rating model is Glicko-2 with a 90s max wait. Bots fill after that.", False),
-        (0, "Decision: new accounts start at 1500 with high deviation so they settle quickly.", True),
-        (3, "Tested with 12 simulated clients, wait times look sane. One flake in the bot-fill path.", False),
+    "Usage-based invoice line items": [
+        (2, "Grouping by product works. Daily breakdown needs a new ERP endpoint.", False),
+        (0, "Decision: show daily usage for the last 90 days only, older data stays monthly.", True),
+        (3, "Totals match the ERP on 40 sample accounts. One rounding difference on a EUR account.", False),
     ],
-    "Livery editor with layers": [
-        (1, "Layer reorder by drag is in. Blend modes are out of scope for now.", False),
-        (4, "Can we get a 'duplicate layer' button? Players will ask for it on day one.", False),
+    "Ticket list and detail view": [
+        (1, "List and detail are in. Inline replies are out of scope for this sprint.", False),
+        (4, "Can we show who's assigned on the list? Customers ask 'is anyone looking at this?' constantly.", False),
     ],
-    "Collision damage and recovery": [
-        (2, "Shield math done, reset placement still snaps to the wrong spline point near junctions.", False),
-        (0, "Carrying this into Sprint 2. @Priya Okafor pair with Kai on the spline lookup.", False),
+    "Session timeout and re-authentication": [
+        (2, "Timeout works, but the re-auth modal loses the form state on the billing page.", False),
+        (0, "Carrying this into Sprint 2. @Priya Okafor pair with Kai on the form-state handling.", False),
     ],
     "Performance dashboard": [
-        (2, "Grafana board is up for frame time. Server tick panel next.", False),
-        (0, "Decision: dashboard lives in Grafana, not in-game. Players never see it.", True),
+        (2, "Dashboard is up for page load. API latency panel next.", False),
+        (0, "Decision: the dashboard lives in Grafana, not in the portal. Customers never see it.", True),
     ],
-    "Tutorial track with guided laps": [
-        (4, "Prompt copy drafted. Keep it to one line per prompt, the HUD gets busy.", False),
-        (1, "@Marco Lindqvist can you try the guided laps with a gamepad once it's on the dev build?", False),
+    "Guided setup checklist": [
+        (4, "Copy drafted. One line per step, the home page is already busy.", False),
+        (1, "@Marco Lindqvist can you run through the checklist on a phone once it's on staging?", False),
     ],
-    "Netcode latency study": [
-        (2, "Rollback wins on 120ms links. Lockstep stutters badly above 80ms.", False),
-        (0, "Decision: rollback netcode. Prototype branch is `netcode/rollback`.", True),
+    "Evaluate invoice PDF libraries": [
+        (2, "WeasyPrint gives the best fidelity; the headless-browser option is 4x slower.", False),
+        (0, "Decision: WeasyPrint. Prototype branch is `billing/pdf-weasyprint`.", True),
     ],
-    "Upgrade economy balancing": [
-        (4, "Model says 22 races for a full tree with average placings. Close enough.", False),
+    "Article feedback": [
+        (4, "Early numbers: 71% helpful. The billing articles are the weakest.", False),
     ],
 }
 
 ACTION_ITEMS: list[list[dict[str, Any]]] = [
     [  # Nova
         {"title": "Write Sprint 4 goal in the sprint page", "priority": "high", "due": 1, "tags": ["sprint"]},
-        {"title": "1:1 with Kai about the WebGL flicker postmortem", "priority": "medium", "due": 3},
-        {"title": "Review Priya's server autoscaling PR", "priority": "high", "due": -1, "tags": ["review"]},
-        {"title": "Draft beta launch checklist", "priority": "medium", "due": 9, "tags": ["launch"]},
+        {"title": "1:1 with Kai about the Safari login postmortem", "priority": "medium", "due": 3},
+        {"title": "Review Priya's ERP sync PR", "priority": "high", "due": -1, "tags": ["review"]},
+        {"title": "Draft GA launch checklist", "priority": "medium", "due": 9, "tags": ["launch"]},
         {"title": "Book retro room for Sprint 3", "priority": "low", "done": True},
     ],
     [  # Kai
-        {"title": "Profile tutorial track frame drops on integrated GPUs", "priority": "high", "due": 2, "tags": ["perf"]},
-        {"title": "Reply to decal moderation thread", "priority": "low", "due": 0},
-        {"title": "Add duplicate-layer button to livery editor", "priority": "medium", "tags": ["garage"]},
-        {"title": "Update WebGL context-loss notes in the wiki", "priority": "low", "done": True},
+        {"title": "Profile setup checklist render time on low-end laptops", "priority": "high", "due": 2, "tags": ["perf"]},
+        {"title": "Reply to the attachment preview thread", "priority": "low", "due": 0},
+        {"title": "Show assignee on the ticket list", "priority": "medium", "tags": ["support"]},
+        {"title": "Update the SSO troubleshooting notes in the wiki", "priority": "low", "done": True},
     ],
     [  # Priya
-        {"title": "Rotate race server credentials", "priority": "critical", "due": -2, "tags": ["infra", "security"]},
-        {"title": "Finish server tick panel on the dashboard", "priority": "high", "due": 2},
-        {"title": "Write runbook for lobby service restarts", "priority": "medium", "due": 6, "tags": ["ops"]},
-        {"title": "Benchmark SQLite WAL vs rollback journal for telemetry", "priority": "low"},
+        {"title": "Rotate the ERP API credentials", "priority": "critical", "due": -2, "tags": ["infra", "security"]},
+        {"title": "Finish the API latency panel on the dashboard", "priority": "high", "due": 2},
+        {"title": "Write runbook for ERP sync failures", "priority": "medium", "due": 6, "tags": ["ops"]},
+        {"title": "Benchmark invoice list query with 50k rows", "priority": "low"},
     ],
     [  # Marco
-        {"title": "Virtual gamepad fixture for Playwright", "priority": "high", "due": 4, "tags": ["testing"]},
-        {"title": "Re-run hairpin lap counter regression on all tracks", "priority": "medium", "due": 1},
-        {"title": "File the bot-fill flake with a repro", "priority": "medium", "done": True},
-        {"title": "Try the guided laps with a gamepad", "priority": "medium", "due": 2},
+        {"title": "Mobile viewport fixtures for Playwright", "priority": "high", "due": 4, "tags": ["testing"]},
+        {"title": "Re-run the currency regression on all locales", "priority": "medium", "due": 1},
+        {"title": "File the flaky invite-email test with a repro", "priority": "medium", "done": True},
+        {"title": "Run through the setup checklist on a phone", "priority": "medium", "due": 2},
     ],
     [  # Zara
-        {"title": "Player interview: first-run profile setup", "priority": "high", "due": 3, "tags": ["research"]},
+        {"title": "Customer interview: company profile setup", "priority": "high", "due": 3, "tags": ["research"]},
         {"title": "Prioritise accessibility spike for Sprint 5", "priority": "medium", "due": 8},
-        {"title": "Update the beta roadmap slide", "priority": "low", "due": -3},
-        {"title": "Decide on season length (monthly vs 6 weeks)", "priority": "high", "tags": ["decision"]},
-        {"title": "Send upgrade economy model to the team", "priority": "low", "done": True},
+        {"title": "Update the GA roadmap slide", "priority": "low", "due": -3},
+        {"title": "Decide on autopay default (opt-in vs opt-out)", "priority": "high", "tags": ["decision"]},
+        {"title": "Send article feedback report to support", "priority": "low", "done": True},
     ],
 ]
 
@@ -414,13 +414,13 @@ class _Seeder:
         self.project = create_project(
             self.db,
             {
-                "name": self.project_name, "key": "GR", "template": "software-scrum",
-                "description": "Anti-gravity racing league. Hover cars, split-second drifts, and a community that "
-                "will absolutely notice a 2ms input lag. Public beta is the finish line.",
-                "icon": "🏁", "color": "#e4b963", "lead_id": lead.id,
+                "name": self.project_name, "key": "AP", "template": "software-scrum",
+                "description": "Self-service portal for Atlas customers: accounts, billing and support in one place. "
+                "General availability is the goal for this quarter.",
+                "icon": "🧭", "color": "#6b3a8e", "lead_id": lead.id,
                 "settings": {"start_date": s1_start.isoformat(),
                              "target_end_date": (s1_start + timedelta(days=8 * 14 - 1)).isoformat()},
-                "labels": ["physics", "netcode", "garage", "ui", "infra", "tech-debt", "beta-blocker"],
+                "labels": ["auth", "billing", "support", "ui", "infra", "tech-debt", "ga-blocker"],
             },
             lead,
         )  # fmt: skip
@@ -436,10 +436,10 @@ class _Seeder:
                 project_id=self.project.id, number=s, name=f"Sprint {s}", start_date=start, end_date=end,
                 state="active" if s == 4 else "closed",
                 goal={
-                    1: "A car you can drive and a track to drive it on.",
-                    2: "Race a friend: lobbies, servers, and the first livery.",
-                    3: "Rivalries: leaderboards and the upgrade tree.",
-                    4: "Beta readiness: see production, teach new pilots.",
+                    1: "Customers can sign in and invite their team.",
+                    2: "Billing basics: see invoices, track support tickets.",
+                    3: "Pay online and find answers without opening a ticket.",
+                    4: "GA readiness: observe production, onboard new customers.",
                 }[s],
             )  # fmt: skip
             sprint.created_at = sprint.updated_at = _dt(start - timedelta(days=2), 15)
@@ -468,8 +468,8 @@ class _Seeder:
 
     def items_step(self) -> None:
         labels = {lab.name: lab for lab in self.db.scalars(select(Label).where(Label.project_id == self.project.id))}
-        label_for = {"Race core": "physics", "Multiplayer league": "netcode", "Garage & customization": "garage",
-                     "Launch readiness": "beta-blocker"}  # fmt: skip
+        label_for = {"Account & identity": "auth", "Billing & invoices": "billing", "Support center": "support",
+                     "Launch readiness": "ga-blocker"}  # fmt: skip
         for ei, epic_spec in enumerate(EPICS):
             epic = self._new_item("epic", epic_spec["title"], None, self._dt_ago(47, 9 + ei),
                                   description=epic_spec["description"], priority="high" if ei < 2 else "medium",
@@ -535,7 +535,7 @@ class _Seeder:
             if at <= last_at:
                 break
             self._transition(item, status, st, assignee, at)
-            self._activity("work_item", item.id, "moved", f"GR-{item.number} moved from {status} to {st}", assignee, at,
+            self._activity("work_item", item.id, "moved", f"{self.project.key}-{item.number} moved from {status} to {st}", assignee, at,
                            {"status": [status, st]})  # fmt: skip
             if st == "in_progress" and item.started_at is None:
                 item.started_at = at
@@ -572,13 +572,13 @@ class _Seeder:
                 continue
             first = min(started)
             self._transition(parent, "backlog", "in_progress", lead, first)
-            self._activity("work_item", parent.id, "moved", f"GR-{parent.number} moved from backlog to in_progress",
+            self._activity("work_item", parent.id, "moved", f"{self.project.key}-{parent.number} moved from backlog to in_progress",
                            lead, first, {"status": ["backlog", "in_progress"]})  # fmt: skip
             parent.status, parent.started_at, parent.updated_at = "in_progress", first, first
             if all(k.status == "done" for k in kids):
                 last = max(k.completed_at for k in kids if k.completed_at)
                 self._transition(parent, "in_progress", "done", lead, last)
-                self._activity("work_item", parent.id, "moved", f"GR-{parent.number} moved from in_progress to done",
+                self._activity("work_item", parent.id, "moved", f"{self.project.key}-{parent.number} moved from in_progress to done",
                                lead, last, {"status": ["in_progress", "done"]})  # fmt: skip
                 parent.status, parent.completed_at, parent.updated_at = "done", last, last
 
@@ -689,54 +689,54 @@ class _Seeder:
     def intake_step(self) -> None:
         fresh = IntakeRequest(
             project_id=self.project.id, channel="email", requester_name="Lena Ortiz",
-            requester_email="lena@fanmail.example", subject="Photo mode for race replays",
-            original_body="Hi team! Love the beta. Could we get a photo mode in replays? Pause, free camera, "
-            "hide the HUD, and export a 4K PNG. Half my Discord server would use it for wallpapers.",
-            state="new", last_activity_at=self._dt_ago(1, 8), thread_key="<photo-mode-1@fanmail.example>",
+            requester_email="lena@northwind.example", subject="Download all invoices for a month",
+            original_body="Hi team! Our finance team downloads every invoice one at a time each month. Could we get "
+            "a way to download all invoices for a month as one zip file? It would save us an afternoon every close.",
+            state="new", last_activity_at=self._dt_ago(1, 8), thread_key="<invoice-zip-1@northwind.example>",
         )  # fmt: skip
         fresh.created_at = fresh.updated_at = self._dt_ago(1, 8)
         self.db.add(fresh)
         self.db.flush()
-        self.db.add(IntakeMessage(request_id=fresh.id, direction="inbound", author="lena@fanmail.example",
+        self.db.add(IntakeMessage(request_id=fresh.id, direction="inbound", author="lena@northwind.example",
                                   body=fresh.original_body, external_ref=fresh.thread_key))  # fmt: skip
 
         clar = IntakeRequest(
             project_id=self.project.id, channel="email", requester_name="Tom Becker",
-            requester_email="tom@steamdeckclub.example", subject="Controller support on Steam Deck",
-            original_body="The game runs on Steam Deck but the right trigger doesn't throttle and the menus need a "
-            "mouse. Can you add proper controller support? Lots of us play handheld.",
+            requester_email="tom@contoso.example", subject="SSO for our contractors",
+            original_body="We use SSO for employees but our contractors aren't in our identity provider. Can they "
+            "still get into the portal somehow? Right now we share one login, which security hates.",
             state="clarifying", questions_asked=1, max_questions=3, owner_id=self.users[4].id,
-            summary="Steam Deck players want full gamepad support: throttle on RT and gamepad-navigable menus.",
+            summary="Orgs that enforce SSO need a way to let external contractors sign in without a shared login.",
             requirements={
-                "problem": "Right trigger does not throttle on Steam Deck; menus require a mouse.",
-                "outcome": "Complete handheld play without touching the trackpads.",
-                "users": "Steam Deck / handheld PC players",
-                "scope_in": ["Map RT to throttle", "Gamepad navigation for all menus"],
-                "scope_out": ["Gyro steering (separate request)"],
-                "acceptance": ["Full race completed with gamepad only", "Settings menu navigable with d-pad"],
-                "constraints": ["SteamInput must not override in-game bindings"],
-                "priority": "high", "urgency": "before public beta",
-                "open_questions": ["Is the issue present with SteamInput disabled?"],
+                "problem": "Contractors aren't in the customer's identity provider, so SSO enforcement locks them out.",
+                "outcome": "Contractors sign in with their own credentials while employees keep using SSO.",
+                "users": "Org admins at enterprise customers; their external contractors",
+                "scope_in": ["Allow-list of non-SSO users per org", "Magic-link sign-in for allow-listed users"],
+                "scope_out": ["Guest accounts without an email address"],
+                "acceptance": ["Allow-listed contractor signs in by magic link", "Employees still forced through SSO"],
+                "constraints": ["Admins must be able to see who bypasses SSO"],
+                "priority": "high", "urgency": "before their renewal next month",
+                "open_questions": ["Should contractor access expire automatically?"],
                 "confidence": 0.62,
                 "proposed_items": [
-                    {"type": "story", "title": "Gamepad navigation for all menus", "points": 5},
-                    {"type": "bug", "title": "Right trigger not mapped to throttle on Steam Deck", "points": 2},
+                    {"type": "story", "title": "SSO bypass allow-list for contractors", "points": 5},
+                    {"type": "story", "title": "Show SSO bypass users in the audit log", "points": 2},
                 ],
             },
-            last_activity_at=self._dt_ago(3, 10), thread_key="<deck-controls-7@steamdeckclub.example>",
+            last_activity_at=self._dt_ago(3, 10), thread_key="<sso-contractors-7@contoso.example>",
         )  # fmt: skip
         clar.created_at = clar.updated_at = self._dt_ago(5, 9)
         self.db.add(clar)
         self.db.flush()
         thread = [
-            ("inbound", "tom@steamdeckclub.example", clar.original_body, self._dt_ago(5, 9)),
+            ("inbound", "tom@contoso.example", clar.original_body, self._dt_ago(5, 9)),
             ("outbound", "Hyperlane Agent",
-             ("Thanks Tom! Quick one so we fix the right thing: does the right trigger work when SteamInput is "
-             "disabled for the game (Properties → Controller → Disable Steam Input)? And which menus block you most?"),
+             ("Thanks Tom! Two quick questions so we build the right thing: roughly how many contractors need access, "
+             "and should their access stop automatically after a set date?"),
              self._dt_ago(5, 10)),
-            ("inbound", "tom@steamdeckclub.example",
-             ("With SteamInput disabled RT works, so it's the SteamInput mapping. Garage and settings menus are the "
-             "worst, the race menu is fine."), self._dt_ago(3, 10)),
+            ("inbound", "tom@contoso.example",
+             ("About 15 contractors at any time. An expiry date would be great, most contracts are 3 to 6 months."),
+             self._dt_ago(3, 10)),
         ]
         for direction, author, body, at in thread:
             m = IntakeMessage(request_id=clar.id, direction=direction, author=author, body=body)
@@ -772,8 +772,8 @@ def _result(db: Session, project: Project, *, created: bool) -> dict[str, Any]:
     }
 
 
-def seed(project_name: str = "Galactic Racer", db: Session | None = None) -> dict[str, Any]:
-    """Create the demo league (idempotent by project name). Pass `db` to reuse a request session."""
+def seed(project_name: str = "Atlas Customer Portal", db: Session | None = None) -> dict[str, Any]:
+    """Create the demo project (idempotent by project name). Pass `db` to reuse a request session."""
     if db is None:
         with session_scope() as own:
             return seed(project_name, db=own)

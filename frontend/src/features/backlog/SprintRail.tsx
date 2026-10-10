@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useDroppable } from "@dnd-kit/core";
-import { Flag, Plus } from "lucide-react";
+import { CalendarRange, Plus } from "lucide-react";
 import { api } from "@/api/client";
 import { qk } from "@/api/queries";
 import type { Project, Sprint, SprintCapacity, WorkItem } from "@/api/types";
@@ -39,7 +39,7 @@ function SprintDrop({ sprint, project, items }: { sprint: Sprint; project: Proje
   return (
     <div ref={setNodeRef} className={cn("rounded-[10px] border p-2.5 transition-all", isOver ? "border-teal bg-teal/10 scale-[1.02]" : sprint.state === "active" ? "border-gold/50 bg-gold/5" : "border-border bg-surface-2/40")}>
       <div className="flex items-center gap-2">
-        <Flag size={13} className={sprint.state === "active" ? "text-gold" : "text-text-3"} />
+        <CalendarRange size={13} className={sprint.state === "active" ? "text-gold" : "text-text-3"} />
         <Link to={`/sprints/${sprint.id}`} className="font-display font-semibold text-sm no-underline text-text hover:text-gold truncate">{sprint.name}</Link>
         <Badge size="xs" color={sprint.state === "active" ? "var(--gold)" : undefined}>{sprint.state}</Badge>
         <span className="flex-1" />

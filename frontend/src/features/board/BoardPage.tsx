@@ -79,7 +79,7 @@ export default function BoardPage() {
     setLocal({ ...c, [cont]: list });
     const wasDone = isDone(project, item.status); const nowDone = isDone(project, status);
     move.mutate({ id: a, move: { ...(status !== item.status ? { status } : {}), ...(before ? { before_id: before } : {}), ...(after ? { after_id: after } : {}) } }, { onSettled: () => setLocal(null) });
-    if (!wasDone && nowDone) { celebrate("small"); toast.fun(`${item.key} crossed the line.`, item.title); }
+    if (!wasDone && nowDone) { celebrate("small"); toast.fun(`${item.key} is done.`, item.title); }
   };
 
   const quickAdd = (status: string, defaults: Partial<WorkItemInput>) => (title: string) =>
@@ -87,7 +87,7 @@ export default function BoardPage() {
   const toggleCol = (k: string) => setCollapsed((s) => { const n = new Set(s); n.has(k) ? n.delete(k) : n.add(k); return n; });
   const firstTodo = workflow.find((s) => s.category === "todo")?.key;
 
-  if (!pid) return <EmptyState icon="🏁" title="No project yet" body="Create your first project and the board lights up." action={<Button variant="primary" onClick={() => nav("/welcome")}>Run setup</Button>} />;
+  if (!pid) return <EmptyState icon="📋" title="No project yet" body="Create your first project and the board lights up." action={<Button variant="primary" onClick={() => nav("/welcome")}>Run setup</Button>} />;
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-7.5rem)]">

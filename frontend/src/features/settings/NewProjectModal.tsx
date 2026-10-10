@@ -9,7 +9,7 @@ export function NewProjectModal({ open, onClose }: { open: boolean; onClose: () 
   const { data: templates } = useTemplates(); const { data: users } = useUsers();
   const create = useCreateProject();
   const ui = useUI(); const nav = useNavigate();
-  const [f, setF] = useState({ name: "", key: "", template: "", description: "", icon: "🏁", color: "#e4b963", lead_id: "" });
+  const [f, setF] = useState({ name: "", key: "", template: "", description: "", icon: "📋", color: "#6b3a8e", lead_id: "" });
   const tpl = f.template || templates?.[0]?.key || "";
   const submit = () => {
     if (!f.name.trim()) return toast.error("Give the project a name"); if (!tpl) return toast.error("Pick a template");

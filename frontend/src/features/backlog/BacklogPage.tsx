@@ -126,7 +126,7 @@ export default function BacklogPage() {
   const createDepth = creating?.parentId ? (rows.find((r) => r.node.id === creating.parentId)?.depth ?? 0) + 1 : 0;
   const askAgent = (id: string) => { const n = findNode(tree, id); ui.setAgentOpen(true, { item_id: id, item_key: n?.key, project_id: pid, intent: "build_out" }); };
 
-  if (!pid) return <EmptyState icon="🏁" title="No project yet" body="The backlog lives inside a project. Create one to start stacking epics." action={<Button variant="primary" onClick={() => nav("/welcome")}>Run setup</Button>} />;
+  if (!pid) return <EmptyState icon="📋" title="No project yet" body="The backlog lives inside a project. Create one to start stacking epics." action={<Button variant="primary" onClick={() => nav("/welcome")}>Run setup</Button>} />;
   const activeNode = activeId ? findNode(tree, activeId) : null;
 
   return (
@@ -171,7 +171,7 @@ export default function BacklogPage() {
           </div>
           <SprintRail project={project} sprints={sprints} items={flatQ.data ?? []} loading={sprintsLoading} />
           {createPortal(<DragOverlay dropAnimation={null}>
-            {activeNode && <div className={cn("panel px-3 py-2 flex items-center gap-2 text-sm glow-teal", shift && "border-purple-light")}><TypeIcon project={project} type={activeNode.type} /><span className="num text-xs text-text-3">{activeNode.key}</span><span className="truncate max-w-[320px]">{activeNode.title}</span>{selected.has(activeNode.id) && selected.size > 1 && <span className="num text-[10px] bg-teal text-ink rounded-full px-1.5">+{selected.size - 1}</span>}{shift && <span className="text-[10px] text-purple-light font-display uppercase">nest</span>}</div>}
+            {activeNode && <div className={cn("panel px-3 py-2 flex items-center gap-2 text-sm glow-teal", shift && "border-purple-light")}><TypeIcon project={project} type={activeNode.type} /><span className="num text-xs text-text-3">{activeNode.key}</span><span className="truncate max-w-[320px]">{activeNode.title}</span>{selected.has(activeNode.id) && selected.size > 1 && <span className="num text-[10px] bg-teal text-ink rounded-full px-1.5">+{selected.size - 1}</span>}{shift && <span className="text-[10px] text-purple-light font-display">nest</span>}</div>}
           </DragOverlay>, document.body)}
         </DndContext>
       </div>

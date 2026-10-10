@@ -15,7 +15,7 @@ const OPTIONS: { key: Option; icon: typeof Sparkles; title: string; sub: string;
   { key: "agent", icon: Sparkles, title: "Build it with the assistant", sub: "Describe the product; get epics → features → stories.", accent: "var(--gold)" },
   { key: "import", icon: FileSpreadsheet, title: "Import from Excel/CSV", sub: "Bring an existing backlog. We map the columns.", accent: "var(--teal)" },
   { key: "demo", icon: Trophy, title: "Load the demo project", sub: "5 people, 56 items, 4 sprints of history. Explore everything.", accent: "var(--purple-light)" },
-  { key: "empty", icon: Square, title: "Start empty", sub: "A clean grid. Add items as you go.", accent: "var(--smoke)" },
+  { key: "empty", icon: Square, title: "Start empty", sub: "A clean backlog. Add items as you go.", accent: "var(--smoke)" },
 ];
 
 export function StepSeed({ state, update, next, back }: StepProps) {
@@ -26,7 +26,7 @@ export function StepSeed({ state, update, next, back }: StepProps) {
   const projectId = state.projectId ?? projects?.[0]?.id ?? null;
   const seed = useMutation({
     mutationFn: () => api.post<SeedResult>("/dev/seed", {}),
-    onSuccess: (r) => { const p = r.project; if (p) { update({ projectId: p.id, seeded: "demo" }); ui.setProjectId(p.id); } else update({ seeded: "demo" }); qc.invalidateQueries(); toast.fun("The demo league is loaded.", "Galactic Racer: 4 sprints of history to poke at."); next(); },
+    onSuccess: (r) => { const p = r.project; if (p) { update({ projectId: p.id, seeded: "demo" }); ui.setProjectId(p.id); } else update({ seeded: "demo" }); qc.invalidateQueries(); toast.fun("Demo project loaded", "Atlas Customer Portal: four sprints of history to explore."); next(); },
     onError: (e) => toast.error("Couldn't load the demo", String(e)),
   });
   return (
@@ -42,7 +42,7 @@ export function StepSeed({ state, update, next, back }: StepProps) {
       </div>
       {opt === "agent" && projectId && <SeedAgent projectId={projectId} onDone={() => { update({ seeded: "agent" }); next(); }} />}
       {opt === "import" && projectId && <SeedImport projectId={projectId} onDone={() => { update({ seeded: "import" }); next(); }} />}
-      {opt === "demo" && <div className="panel p-4 flex items-center justify-between gap-3 animate-in"><p className="text-sm text-text-2">Creates a “Galactic Racer” project with five people, ~45 items, three closed sprints and one in flight. Safe to delete later.</p><Button variant="teal" icon={Trophy} loading={seed.isPending} onClick={() => seed.mutate()}>Load demo</Button></div>}
+      {opt === "demo" && <div className="panel p-4 flex items-center justify-between gap-3 animate-in"><p className="text-sm text-text-2">Creates a “Atlas Customer Portal” project with five people, ~45 items, three closed sprints and one in progress. Safe to delete later.</p><Button variant="teal" icon={Trophy} loading={seed.isPending} onClick={() => seed.mutate()}>Load demo</Button></div>}
       {opt === "empty" && <div className="panel p-4 flex items-center justify-between gap-3 animate-in"><p className="text-sm text-text-2">Fresh asphalt. Press <kbd className="font-mono text-xs border border-border-strong rounded px-1">c</kbd> anywhere to create an item.</p><Button variant="primary" iconRight={ArrowRight} onClick={() => { update({ seeded: "empty" }); next(); }}>Continue</Button></div>}
       <div className="flex justify-between"><Button variant="ghost" icon={ArrowLeft} onClick={back}>Back</Button>{state.seeded && <Button variant="ghost" iconRight={ArrowRight} onClick={next}>Skip — already seeded</Button>}</div>
     </div>

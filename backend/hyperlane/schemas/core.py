@@ -180,4 +180,4 @@ class ReorderIn(BaseModel):
 
 
 class SeedIn(BaseModel):
-    project_name: str = "Galactic Racer"
+    project_name: str = "Atlas Customer Portal"

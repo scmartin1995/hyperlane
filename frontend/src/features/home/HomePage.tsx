@@ -1,7 +1,7 @@
 // Home: greeting, health strip, active sprint, your lane, action items, intake, activity, quick actions.
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Sparkles, Flag } from "lucide-react";
+import { Plus, Sparkles, CalendarRange } from "lucide-react";
 import { useMe, useMeOverview, useMetricsOverview, useProject, useProjectSummary } from "@/api/queries";
 import { useUI } from "@/lib/store";
 import { Button, EmptyState, Kbd } from "@/components/ui";
@@ -38,7 +38,7 @@ export default function HomePage() {
         <div className="flex items-center gap-2 flex-wrap">
           <Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button>
           <Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid })}>Ask assistant <Kbd>/</Kbd></Button>
-          <Button variant="secondary" icon={Flag} onClick={() => nav(activeSprint ? `/sprints/${activeSprint.id}` : "/sprints")}>{activeSprint ? "Sprint" : "Plan sprint"}</Button>
+          <Button variant="secondary" icon={CalendarRange} onClick={() => nav(activeSprint ? `/sprints/${activeSprint.id}` : "/sprints")}>{activeSprint ? "Sprint" : "Plan sprint"}</Button>
         </div>
       </div>
 

@@ -34,7 +34,7 @@ export function ItemFields({ item, project, onPatch, compact }: { item: WorkItem
       </div>
       <Field label="Labels"><LabelPicker projectId={project?.id} value={item.labels.map((l) => l.name)} onChange={(names) => onPatch({ labels: names })} /></Field>
       <div className={cn("flex items-center gap-3 flex-wrap rounded-[8px] px-3 py-2 border", item.blocked ? "border-rust/60 bg-rust/10" : "border-border")}>
-        <Toggle checked={item.blocked} onChange={(b) => onPatch({ blocked: b, blocked_reason: b ? reason || null : null })} label={<span className="inline-flex items-center gap-1.5 font-display font-semibold text-xs uppercase tracking-wide">{item.blocked ? <Lock size={13} className="text-rust-light" /> : <Unlock size={13} className="text-text-3" />}{item.blocked ? "Blocked" : "Not blocked"}</span>} />
+        <Toggle checked={item.blocked} onChange={(b) => onPatch({ blocked: b, blocked_reason: b ? reason || null : null })} label={<span className="inline-flex items-center gap-1.5 font-display font-semibold text-xs">{item.blocked ? <Lock size={13} className="text-rust-light" /> : <Unlock size={13} className="text-text-3" />}{item.blocked ? "Blocked" : "Not blocked"}</span>} />
         {item.blocked && <Input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="What's in the way?" className="h-8 text-xs flex-1 min-w-[200px]" aria-label="Blocked reason"
           onBlur={() => { if (reason !== (item.blocked_reason ?? "")) onPatch({ blocked_reason: reason || null }); }} onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }} />}
       </div>

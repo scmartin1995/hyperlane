@@ -1,4 +1,4 @@
-// Laps · Sprints. List at /sprints, detail at /sprints/:id/:tab.
+// Sprints. List at /sprints, detail at /sprints/:id/:tab.
 import { useParams } from "react-router-dom";
 import { SprintList } from "./SprintList";
 import { SprintDetail } from "./SprintDetail";

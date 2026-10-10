@@ -3,8 +3,8 @@
    and bold color-blocked cards in purple, rust, teal and gold with cream text. */
 
 :root {
-  --font-display: "Titillium Web", "Overpass Variable", system-ui, sans-serif;
-  --font-body: "Overpass Variable", "Overpass", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans Variable", "Inter Variable", system-ui, sans-serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* brand */

@@ -3,7 +3,7 @@
 #   ./hyperlane            run (builds the UI if needed), opens http://127.0.0.1:8787
 #   ./hyperlane --dev      API with reload on :8787 + Vite dev server on :5173
 #   ./hyperlane --build    rebuild the UI only
-#   ./hyperlane --seed     load the demo league into the database
+#   ./hyperlane --seed     load the demo project into the database
 set -euo pipefail
 cd "$(dirname "$0")"
 

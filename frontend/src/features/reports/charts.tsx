@@ -37,7 +37,7 @@ export const fmtNum = (v: number) => (Number.isInteger(v) ? v.toLocaleString() :
 
 /* ---- legend ---- */
 export function HLLegend() {
-  return <Legend verticalAlign="top" align="right" height={26} iconType="circle" iconSize={8} formatter={(v: string) => <span className="text-[11px] text-text-2 font-display tracking-wide">{v}</span>} />;
+  return <Legend verticalAlign="top" align="right" height={26} iconType="circle" iconSize={8} formatter={(v: string) => <span className="text-[11px] text-text-2 font-display">{v}</span>} />;
 }
 export const legendPayload = (items: { value: string; color: string; type?: LegendPayload["type"] }[]): LegendPayload[] => items.map((i) => ({ value: i.value, color: i.color, type: i.type ?? "circle", id: i.value }));
 

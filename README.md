@@ -1,4 +1,4 @@
-# 🏁 Hyperlane
+# Hyperlane
 
 **Local-first, agentic project management.** Kanban, hierarchical backlog (epics → features → stories),
 sprints with learned capacity, retros, agile telemetry and earned-value management, private action
@@ -18,9 +18,9 @@ git clone <this repo> hyperlane && cd hyperlane
 ./hyperlane            # installs (uv + npm), builds the UI, starts http://127.0.0.1:8787
 ```
 
-Requirements: [uv](https://docs.astral.sh/uv/) and Node 20+. First run opens the **Welcome to the League**
+Requirements: [uv](https://docs.astral.sh/uv/) and Node 20+. First run opens the **welcome**
 wizard: name the workspace, create your profile, pick a project template, seed the backlog (agent prompt,
-Excel/CSV import, or the demo league), and connect integrations.
+Excel/CSV import, or the demo project), and connect integrations.
 
 Other commands:
 
@@ -28,7 +28,7 @@ Other commands:
 |---|---|
 | `./hyperlane --dev` | API with autoreload on :8787 + Vite dev server on :5173 |
 | `./hyperlane --build` | rebuild the UI |
-| `./hyperlane --seed` | load the demo league |
+| `./hyperlane --seed` | load the demo project |
 | `uv run pytest` | run the backend tests |
 
 To let teammates use it, bind to your LAN: set `HYPERLANE_HOST=0.0.0.0` in `.env` and share

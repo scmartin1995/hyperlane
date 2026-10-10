@@ -105,7 +105,7 @@ export function ChatView({ threadId, onThreadCreated, compact }: { threadId: str
         {pending && !(messages.length > 0 && messages[messages.length - 1].role === "user" && stripContext(messages[messages.length - 1].content) === pending) && <UserBubble text={pending} />}
         {live && (
           <div className="flex justify-start"><div className="max-w-[92%] rounded-[12px] px-3 py-2 bg-surface-2 border border-border animate-in">
-            <div className="text-[10px] text-text-3 font-display font-semibold uppercase tracking-wider mb-1 inline-flex items-center gap-1"><Sparkles size={10} /> Assistant {!live.text && live.tools.length === 0 && <Spinner size={10} />}</div>
+            <div className="text-[10px] text-text-3 font-display font-semibold mb-1 inline-flex items-center gap-1"><Sparkles size={10} /> Assistant {!live.text && live.tools.length === 0 && <Spinner size={10} />}</div>
             {live.tools.map((t) => <ToolChipView key={t.id} tool={t} />)}
             {live.text && <Markdown>{live.text}</Markdown>}
             {!live.text && live.tools.length === 0 && <div className="flex gap-1 py-1"><Dot /><Dot d={0.15} /><Dot d={0.3} /></div>}
@@ -134,7 +134,7 @@ export function MessageBubble({ msg }: { msg: ChatMessage }) {
   if (msg.role === "tool") return <div className="flex justify-start"><div className="text-[11px] text-text-3 px-2 inline-flex items-center gap-1"><Wrench size={10} /> {msg.content.slice(0, 120)}</div></div>;
   return (
     <div className="flex justify-start"><div className="max-w-[92%] rounded-[12px] px-3 py-2 bg-surface-2 border border-border animate-in">
-      <div className="text-[10px] text-text-3 font-display font-semibold uppercase tracking-wider mb-1 inline-flex items-center gap-1"><Sparkles size={10} /> Assistant</div>
+      <div className="text-[10px] text-text-3 font-display font-semibold mb-1 inline-flex items-center gap-1"><Sparkles size={10} /> Assistant</div>
       {msg.tool_calls?.map((t, i) => <ToolChipView key={i} tool={{ id: String(i), name: t.name, input: t.input, ok: true, summary: t.result_summary }} />)}
       <Markdown>{msg.content}</Markdown>
     </div></div>

@@ -26,7 +26,7 @@ hyperlane/
     src/components/layout   # AppShell (sidebar/topbar/agent drawer/command palette)
     src/features/<area>/    # one folder per page; default-export page component; feature-local hooks in hooks.ts
     src/lib/{store,format,live}.ts      # zustand UI store + flavor labels, formatting helpers, SSE sync
-    src/styles/{tokens,global}.css      # design tokens (dark/light) + tailwind theme + HUD utilities
+    src/styles/{tokens,global}.css      # design tokens (dark/light) + tailwind theme + card and tone utilities
 docs/API.md                 # the API contract — read it before writing any endpoint or hook
 ```
 
@@ -37,8 +37,8 @@ docs/API.md                 # the API contract — read it before writing any en
   Use the UI kit; don't invent new primitives when one exists. Tailwind utility classes with the theme colors
   (`bg-surface`, `text-text-2`, `text-gold`, `border-border`, …). Page container is provided by AppShell (padding, max width).
   Keyboard-first: every list has a shortcut; every form submits on Enter/Ctrl+Enter.
-- **Look & feel**: warm cream by default, charcoal dark theme optional (tokens in `styles/tokens.css`). Display font Titillium Web,
-  body Overpass, numbers in JetBrains Mono (`.num`). Purple = primary/AI, teal = in-progress, rust = danger, gold = highlights, green = done.
+- **Look & feel**: warm cream by default, charcoal dark theme optional (tokens in `styles/tokens.css`). Headings in Plus Jakarta Sans,
+  body and numbers in Inter (`.num` = tabular figures); JetBrains Mono only for code. Purple = primary/AI, teal = in-progress, rust = danger, gold = highlights, green = done.
   Color-blocked cards via `Panel tone="purple|rust|teal|dark|gold|cream"` / `Stat tone=...` (`.tone-*` classes); `.tint-*` for soft backgrounds.
   `.panel`, `.hairline`, `.eyebrow`, `.grid-bg`, `.animate-in/pop`. Copy is plain, confident product language ("assistant", "Insights",
   "Inbox", "My tasks"); no themed jargon in the UI. Fun moments: `celebrate()` confetti on done/sprint close, `toast.fun()` for wins.

@@ -70,7 +70,7 @@ Conventions
 - `GET /me/overview` → `{assigned: WorkItem[], in_progress: WorkItem[], action_items_open: number, action_items_overdue: number, mentions: Comment[], active_sprints: Sprint[]}`
 
 **Demo data**
-- `POST /dev/seed` `{project_name?}` → creates 5 users, 1 software-scrum project with ~45 items (epics/features/stories/bugs), 3 closed sprints with realistic transitions over the past 6 weeks + 1 active sprint, capacity entries, comments, some action items for every user, 2 intake requests. Idempotent-ish (returns existing if a project named "Galactic Racer" exists). Used by the welcome flow's "Load demo league" button.
+- `POST /dev/seed` `{project_name?}` → creates 5 users, 1 software-scrum project with ~45 items (epics/features/stories/bugs), 3 closed sprints with realistic transitions over the past 6 weeks + 1 active sprint, capacity entries, comments, some action items for every user, 2 intake requests. Idempotent-ish (returns existing if a project named "Atlas Customer Portal" exists). Used by the welcome flow's "Load the demo project" button.
 
 ## Analytics / planning (owner: backend-analytics) — `services/metrics.py`, `services/evm.py`, `services/forecast.py`, `services/capacity.py`, `api/reports.py`, `api/planning.py`
 - `GET /projects/{pid}/metrics/overview` → `MetricsOverview`

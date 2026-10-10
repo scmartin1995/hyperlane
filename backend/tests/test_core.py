@@ -13,16 +13,16 @@ def _login(client, user_id: str) -> None:
 
 
 @pytest.fixture(scope="module")
-def pilot(client):
+def member(client):
     """Stable identity for this module (the conftest `user` fixture is function-scoped)."""
-    r = client.post("/api/users", json={"name": "Core Pilot", "role": "developer", "email": "core-pilot@example.test"})
+    r = client.post("/api/users", json={"name": "Core Tester", "role": "developer", "email": "core-tester@example.test"})
     assert r.status_code == 201, r.text
     _login(client, r.json()["id"])
     return r.json()
 
 
 @pytest.fixture(scope="module")
-def project(client, pilot):
+def project(client, member):
     r = client.post(
         "/api/projects",
         json={"name": f"Core Test {uuid.uuid4().hex[:4]}", "template": "software-scrum", "key": "CT" + uuid.uuid4().hex[:3].upper()},
@@ -32,10 +32,10 @@ def project(client, pilot):
 
 
 @pytest.fixture()
-def me(client, pilot):
-    """Re-login as the module's pilot before each test (other tests switch profiles)."""
-    _login(client, pilot["id"])
-    return pilot
+def me(client, member):
+    """Re-login as the module's user before each test (other tests switch profiles)."""
+    _login(client, member["id"])
+    return member
 
 
 # ---------------------------------------------------------------- users / login
@@ -139,8 +139,8 @@ def test_project_patch_and_workflow_rename(client, me):
 
 
 @pytest.fixture(scope="module")
-def tree(client, pilot, project):
-    _login(client, pilot["id"])
+def tree(client, member, project):
+    _login(client, member["id"])
     pid = project["id"]
     epic = client.post(f"/api/projects/{pid}/items", json={"title": "Epic One", "type": "epic", "labels": ["frontend", "NewLabel"]}).json()
     feature = client.post(f"/api/projects/{pid}/items", json={"title": "Feature One", "type": "feature", "parent_id": epic["id"]}).json()
@@ -425,13 +425,13 @@ def test_search(client, me, project, tree):
 
 
 def test_seed_is_rich_and_idempotent(client, me):
-    r = client.post("/api/dev/seed", json={"project_name": "Galactic Racer"})
+    r = client.post("/api/dev/seed", json={"project_name": "Atlas Customer Portal"})
     assert r.status_code == 200, r.text
     out = r.json()
-    assert out["project"]["key"] == "GR" and len(out["users"]) == 5  # created may be False if another module seeded
+    assert out["project"]["key"] == "AP" and len(out["users"]) == 5  # created may be False if another module seeded
     assert out["items"] >= 40 and out["sprints"] == 4
     pid = out["project"]["id"]
-    again = client.post("/api/dev/seed", json={"project_name": "Galactic Racer"}).json()
+    again = client.post("/api/dev/seed", json={"project_name": "Atlas Customer Portal"}).json()
     assert again["created"] is False and again["project"]["id"] == pid
     assert client.get("/api/workspace").json()["onboarded"] is True
 
@@ -459,11 +459,11 @@ def test_seed_is_rich_and_idempotent(client, me):
     commented = [a for a in acts if a["action"] == "commented"]
     item = client.get(f"/api/items/{commented[0]['entity_id']}").json()
     assert item["comments"]
-    drift = next(i for i in client.get(f"/api/projects/{pid}/items?q=Drift handling").json() if i["title"].startswith("Drift"))
-    drift_comments = client.get(f"/api/items/{drift['id']}").json()["comments"]
-    assert len(drift_comments) == 3 and any(c["is_decision"] for c in drift_comments)
-    assert all(c["author"]["name"] == c["author_name"] for c in drift_comments)
-    # private action items exist for the seeded pilots
+    sso = next(i for i in client.get(f"/api/projects/{pid}/items?q=SAML").json() if i["title"].startswith("SAML"))
+    sso_comments = client.get(f"/api/items/{sso['id']}").json()["comments"]
+    assert len(sso_comments) == 3 and any(c["is_decision"] for c in sso_comments)
+    assert all(c["author"]["name"] == c["author_name"] for c in sso_comments)
+    # private action items exist for the seeded people
     nova = next(u for u in out["users"] if u["name"] == "Nova Reyes")
     _login(client, nova["id"])
     assert len(client.get("/api/me/action-items?include_done=true").json()) >= 3
@@ -471,11 +471,11 @@ def test_seed_is_rich_and_idempotent(client, me):
     assert any(s["id"] == active["id"] for s in ov["active_sprints"])
     _login(client, me["id"])
     # search by key across projects
-    assert client.get("/api/search?q=GR-1").json()[0]["key"] == "GR-1"
+    assert client.get("/api/search?q=AP-1").json()[0]["key"] == "AP-1"
 
 
 def test_tree_endpoint(client, me):
-    pid = client.post("/api/dev/seed", json={"project_name": "Galactic Racer"}).json()["project"]["id"]
+    pid = client.post("/api/dev/seed", json={"project_name": "Atlas Customer Portal"}).json()["project"]["id"]
     tree = client.get(f"/api/projects/{pid}/items/tree").json()
     # 4 epics + the demo's inbound requests, which surface as top-level items needing triage
     assert sum(1 for n in tree if n["type"] == "epic") == 4
@@ -483,7 +483,7 @@ def test_tree_endpoint(client, me):
     tree = [n for n in tree if n["type"] == "epic"]
     assert all(n["children"] and all(f["type"] == "feature" for f in n["children"]) for n in tree)
     leaves = [leaf for e in tree for f in e["children"] for leaf in f["children"]]
-    assert len(leaves) >= 30 and all(leaf["key"].startswith("GR-") for leaf in leaves)
+    assert len(leaves) >= 30 and all(leaf["key"].startswith("AP-") for leaf in leaves)
     feature = tree[0]["children"][0]
     assert feature["child_count"] == len(feature["children"])
     ranks = [leaf["rank"] for leaf in feature["children"]]
