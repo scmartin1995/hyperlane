@@ -221,6 +221,42 @@ EPICS: list[dict[str, Any]] = [
                     ("bug", "Tutorial skips step 3 on gamepad", 1, 3, 0, "backlog",
                      "With a gamepad connected the boost tutorial step never triggers.",
                      "- Step 3 triggers on gamepad\n- Playwright test with a virtual gamepad"),
+                    ("story", "Ghost replay of your best lap", 5, 1, 0, "ready",
+                     "Render a translucent ghost car following the player's best recorded lap.",
+                     "- Ghost toggled in settings\n- Replays within 50ms of recorded inputs"),
+                    ("story", "Photo mode", 3, 2, 0, "ready",
+                     "Pause, free camera, filters, save PNG to disk.",
+                     "- Camera orbit + FOV\n- Watermark toggle"),
+                    ("story", "Pit-stop mini game", 8, 0, 0, "backlog",
+                     "Timed button sequence during pit stops that shortens the stop when nailed.",
+                     "- Sequence randomised per stop\n- Perfect run saves 1.5s"),
+                    ("story", "Weather: rain on Mos Ravel", 5, 1, 0, "backlog",
+                     "Rain reduces grip and adds spray particles; forecast shown pre-race.",
+                     "- Grip scalar 0.85 in rain\n- Spray only behind moving cars"),
+                    ("story", "Daily challenge board", 3, 3, 0, "ready",
+                     "One seeded challenge per day with a global-free local leaderboard.",
+                     "- Seed from date\n- Local scores only"),
+                    ("task", "Telemetry export to CSV", 2, 2, 0, "backlog",
+                     "Export lap telemetry (speed, boost, inputs) for analysis.",
+                     "- CSV opens in Excel\n- One row per 100ms"),
+                    ("story", "Controller remapping UI", 5, 3, 0, "ready",
+                     "Let players remap any action to any button or axis.",
+                     "- Conflicts highlighted\n- Reset to defaults"),
+                    ("bug", "Boost sound keeps playing after crash", 1, 0, 0, "ready",
+                     "Audio source isn't stopped when the car resets.",
+                     "- Boost loop stops on reset"),
+                    ("story", "Split-screen two player", 13, 1, 0, "backlog",
+                     "Local two-player with horizontal split and shared HUD.",
+                     "- Stable 60fps on reference rig\n- Independent camera per player"),
+                    ("story", "Track editor: place checkpoints", 8, 2, 0, "backlog",
+                     "Drag checkpoints onto a track and validate lap closure.",
+                     "- Invalid layouts flagged\n- Save/load JSON"),
+                    ("spike", "Evaluate WebGPU renderer", 5, 2, 0, "backlog",
+                     "Measure frame time of the current scene on WebGPU vs WebGL2.",
+                     "- Numbers for 3 GPUs\n- Go/no-go recommendation"),
+                    ("task", "Crash reporter opt-in dialog", 2, 4, 0, "ready",
+                     "Ask once, store choice locally, never upload without consent.",
+                     "- Dialog copy reviewed\n- Choice editable in settings"),
                     ("spike", "Accessibility review", 3, 4, 0, "backlog",
                      "Audit colour contrast, motion settings and remappable controls against WCAG 2.2 AA.",
                      "- Findings doc with severity\n- Follow-up stories created"),
@@ -592,16 +628,25 @@ class _Seeder:
                     )
                 )  # fmt: skip
         self.db.flush()
+        try:
+            from .capacity import learn_from_sprint
+
+            for sprint in self.sprints.values():
+                if sprint.state == "closed":
+                    learn_from_sprint(self.db, sprint)
+        except ImportError:  # pragma: no cover
+            pass
+        self.db.flush()
 
     def evm_step(self) -> None:
         s1 = self.sprints[1]
         planned_points = float(sum(i.points or 0 for i in self.items))
         self.project.evm = {
             **self.project.evm,
-            "enabled": True, "currency": "USD", "bac": 120000.0, "cost_per_point": 850.0, "cost_per_hour": 0.0,
-            "planned_points": planned_points, "planned_sprints": 8, "method": "points",
+            "enabled": True, "currency": "USD", "bac": 120000.0, "cost_per_point": 700.0, "cost_per_hour": 0.0,
+            "planned_points": planned_points, "planned_sprints": 6, "method": "points",
             "start_date": s1.start_date.isoformat(),
-            "end_date": (s1.start_date + timedelta(days=8 * 14 - 1)).isoformat(),
+            "end_date": (s1.start_date + timedelta(days=6 * 14 - 1)).isoformat(),
             "baseline_locked_at": _dt(s1.start_date, 9).isoformat(),
         }  # fmt: skip
 

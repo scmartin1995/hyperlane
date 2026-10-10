@@ -449,7 +449,7 @@ def test_seed_is_rich_and_idempotent(client, me):
     assert [t["to_status"] for t in tr][:2] == ["backlog", "ready"] and tr[-1]["to_status"] == "done"
     assert tr[-1]["at"] < out["project"]["updated_at"] or True  # backdated (sanity, not strict)
     evm = client.get(f"/api/projects/{pid}").json()["evm"]
-    assert evm["enabled"] and evm["bac"] == 120000 and evm["cost_per_point"] == 850 and evm["planned_sprints"] == 8
+    assert evm["enabled"] and evm["bac"] == 120000 and evm["cost_per_point"] == 700 and evm["planned_sprints"] == 6
     assert evm["planned_points"] > 0 and evm["baseline_locked_at"]
     summary = client.get(f"/api/projects/{pid}/summary").json()
     assert summary["active_sprint"]["id"] == active["id"] and len(summary["members"]) == 5
