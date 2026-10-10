@@ -9,7 +9,7 @@ Everything runs on one machine. Data lives in a single SQLite file. The only thi
 the box are prompts to Claude through the provider you choose (Anthropic API, Amazon Bedrock, or
 your Claude Code subscription) and the messages you explicitly route to Slack, Teams or email.
 
-> No prophecy. Just skill, strategy, and the will to ship.
+> Plan, build and ship with an AI analyst on the team.
 
 ## Quick start
 
@@ -51,22 +51,22 @@ smart parts of import/planning). Slack, Teams and email intake are documented in
 
 ## What's inside
 
-- **Pit Wall (Board)** – drag-and-drop kanban with WIP limits, swimlanes, filters, quick-add.
-- **Hangar (Backlog)** – epic → feature → story tree, drag to rank or re-parent, bulk actions, sprint drop targets.
-- **Laps (Sprints)** – guided planning flow (capacity → pick → commit) using learned per-person capacity,
-  burndown, close with carry-over, retro board with agent summary that turns actions into private action items.
-- **Telemetry (Reports)** – velocity, cumulative flow, cycle-time scatter, throughput, Monte Carlo forecast,
+- **Assistant** – an ask bar on every page. Chat with a business analyst that reads and changes the backlog,
+  summarizes sprints, reviews a plan, drafts stories, and creates your tasks. Streams its tool calls live.
+- **Board** – drag-and-drop kanban with WIP limits, swimlanes, filters, quick-add.
+- **Backlog** – epic → feature → story tree, drag to rank or re-parent, bulk actions, sprint drop targets.
+- **Sprints** – guided planning flow (capacity → pick → commit) using learned per-person capacity,
+  burndown, close with carry-over, retro board with an assistant summary that turns actions into private tasks.
+- **Insights** – velocity, cumulative flow, cycle-time scatter, throughput, Monte Carlo forecast,
   and full EVM (PV/EV/AC, SPI/CPI, EAC/ETC/VAC/TCPI, S-curve, daily snapshots).
-- **Comms (Intake)** – requests arrive by email or form; the agent extracts requirements, asks up to N
+- **Inbox** – requests arrive by email or form; the assistant extracts requirements, asks up to N
   focused questions, then proposes backlog items you can convert in one click.
-- **My Checklist (Action items)** – private per-person to-dos with notes, due dates, snooze; fed by retros,
-  Slack `/hyperlane todo …`, and the agent.
-- **Navigator (Agent)** – chat with a business analyst that can read and change the backlog, summarize
-  sprints, review a plan, draft stories, and create your action items. Streams tool calls live.
-- **Pit Crew (People)** – profiles, skills, capacity defaults, learned capacity and insights.
-- **Garage (Settings)** – project types, workflow and item-type editors, EVM config, integrations, import.
+- **My tasks** – private per-person to-dos with notes, due dates, snooze; fed by retros,
+  Slack `/hyperlane todo …`, and the assistant.
+- **Team** – profiles, skills, capacity defaults, learned capacity and insights.
+- **Settings** – project types, workflow and item-type editors, EVM config, integrations, import.
 
-Flavored names are optional (toggle in Settings); plain labels are always shown underneath.
+Look & feel: warm cream surfaces with bold purple, rust, teal and gold color-blocked cards (a dark theme is one click away).
 
 ## Project templates
 

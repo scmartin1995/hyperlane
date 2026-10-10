@@ -11,7 +11,7 @@ export function RequirementsCard({ req }: { req: IntakeRequirements }) {
     <section className="panel panel-cut p-4">
       <div className="hairline mb-3" />
       <div className="flex items-start justify-between gap-3 mb-3">
-        <div><div className="eyebrow">Requirements</div><h2 className="text-base">What the agent understood</h2></div>
+        <div><div className="eyebrow">Requirements</div><h2 className="text-base">What the assistant understood</h2></div>
         <div className="w-40"><div className="flex justify-between text-[11px] mb-1"><span className="eyebrow">Confidence</span><span className="num">{Math.round(conf * 100)}%</span></div><Progress value={conf * 100} color={conf >= 0.75 ? "var(--green)" : conf >= 0.5 ? "var(--gold)" : "var(--rust)"} /></div>
       </div>
       {!has ? <p className="text-sm text-text-3">Not analyzed yet. Run "Analyze" to draft requirements.</p> : (

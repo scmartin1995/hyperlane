@@ -57,7 +57,7 @@ export default function ActionItemsPage() {
   if (isError) return <EmptyState icon="🔒" title="Couldn't load your checklist" body="Sign in with your profile to see private action items." />;
   return (
     <div className="max-w-[920px]">
-      <PageHeader eyebrow="Private · Only you" title={label("actionItems", flavor)} subtitle={<span className="inline-flex items-center gap-1.5"><Badge size="xs" color="var(--gold)"><Lock size={10} /> Private — only you can see these</Badge> Your own to-dos, retro actions and things the agent noted for you.</span>}
+      <PageHeader eyebrow="Private · Only you" title={label("actionItems", flavor)} subtitle={<span className="inline-flex items-center gap-1.5"><Badge size="xs" color="var(--gold)"><Lock size={10} /> Private — only you can see these</Badge> Your own to-dos, retro actions and things the assistant noted for you.</span>}
         actions={<span className="hidden md:inline-flex items-center gap-1 text-xs text-text-3"><Kbd>a</Kbd> add · <Kbd>j</Kbd><Kbd>k</Kbd> move · <Kbd>x</Kbd> done</span>} />
       <form className="flex gap-2 mb-3" onSubmit={(e) => { e.preventDefault(); add(); }}>
         <input ref={inputRef} autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a to-do…  try: Book dyno time !high @fri #ops" className="w-full bg-surface-2 border border-border rounded-[8px] px-3 text-base placeholder:text-text-3 focus:border-teal focus:outline-none h-10" aria-label="New action item" />
@@ -66,7 +66,7 @@ export default function ActionItemsPage() {
       <p className="text-[11px] text-text-3 mb-3"><Kbd>!high</Kbd> / <Kbd>!low</Kbd> priority · <Kbd>@tomorrow</Kbd> <Kbd>@fri</Kbd> <Kbd>@3d</Kbd> due · <Kbd>#tag</Kbd></p>
       <Tabs className="mb-3" value={filter} onChange={setFilter} tabs={[{ key: "open", label: "Open", count: counts.open }, { key: "overdue", label: "Overdue", count: counts.overdue }, { key: "snoozed", label: "Snoozed", count: counts.snoozed }, { key: "done", label: "Done", count: counts.done }, { key: "all", label: "All", count: counts.all }]} />
       {isLoading ? <div className="space-y-2">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-10" />)}</div> : list.length === 0 ? (
-        <EmptyState icon={filter === "done" ? "🏆" : "✅"} title={filter === "open" ? "Clear track" : `Nothing ${filter}`} body={filter === "open" ? "Nothing on your list. Add one above, or let the agent note things for you." : "Switch filters to see other items."} />
+        <EmptyState icon={filter === "done" ? "🏆" : "✅"} title={filter === "open" ? "Clear track" : `Nothing ${filter}`} body={filter === "open" ? "Nothing on your list. Add one above, or let the assistant note things for you." : "Switch filters to see other items."} />
       ) : (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
           <SortableContext items={list.map((a) => a.id)} strategy={verticalListSortingStrategy}>

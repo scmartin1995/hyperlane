@@ -1,4 +1,4 @@
-// Garage · Settings. Tabs: workspace / project / agent / integrations / import / data.
+// Settings · Settings. Tabs: workspace / project / agent / integrations / import / data.
 import { useNavigate, useParams } from "react-router-dom";
 import { useUI, label } from "@/lib/store";
 import { PageHeader, Tabs } from "@/components/ui";
@@ -21,7 +21,7 @@ export default function SettingsPage() {
   const t = (TABS.some((x) => x.key === tab) ? tab : "workspace") as Tab;
   return (
     <div>
-      <PageHeader eyebrow="Settings" title={label("settings", flavor)} subtitle="Workspace, project workflow, the agent, integrations and your data." />
+      <PageHeader eyebrow="Settings" title={label("settings", flavor)} subtitle="Workspace, project workflow, the assistant, integrations and your data." />
       <Tabs className="mb-4 flex-wrap" value={t} onChange={(x) => nav(`/settings/${x}`)} tabs={TABS.map((x) => ({ key: x.key, label: x.label }))} />
       {t === "workspace" && <WorkspaceTab />}
       {t === "project" && (pid ? <ProjectTab pid={pid} /> : <NoProject what="project settings" />)}

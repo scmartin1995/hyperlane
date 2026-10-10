@@ -1,4 +1,4 @@
-// Hierarchical backlog ("Hangar"): tree with drag reorder/re-parent, sprint rail drop targets, bulk actions, list view.
+// Hierarchical backlog ("Backlog"): tree with drag reorder/re-parent, sprint rail drop targets, bulk actions, list view.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -37,7 +37,7 @@ export default function BacklogPage() {
 
   const [view, setView] = useState<"tree" | "list">("tree");
   const [q, setQ] = useState("");
-  const [hideDone, setHideDone] = useState(false);
+  const [hideDone, setHideDone] = useState(true);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [lastClick, setLastClick] = useState<string | null>(null);
@@ -130,7 +130,7 @@ export default function BacklogPage() {
   return (
     <div>
       <PageHeader eyebrow={ui.flavor ? "Backlog" : undefined} title={label("backlog", ui.flavor)} subtitle={`${typesByLevel(project).map((t) => t.plural).join(" → ")} · drag to reorder, hold Shift while dropping to nest`}
-        actions={<><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build with the agent</Button><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button></>} />
+        actions={<><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build with the assistant</Button><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button></>} />
       <div className="flex flex-wrap items-center gap-2 mb-3">
         <Tabs value={view} onChange={setView} tabs={[{ key: "tree", label: <span className="inline-flex items-center gap-1"><ListTree size={13} />Tree</span> }, { key: "list", label: <span className="inline-flex items-center gap-1"><List size={13} />List</span> }]} />
         <div className="relative"><Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-3" /><Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search key or title…" aria-label="Search backlog" className="h-8 pl-8 text-xs w-[220px]" /></div>
@@ -147,7 +147,7 @@ export default function BacklogPage() {
               <ListView items={flatQ.data ?? []} project={project} sprints={sprints} q={q} loading={flatQ.isLoading} selected={selected} onSelect={(id, e) => toggleSelect(id, e.shiftKey)} onOpen={setOpenId} />
             ) : treeQ.isLoading ? <div className="space-y-2 p-2">{[0, 1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-9" />)}</div>
               : tree.length === 0 ? (
-                <EmptyState icon="🛸" title="Hangar's empty" body="Start with an epic, or describe the product in a paragraph and let the agent draft the whole tree." action={<div className="flex gap-2"><Button variant="primary" icon={Plus} onClick={() => startCreate(null)}>Add the first {typeName(typesByLevel(project)[0]?.key ?? "epic")}</Button><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build with the agent</Button></div>} />
+                <EmptyState icon="🗂️" title="The backlog is empty" body="Start with an epic, or describe the product in a paragraph and let the assistant draft the whole tree." action={<div className="flex gap-2"><Button variant="primary" icon={Plus} onClick={() => startCreate(null)}>Add the first {typeName(typesByLevel(project)[0]?.key ?? "epic")}</Button><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build with the assistant</Button></div>} />
               ) : (
                 <SortableContext items={rowIds} strategy={verticalListSortingStrategy}>
                   <div role="tree" aria-label="Backlog tree">

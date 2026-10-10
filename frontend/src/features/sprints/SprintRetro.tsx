@@ -8,7 +8,7 @@ import { useRetro, useRetroMutations } from "./hooks";
 
 const COLS: { key: "went_well" | "improve" | "kudos"; title: string; sub: string; color: string; icon: string }[] = [
   { key: "went_well", title: "Went well", sub: "Keep doing", color: "var(--green)", icon: "🟢" },
-  { key: "improve", title: "Improve", sub: "Fix next lap", color: "var(--gold)", icon: "🔧" },
+  { key: "improve", title: "Improve", sub: "Fix next sprint", color: "var(--gold)", icon: "🔧" },
   { key: "kudos", title: "Kudos", sub: "Shout-outs", color: "var(--purple-light)", icon: "🏆" },
 ];
 const MOODS = ["😩", "😕", "😐", "🙂", "🤩"];
@@ -49,7 +49,7 @@ export function SprintRetro({ sprint, project }: { sprint: Sprint; project: Proj
 
       <div className="grid gap-3 lg:grid-cols-2">
         <section className="panel p-4">
-          <div className="flex items-center justify-between mb-2"><div><div className="eyebrow">Summary</div><h2 className="text-base">What the agent saw</h2></div>
+          <div className="flex items-center justify-between mb-2"><div><div className="eyebrow">Summary</div><h2 className="text-base">What the assistant saw</h2></div>
             {!closed && <Button size="sm" variant="teal" icon={Sparkles} loading={m.generate.isPending} onClick={() => m.generate.mutate(undefined, { onError: err("generate the summary") })}>{retro.agent_summary ? "Regenerate" : "Generate summary"}</Button>}</div>
           {retro.agent_summary ? <Markdown>{retro.agent_summary}</Markdown> : <p className="text-sm text-text-3">Add a few notes, then generate a summary that pulls in the sprint stats.</p>}
         </section>

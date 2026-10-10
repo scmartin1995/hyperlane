@@ -1,4 +1,4 @@
-// Chart helpers for the Telemetry pages. Follows the dataviz method: thin marks, solid hairline grid, legend for >=2 series,
+// Chart helpers for the Insights pages. Follows the dataviz method: thin marks, solid hairline grid, legend for >=2 series,
 // colors from the design tokens (identity follows the entity, never the rank), a data-table twin behind every chart.
 import { useState, type ReactNode } from "react";
 import { Legend, type LegendPayload } from "recharts";

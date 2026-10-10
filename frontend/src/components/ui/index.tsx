@@ -16,12 +16,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant; size?: Size; icon?: LucideIcon; loading?: boolean; iconRight?: LucideIcon;
 }
 const variantCls: Record<Variant, string> = {
-  primary: "bg-gold text-ink hover:brightness-110 font-semibold shadow-[0_0_0_1px_rgba(228,185,99,.3)]",
-  secondary: "bg-surface-2 text-text hover:bg-surface-3 border border-border",
+  primary: "bg-[linear-gradient(135deg,var(--purple),var(--purple-deep))] text-cream hover:brightness-110 font-semibold shadow-[0_6px_16px_-8px_var(--purple)]",
+  secondary: "bg-surface text-text hover:bg-surface-2 border border-border-strong/60 shadow-sm",
   ghost: "bg-transparent text-text-2 hover:text-text hover:bg-surface-2",
-  danger: "bg-rust text-cream hover:brightness-110",
-  teal: "bg-teal text-ink hover:brightness-110 font-semibold",
-  outline: "bg-transparent border border-border-strong text-text hover:border-gold hover:text-gold",
+  danger: "bg-rust text-cream hover:brightness-110 font-semibold",
+  teal: "bg-teal text-cream hover:brightness-110 font-semibold",
+  outline: "bg-transparent border-2 border-gold text-text hover:bg-gold-tint",
 };
 const sizeCls: Record<Size, string> = { xs: "h-6 px-2 text-[11px] gap-1 rounded-[5px]", sm: "h-8 px-3 text-xs gap-1.5 rounded-[7px]", md: "h-9 px-4 text-sm gap-2 rounded-[8px]", lg: "h-11 px-6 text-base gap-2 rounded-[10px]" };
 export function Button({ variant = "secondary", size = "md", icon: Icon, iconRight: IconR, loading, className, children, disabled, ...rest }: ButtonProps) {
@@ -39,9 +39,10 @@ export function IconButton({ icon: Icon, label, size = "sm", className, ...rest 
 }
 
 /* ---------- Panel / Card ---------- */
-export function Panel({ className, children, cut, title, eyebrow, actions, padded = true, ...rest }: { className?: string; children?: ReactNode; cut?: boolean; title?: ReactNode; eyebrow?: ReactNode; actions?: ReactNode; padded?: boolean } & React.HTMLAttributes<HTMLDivElement>) {
+export type Tone = "purple" | "rust" | "teal" | "dark" | "gold" | "cream";
+export function Panel({ className, children, cut, title, eyebrow, actions, padded = true, tone, ...rest }: { className?: string; children?: ReactNode; cut?: boolean; title?: ReactNode; eyebrow?: ReactNode; actions?: ReactNode; padded?: boolean; tone?: Tone } & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <section className={cn("panel", cut && "panel-cut", padded && "p-4", className)} {...rest}>
+    <section className={cn("panel", cut && "panel-cut", padded && "p-4", tone && `tone tone-${tone}`, className)} {...rest}>
       {(title || eyebrow || actions) && (
         <header className={cn("flex items-start justify-between gap-3 mb-3", !padded && "px-4 pt-4")}>
           <div>
@@ -60,7 +61,7 @@ export function Panel({ className, children, cut, title, eyebrow, actions, padde
 export function Badge({ children, color, className, dot, size = "sm", onClick }: { children: ReactNode; color?: string; className?: string; dot?: boolean; size?: "xs" | "sm"; onClick?: () => void }) {
   const style = color ? { color, borderColor: `color-mix(in oklab, ${color} 45%, transparent)`, background: `color-mix(in oklab, ${color} 12%, transparent)` } : undefined;
   return (
-    <span onClick={onClick} style={style} className={cn("inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 text-text-2 font-display font-semibold tracking-wide whitespace-nowrap", size === "xs" ? "h-[18px] px-1.5 text-[10px]" : "h-[22px] px-2 text-[11px]", onClick && "cursor-pointer hover:brightness-125", className)}>
+    <span onClick={onClick} style={style} className={cn("inline-flex items-center gap-1 rounded-full border border-transparent bg-surface-3 text-text-2 font-display font-semibold tracking-wide whitespace-nowrap", size === "xs" ? "h-[18px] px-1.5 text-[10px]" : "h-[22px] px-2 text-[11px]", onClick && "cursor-pointer hover:brightness-125", className)}>
       {dot && <span className="w-1.5 h-1.5 rounded-full" style={{ background: color ?? "currentColor" }} />}
       {children}
     </span>
@@ -93,7 +94,7 @@ export function Field({ label, hint, children, className, required }: { label?: 
 export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label?: ReactNode }) {
   return (
     <button type="button" role="switch" aria-checked={checked} onClick={() => onChange(!checked)} className="inline-flex items-center gap-2 text-sm">
-      <span className={cn("relative inline-block w-9 h-5 rounded-full transition-colors", checked ? "bg-teal" : "bg-surface-3 border border-border-strong")}><span className={cn("absolute top-0.5 w-4 h-4 rounded-full bg-cream transition-transform shadow", checked ? "translate-x-[18px]" : "translate-x-0.5")} /></span>
+      <span className={cn("relative inline-block shrink-0 w-9 h-5 rounded-full transition-colors", checked ? "bg-purple" : "bg-surface-3 border border-border-strong")}><span className={cn("absolute left-0 top-0.5 w-4 h-4 rounded-full bg-cream transition-transform shadow", checked ? "translate-x-[18px]" : "translate-x-0.5")} /></span>
       {label && <span>{label}</span>}
     </button>
   );
@@ -104,11 +105,11 @@ export function Progress({ value, max = 100, color = "var(--teal)", className, h
   const p = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
   return <div className={cn("w-full rounded-full bg-surface-3 overflow-hidden", className)} style={{ height }}><div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${p}%`, background: color }} /></div>;
 }
-export function Stat({ label, value, sub, color, className, icon: Icon }: { label: ReactNode; value: ReactNode; sub?: ReactNode; color?: string; className?: string; icon?: LucideIcon }) {
+export function Stat({ label, value, sub, color, className, icon: Icon, tone }: { label: ReactNode; value: ReactNode; sub?: ReactNode; color?: string; className?: string; icon?: LucideIcon; tone?: Tone }) {
   return (
-    <div className={cn("panel p-3.5 min-w-0", className)}>
-      <div className="flex items-center justify-between"><span className="eyebrow">{label}</span>{Icon && <Icon size={14} className="text-text-3" />}</div>
-      <div className="num text-2xl font-bold mt-1 leading-none" style={{ color }}>{value}</div>
+    <div className={cn("panel p-4 min-w-0", tone && `tone tone-${tone}`, className)}>
+      <div className="flex items-center justify-between"><span className="eyebrow">{label}</span>{Icon && <Icon size={14} className="opacity-70" />}</div>
+      <div className="num text-[28px] font-bold mt-1.5 leading-none" style={{ color: tone ? undefined : color }}>{value}</div>
       {sub && <div className="text-[11px] text-text-3 mt-1.5">{sub}</div>}
     </div>
   );
@@ -119,7 +120,7 @@ export function Tabs<T extends string>({ tabs, value, onChange, className }: { t
   return (
     <div className={cn("inline-flex items-center gap-1 p-1 rounded-[9px] bg-surface-2 border border-border", className)} role="tablist">
       {tabs.map((t) => (
-        <button key={t.key} role="tab" aria-selected={value === t.key} onClick={() => onChange(t.key)} className={cn("h-7 px-3 rounded-[6px] text-xs font-display font-semibold tracking-wide transition-colors inline-flex items-center gap-1.5", value === t.key ? "bg-surface text-gold shadow" : "text-text-2 hover:text-text")}>
+        <button key={t.key} role="tab" aria-selected={value === t.key} onClick={() => onChange(t.key)} className={cn("h-7 px-3 rounded-[6px] text-xs font-display font-semibold tracking-wide transition-colors inline-flex items-center gap-1.5", value === t.key ? "bg-surface text-purple shadow dark:text-gold" : "text-text-2 hover:text-text")}>
           {t.label}{t.count != null && <span className="num text-[10px] text-text-3">{t.count}</span>}
         </button>
       ))}
@@ -132,8 +133,8 @@ export function Modal({ open, onClose, title, children, width = 560, footer, eye
   useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === "Escape" && onClose(); window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k); }, [open, onClose]);
   if (!open) return null;
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[8vh] bg-black/60 backdrop-blur-[2px] animate-in" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="panel panel-cut w-full max-h-[84vh] flex flex-col animate-pop" style={{ maxWidth: width }} role="dialog" aria-modal>
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[8vh] bg-coal/40 backdrop-blur-[3px] animate-in" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="panel panel-cut shadow-[var(--shadow-lg)] w-full max-h-[84vh] flex flex-col animate-pop" style={{ maxWidth: width }} role="dialog" aria-modal>
         <div className="hairline" />
         {(title || eyebrow) && <header className="flex items-start justify-between px-5 pt-4 pb-2"><div>{eyebrow && <div className="eyebrow">{eyebrow}</div>}{title && <h2 className="text-lg">{title}</h2>}</div><IconButton icon={X} label="Close" onClick={onClose} /></header>}
         <div className="px-5 pb-4 overflow-y-auto flex-1">{children}</div>
@@ -145,7 +146,7 @@ export function Drawer({ open, onClose, title, children, width = 520, side = "ri
   useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === "Escape" && onClose(); window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k); }, [open, onClose]);
   if (!open) return null;
   return createPortal(
-    <div className="fixed inset-0 z-50 bg-black/50 animate-in" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="fixed inset-0 z-50 bg-coal/40 backdrop-blur-[2px] animate-in" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <aside className={cn("absolute top-0 bottom-0 bg-surface border-border flex flex-col shadow-2xl", side === "right" ? "right-0 border-l" : "left-0 border-r")} style={{ width: `min(${width}px, 100vw)` }}>
         <div className="hairline" />
         <header className="flex items-center justify-between px-4 py-3 border-b border-border shrink-0"><div className="min-w-0">{eyebrow && <div className="eyebrow">{eyebrow}</div>}{title && <h2 className="text-base truncate">{title}</h2>}</div><div className="flex items-center gap-1">{actions}<IconButton icon={X} label="Close" onClick={onClose} /></div></header>
@@ -176,7 +177,7 @@ export function Menu({ trigger, items, align = "right" }: { trigger: ReactNode; 
 /* ---------- Empty / Loading ---------- */
 export function EmptyState({ icon, title, body, action, className }: { icon?: ReactNode; title: ReactNode; body?: ReactNode; action?: ReactNode; className?: string }) {
   return (
-    <div className={cn("flex flex-col items-center justify-center text-center py-12 px-6 rounded-[12px] border border-dashed border-border-strong", className)}>
+    <div className={cn("flex flex-col items-center justify-center text-center py-12 px-6 rounded-[16px] border border-dashed border-gold-border bg-gold-tint/50", className)}>
       {icon && <div className="text-4xl mb-3 animate-float">{icon}</div>}
       <h3 className="font-display font-bold text-base">{title}</h3>
       {body && <p className="text-text-3 text-sm mt-1 max-w-sm">{body}</p>}
@@ -227,7 +228,7 @@ export function Toaster() {
 export async function celebrate(kind: "small" | "big" = "small") {
   const mod = await import("canvas-confetti");
   const confetti = mod.default;
-  const colors = ["#e4b963", "#27cfc3", "#f7f2f0", "#6b3a8e"];
+  const colors = ["#e4b963", "#6b3a8e", "#bc553c", "#306376", "#f7f2f0"];
   if (kind === "small") confetti({ particleCount: 60, spread: 60, origin: { y: 0.8 }, colors, ticks: 120, scalar: 0.9 });
   else { confetti({ particleCount: 160, spread: 100, origin: { y: 0.6 }, colors }); setTimeout(() => confetti({ particleCount: 120, angle: 60, spread: 70, origin: { x: 0 }, colors }), 250); setTimeout(() => confetti({ particleCount: 120, angle: 120, spread: 70, origin: { x: 1 }, colors }), 400); }
 }

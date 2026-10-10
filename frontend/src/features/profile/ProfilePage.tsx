@@ -12,14 +12,14 @@ export default function ProfilePage() {
   const [picked, setPicked] = useState<string | null>(null);
   const [pin, setPin] = useState("");
   const go = (id: string, p?: string) => login.mutate({ user_id: id, pin: p }, {
-    onSuccess: (u) => { toast.fun(`Welcome back, ${u.name}.`, "Engines warm. Let's ride."); nav("/"); },
+    onSuccess: (u) => { toast.fun(`Welcome back, ${u.name}.`, "Picking up where you left off."); nav("/"); },
     onError: (e) => { if (e instanceof ApiError && e.status === 403) { setPicked(id); toast.error("That PIN didn't match."); } else toast.error("Couldn't sign in", String(e)); },
   });
   return (
     <div className="min-h-screen grid-bg flex items-center justify-center p-6">
       <Panel cut className="w-full max-w-[720px] p-8">
         <div className="hairline mb-6" />
-        <div className="eyebrow">Hyperlane · who's driving?</div>
+        <div className="eyebrow">Hyperlane</div>
         <h1 className="text-3xl mt-1">Pick your profile</h1>
         <p className="text-text-3 mt-1">No passwords. Add a PIN on your profile if you want your private checklist locked.</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6">

@@ -14,7 +14,7 @@ export function NewProjectModal({ open, onClose }: { open: boolean; onClose: () 
   const submit = () => {
     if (!f.name.trim()) return toast.error("Give the project a name"); if (!tpl) return toast.error("Pick a template");
     create.mutate({ name: f.name.trim(), key: f.key.trim().toUpperCase() || undefined, template: tpl, description: f.description || undefined, icon: f.icon, color: f.color, lead_id: f.lead_id || null },
-      { onSuccess: (p) => { toast.fun(`${p.name} is on the grid`); ui.setProjectId(p.id); onClose(); nav("/settings/project"); }, onError: (e) => toast.error("Couldn't create project", (e as Error).message) });
+      { onSuccess: (p) => { toast.fun(`${p.name} created`); ui.setProjectId(p.id); onClose(); nav("/settings/project"); }, onError: (e) => toast.error("Couldn't create project", (e as Error).message) });
   };
   return (
     <Modal open={open} onClose={onClose} width={680} eyebrow="New project" title="Start a new project" footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" loading={create.isPending} onClick={submit}>Create project</Button></>}>

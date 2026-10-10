@@ -1,4 +1,4 @@
-// /chat and /chat/:id — the Navigator, full width, with a threads sidebar.
+// /chat and /chat/:id — the assistant, full width, with a threads sidebar.
 import { useNavigate, useParams } from "react-router-dom";
 import { Plus, Trash2, MessageSquare } from "lucide-react";
 import { useProjects } from "@/api/queries";
@@ -18,7 +18,7 @@ export default function ChatPage() {
   const mine = (threads ?? []).filter((t) => !ui.projectId || !t.project_id || t.project_id === ui.projectId);
   return (
     <div className="h-[calc(100vh-7.5rem)] flex flex-col">
-      <PageHeader eyebrow="Agent · business analyst" title={label("agent", ui.flavor)} subtitle="Threads are yours; the agent only acts through the same API you use." actions={<Button variant="primary" icon={Plus} onClick={() => nav("/chat")}>New thread</Button>} />
+      <PageHeader eyebrow="Agent · business analyst" title={label("agent", ui.flavor)} subtitle="Threads are yours; the assistant only acts through the same API you use." actions={<Button variant="primary" icon={Plus} onClick={() => nav("/chat")}>New thread</Button>} />
       <div className="flex-1 min-h-0 grid grid-cols-[260px_1fr] gap-3">
         <aside className="panel overflow-y-auto p-1.5">
           {isLoading ? <div className="space-y-1 p-1">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-12" />)}</div> : mine.length === 0 ? <p className="text-xs text-text-3 p-3">No threads yet. Ask something to start one.</p> : mine.map((t) => {

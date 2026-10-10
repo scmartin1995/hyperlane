@@ -21,13 +21,13 @@ export function WorkspaceTab() {
         <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); save(); }}>
           <Field label="Name"><Input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></Field>
           <Field label="Tagline" hint="Shown on the welcome screen and home."><Input value={f.tagline} onChange={(e) => setF({ ...f, tagline: e.target.value })} placeholder="No prophecy. Just skill, strategy, and the will to ship." /></Field>
-          <Field label="Theme"><Select value={f.theme} onChange={(e) => setF({ ...f, theme: e.target.value as typeof f.theme })}><option value="dark">Dark (HUD)</option><option value="light">Light</option><option value="system">Follow system</option></Select></Field>
-          <Toggle checked={f.flavor} onChange={(v) => setF({ ...f, flavor: v })} label="Racing flavor — fun labels with plain subtitles (Pit Wall · Board)" />
+          <Field label="Theme"><Select value={f.theme} onChange={(e) => setF({ ...f, theme: e.target.value as typeof f.theme })}><option value="dark">Dark</option><option value="light">Light</option><option value="system">Follow system</option></Select></Field>
+          <Toggle checked={f.flavor} onChange={(v) => setF({ ...f, flavor: v })} label="Playful toasts and confetti" />
         </form>
       </section>
       <section className="panel p-4 self-start">
         <div className="eyebrow">Welcome</div><h3 className="font-display font-bold">Start over?</h3>
-        <p className="text-sm text-text-3 mt-1 mb-3">Re-run the welcome flow to add a project from a template or load the demo league. Nothing gets deleted.</p>
+        <p className="text-sm text-text-3 mt-1 mb-3">Re-run the welcome flow to add a project from a template or load the demo project. Nothing gets deleted.</p>
         <Link to="/welcome"><Button variant="outline">Re-run welcome</Button></Link>
       </section>
     </div>

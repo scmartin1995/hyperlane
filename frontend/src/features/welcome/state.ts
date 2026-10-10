@@ -2,11 +2,11 @@
 export interface WizardState { step: number; wsName: string; theme: "dark" | "light"; flavor: boolean; projectId: string | null; seeded: string | null }
 export interface StepProps { state: WizardState; update: (p: Partial<WizardState>) => void; next: () => void; back: () => void }
 export const STEPS = [
-  { key: "workspace", title: "Name the league", plain: "Workspace" },
-  { key: "profile", title: "Suit up", plain: "Your profile" },
-  { key: "template", title: "Pick a chassis", plain: "Project template" },
-  { key: "seed", title: "Load the grid", plain: "Seed the backlog" },
-  { key: "connect", title: "Open comms", plain: "Connect & finish" },
+  { key: "workspace", title: "Name your workspace", plain: "Workspace" },
+  { key: "profile", title: "Create your profile", plain: "Your profile" },
+  { key: "template", title: "Choose a project type", plain: "Project template" },
+  { key: "seed", title: "Seed the backlog", plain: "Seed the backlog" },
+  { key: "connect", title: "Connect & finish", plain: "Connect & finish" },
 ] as const;
 const KEY = "hyperlane-welcome";
 export const DEFAULT_STATE: WizardState = { step: 0, wsName: "", theme: "dark", flavor: true, projectId: null, seeded: null };

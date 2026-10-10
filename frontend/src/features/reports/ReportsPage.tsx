@@ -1,4 +1,4 @@
-// Telemetry · Reports. Tabs: overview / flow / velocity / forecast / evm.
+// Insights · Reports. Tabs: overview / flow / velocity / forecast / evm.
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUI, label } from "@/lib/store";
@@ -26,7 +26,7 @@ export default function ReportsPage() {
   const t = (TABS.some((x) => x.key === tab) ? tab : "overview") as Tab;
   return (
     <div>
-      <PageHeader eyebrow="Reports · Analytics" title={label("reports", flavor)} subtitle="Flow, velocity, forecasts and earned value. No prophecy — just the numbers."
+      <PageHeader eyebrow="Reports" title={label("reports", flavor)} subtitle="Flow, velocity, forecasts and earned value, explained in plain language."
         actions={<span className="hidden md:inline-flex items-center gap-1 text-xs text-text-3"><Kbd>1</Kbd>–<Kbd>5</Kbd> switch tab</span>} />
       <Tabs className="mb-4" value={t} onChange={(x) => nav(`/reports/${x}`)} tabs={TABS.map((x) => ({ key: x.key, label: x.label }))} />
       {t === "overview" && <OverviewTab pid={pid} />}

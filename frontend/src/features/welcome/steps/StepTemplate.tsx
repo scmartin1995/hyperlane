@@ -28,7 +28,7 @@ export function StepTemplate({ state, update, next, back }: StepProps) {
 
   if (existing && !createAnother) return (
     <div className="space-y-6">
-      <div><div className="eyebrow">Step 3 · Project</div><h2 className="text-2xl mt-1">Chassis ready</h2><p className="text-text-3 text-sm mt-1">You already have a project. Continue with it, or build another.</p></div>
+      <div><div className="eyebrow">Step 3 · Project</div><h2 className="text-2xl mt-1">Project ready</h2><p className="text-text-3 text-sm mt-1">You already have a project. Continue with it, or build another.</p></div>
       <div className="panel panel-cut p-5 flex items-center gap-4 glow-gold"><span className="text-3xl">{existing.icon}</span><div><div className="font-display font-bold text-lg">{existing.name} <span className="num text-sm text-text-3">{existing.key}</span></div><div className="text-text-3 text-sm">{existing.methodology} · {existing.workflow.length} states · {existing.item_types.map((t) => t.plural).join(", ")}</div></div></div>
       <div className="flex justify-between"><Button variant="ghost" icon={ArrowLeft} onClick={back}>Back</Button><div className="flex gap-2"><Button variant="outline" onClick={() => setCreateAnother(true)}>Create another project</Button><Button variant="primary" size="lg" iconRight={ArrowRight} onClick={next}>Continue</Button></div></div>
     </div>
@@ -36,7 +36,7 @@ export function StepTemplate({ state, update, next, back }: StepProps) {
 
   return (
     <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); if (picked && name.trim()) create.mutate(); }}>
-      <div><div className="eyebrow">Step 3 · Project</div><h2 className="text-2xl mt-1">Pick a chassis</h2><p className="text-text-3 text-sm mt-1">Templates set item types, workflow and defaults. Everything is editable later in Settings.</p></div>
+      <div><div className="eyebrow">Step 3 · Project</div><h2 className="text-2xl mt-1">Pick a project type</h2><p className="text-text-3 text-sm mt-1">Templates set item types, workflow and defaults. Everything is editable later in Settings.</p></div>
       {isLoading && <div className="grid grid-cols-2 gap-3">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-24" />)}</div>}
       {isError && <p className="text-sm text-rust-light">Couldn't load templates. Is the server running?</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Template">

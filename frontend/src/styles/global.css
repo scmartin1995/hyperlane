@@ -20,23 +20,33 @@
   --color-accent-contrast: var(--accent-contrast);
   --color-link: var(--link);
   --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
   --color-gold-light: var(--gold-light);
+  --color-gold-tint: var(--gold-tint);
   --color-teal: var(--teal);
   --color-teal-deep: var(--teal-deep);
+  --color-teal-bright: var(--teal-bright);
+  --color-teal-tint: var(--teal-tint);
   --color-rust: var(--rust);
+  --color-rust-deep: var(--rust-deep);
   --color-rust-light: var(--rust-light);
+  --color-rust-tint: var(--rust-tint);
   --color-purple: var(--purple);
+  --color-purple-deep: var(--purple-deep);
   --color-purple-light: var(--purple-light);
+  --color-purple-tint: var(--purple-tint);
   --color-green: var(--green);
+  --color-green-tint: var(--green-tint);
   --color-cream: var(--cream);
+  --color-sand: var(--sand);
   --color-ash: var(--ash);
   --color-smoke: var(--smoke);
   --color-coal: var(--coal);
   --color-ink: var(--ink);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
 }
 
 @layer base {
@@ -50,23 +60,22 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--purple) 18%, transparent), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, color-mix(in oklab, var(--teal-deep) 20%, transparent), transparent 60%);
+      radial-gradient(900px 500px at 85% -10%, color-mix(in oklab, var(--purple) 14%, transparent), transparent 65%),
+      radial-gradient(800px 500px at -10% 100%, color-mix(in oklab, var(--gold) 22%, transparent), transparent 60%);
     background-attachment: fixed;
   }
-  h1, h2, h3, h4, .display { font-family: var(--font-display); letter-spacing: 0.01em; }
-  h1 { font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; }
+  h1, h2, h3, h4, .display { font-family: var(--font-display); letter-spacing: 0; }
+  h1 { font-weight: 700; letter-spacing: -0.01em; }
   h2 { font-weight: 700; }
   a { color: var(--link); }
-  ::selection { background: color-mix(in oklab, var(--gold) 45%, transparent); }
+  ::selection { background: color-mix(in oklab, var(--gold) 55%, transparent); }
   input, textarea, select, button { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
+  :focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; border-radius: 6px; }
   * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
   code, kbd, .mono { font-family: var(--font-mono); font-size: 0.92em; }
 }
 
 @layer components {
-  /* HUD panel with cut corners and a gold hairline */
   .panel {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -74,28 +83,39 @@
     box-shadow: var(--shadow);
     position: relative;
   }
-  .panel-cut {
-    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
-    border-radius: 0;
-  }
-  .hairline { height: 1px; background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent); opacity: 0.7; }
-  .stripe {
-    background-image: repeating-linear-gradient(135deg, var(--gold) 0 6px, transparent 6px 14px);
-    opacity: 0.35;
-  }
-  .scanlines::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
-    background: repeating-linear-gradient(0deg, var(--scanline) 0 1px, transparent 1px 3px);
-  }
+  .panel-cut { border-radius: var(--radius-lg); }
+
+  /* Color-blocked cards: saturated background, cream text, gold edge. */
+  .tone { color: var(--cream); border-color: transparent; }
+  .tone .eyebrow, .tone .text-text-3, .tone .text-text-2 { color: color-mix(in oklab, var(--cream) 78%, transparent); }
+  .tone-purple { background: linear-gradient(135deg, var(--purple) 0%, var(--purple-deep) 100%); }
+  .tone-rust { background: linear-gradient(135deg, var(--rust) 0%, var(--rust-deep) 100%); }
+  .tone-teal { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%); }
+  .tone-dark { background: linear-gradient(135deg, #3a3634 0%, var(--coal) 100%); }
+  .tone.tone-gold { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%); color: var(--coal) !important; }
+  .tone.tone-gold :is(.eyebrow, .text-text-3, .text-text-2, [class*="opacity-"]) { color: color-mix(in oklab, var(--coal) 75%, transparent) !important; }
+  .tone-cream { background: var(--gold-light); color: var(--coal); border-color: var(--gold-border); }
+  .tone-cream .eyebrow { color: var(--rust); }
+  .tint-purple { background: var(--purple-tint); }
+  .tint-rust { background: var(--rust-tint); }
+  .tint-teal { background: var(--teal-tint); }
+  .tint-gold { background: var(--gold-tint); }
+  .tint-green { background: var(--green-tint); }
+  .gold-edge { box-shadow: inset 0 0 0 1px var(--gold-border), var(--shadow); }
+
+  .hairline { height: 2px; background: linear-gradient(90deg, var(--purple), var(--gold) 50%, var(--rust)); border-radius: 2px; opacity: 0.9; }
+  .stripe { background-image: repeating-linear-gradient(135deg, var(--gold) 0 6px, transparent 6px 14px); opacity: 0.35; }
+  .scanlines::after { content: none; }
   .glow-gold { box-shadow: var(--glow-gold); }
   .glow-teal { box-shadow: var(--glow-teal); }
   .eyebrow {
-    font-family: var(--font-display); font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.18em; font-size: 10.5px; color: var(--text-3);
+    font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; font-size: 10.5px; color: var(--purple);
   }
+  :root[data-theme="dark"] .eyebrow { color: var(--gold); }
   .grid-bg {
     background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 28px 28px;
+    background-size: 32px 32px;
   }
   .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
   .prose-hl :is(h1,h2,h3) { font-family: var(--font-display); margin: 0.8em 0 0.3em; }
@@ -115,7 +135,7 @@
   .animate-shimmer { background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: hl-shimmer 1.4s infinite; }
   .animate-float { animation: hl-float 6s ease-in-out infinite; }
   .animate-sweep { position: relative; overflow: hidden; }
-  .animate-sweep::before { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%); transform: translateX(-100%); animation: hl-sweep 2.4s var(--ease) infinite; }
+  .animate-sweep::before { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%); transform: translateX(-100%); animation: hl-sweep 3s var(--ease) infinite; }
 }
 
 @keyframes hl-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }

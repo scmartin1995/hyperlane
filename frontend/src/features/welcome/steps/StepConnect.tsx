@@ -17,11 +17,11 @@ export function StepConnect({ state, back, next }: StepProps & { next: () => voi
     { name: "Claude agent", ok: health.llm.configured, detail: health.llm.configured ? `${health.llm.provider} · ${health.llm.model}` : "Set ANTHROPIC_API_KEY (or Bedrock / Claude Code) in .env", vars: "ANTHROPIC_API_KEY / HL_LLM_PROVIDER" },
     { name: "Slack", ok: health.slack, detail: health.slack ? "Socket Mode connected" : "Threads, /hyperlane commands and digests", vars: "SLACK_BOT_TOKEN, SLACK_APP_TOKEN" },
     { name: "Microsoft Teams", ok: health.teams, detail: health.teams ? "Webhook configured" : "Notifications via incoming webhook", vars: "TEAMS_WEBHOOK_URL" },
-    { name: "Email intake", ok: health.email_intake, detail: health.email_intake ? "IMAP polling" : "Turn an inbox into requests the agent triages", vars: "IMAP_HOST, IMAP_USER, IMAP_PASSWORD, SMTP_*" },
+    { name: "Email intake", ok: health.email_intake, detail: health.email_intake ? "IMAP polling" : "Turn an inbox into requests the assistant triages", vars: "IMAP_HOST, IMAP_USER, IMAP_PASSWORD, SMTP_*" },
   ] : [];
   return (
     <div className="space-y-5">
-      <div><div className="eyebrow">Step 5 · Connect</div><h2 className="text-2xl mt-1">Open comms</h2><p className="text-text-3 text-sm mt-1">Integrations are optional and all off by default. Nothing leaves this machine unless you flip one on.</p></div>
+      <div><div className="eyebrow">Step 5 · Connect</div><h2 className="text-2xl mt-1">Connect your tools</h2><p className="text-text-3 text-sm mt-1">Integrations are optional and all off by default. Nothing leaves this machine unless you flip one on.</p></div>
       {isLoading ? <div className="space-y-2">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-12" />)}</div> : (
         <ul className="panel divide-y divide-border">
           {rows.map((r) => (

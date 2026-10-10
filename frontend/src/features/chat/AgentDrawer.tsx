@@ -1,4 +1,4 @@
-// The Navigator drawer (rendered by AppShell). Same ChatView as /chat, narrower.
+// The Assistant drawer (rendered by AppShell). Same ChatView as /chat, narrower.
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Maximize2, Plus } from "lucide-react";

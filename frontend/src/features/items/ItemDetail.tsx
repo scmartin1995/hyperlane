@@ -54,7 +54,7 @@ export function ItemDetail({ id, compact, onOpenItem, onArchived }: { id: string
           {item.parent && <button type="button" onClick={() => open(item.parent!.id)} className="text-xs text-text-3 hover:text-text truncate max-w-[240px]">↑ {item.parent.key} · {item.parent.title}</button>}
           <span className="flex-1" />
           {compact && <IconButton icon={ExternalLink} label="Open full page" onClick={() => nav(`/items/${item.id}`)} />}
-          <Button size="sm" variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { item_id: item.id, item_key: item.key, project_id: item.project_id })}>Ask the agent</Button>
+          <Button size="sm" variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { item_id: item.id, item_key: item.key, project_id: item.project_id })}>Ask the assistant</Button>
           <IconButton icon={Archive} label="Archive item" onClick={() => { if (confirm(`Archive ${item.key}?`)) del.mutate({ id: item.id }, { onSuccess: () => { toast.success(`${item.key} archived`); onArchived ? onArchived() : nav(-1); } }); }} />
         </div>
         <InlineTitle value={item.title} onSave={(t) => patch({ title: t })} className={cn(compact ? "text-xl" : "text-2xl", done && "line-through opacity-70")} />

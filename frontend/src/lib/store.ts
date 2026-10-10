@@ -20,8 +20,8 @@ interface UIState {
 export const useUI = create<UIState>()(
   persist(
     (set) => ({
-      theme: "dark",
-      flavor: true,
+      theme: "light",
+      flavor: false,
       projectId: null,
       sidebarCollapsed: false,
       agentOpen: false,
@@ -34,22 +34,22 @@ export const useUI = create<UIState>()(
       setAgentOpen: (agentOpen, context) => set((s) => ({ agentOpen, agentContext: context ?? s.agentContext })),
       setSoundOn: (soundOn) => set({ soundOn }),
     }),
-    { name: "hyperlane-ui", partialize: (s) => ({ theme: s.theme, flavor: s.flavor, projectId: s.projectId, sidebarCollapsed: s.sidebarCollapsed, soundOn: s.soundOn }) },
+    { name: "hyperlane-ui-v2", partialize: (s) => ({ theme: s.theme, flavor: s.flavor, projectId: s.projectId, sidebarCollapsed: s.sidebarCollapsed, soundOn: s.soundOn }) },
   ),
 );
 
-/** Flavored vs plain labels. Plain labels are always shown as subtitles so nobody is lost. */
+/** Navigation labels. `flavor` is kept for compatibility; both variants now use plain product language. */
 export const LABELS = {
-  home: { fun: "Mission Control", plain: "Home" },
-  board: { fun: "Pit Wall", plain: "Board" },
-  backlog: { fun: "Hangar", plain: "Backlog" },
-  sprints: { fun: "Laps", plain: "Sprints" },
-  reports: { fun: "Telemetry", plain: "Reports" },
-  intake: { fun: "Comms", plain: "Intake" },
-  actionItems: { fun: "My Checklist", plain: "Action items" },
-  people: { fun: "Pit Crew", plain: "People" },
-  agent: { fun: "Navigator", plain: "Agent" },
-  settings: { fun: "Garage", plain: "Settings" },
+  home: { fun: "Home", plain: "Home" },
+  board: { fun: "Board", plain: "Board" },
+  backlog: { fun: "Backlog", plain: "Backlog" },
+  sprints: { fun: "Sprints", plain: "Sprints" },
+  reports: { fun: "Insights", plain: "Insights" },
+  intake: { fun: "Inbox", plain: "Inbox" },
+  actionItems: { fun: "My tasks", plain: "My tasks" },
+  people: { fun: "Team", plain: "Team" },
+  agent: { fun: "Assistant", plain: "Assistant" },
+  settings: { fun: "Settings", plain: "Settings" },
 } as const;
 
 export function label(key: keyof typeof LABELS, flavor: boolean): string {

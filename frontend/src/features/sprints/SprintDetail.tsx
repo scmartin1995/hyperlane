@@ -95,7 +95,7 @@ function CloseSprintModal({ open, onClose, sprint, projectId }: { open: boolean;
   if (result) {
     const nextName = sprints?.find((s) => s.id === carry)?.name ?? (carry === "next" ? `Sprint ${sprint.number + 1}` : "the backlog");
     return (
-      <Modal open={open} onClose={finish} eyebrow="Lap complete" title={`${sprint.name} closed`} footer={<><Button variant="ghost" onClick={() => { setResult(null); onClose(); }}>Done</Button><Button variant="primary" onClick={finish}>Run the retro →</Button></>}>
+      <Modal open={open} onClose={finish} eyebrow="Sprint closed" title={`${sprint.name} closed`} footer={<><Button variant="ghost" onClick={() => { setResult(null); onClose(); }}>Done</Button><Button variant="primary" onClick={finish}>Run the retro →</Button></>}>
         <div className="text-center py-4">
           <div className="text-5xl mb-2">🏁</div>
           <div className="text-2xl font-display font-bold"><span className="num">{result.completed.length}</span> of <span className="num">{result.completed.length + result.carried.length}</span> done</div>

@@ -18,12 +18,12 @@ export function StepProfile({ next, back }: StepProps) {
   const [pin, setPin] = useState("");
   const create = useMutation({
     mutationFn: async () => {
-      const user = await api.post<User>("/users", { name: name.trim(), role: role.trim() || "Driver", emoji, color });
+      const user = await api.post<User>("/users", { name: name.trim(), role: role.trim() || "Developer", emoji, color });
       await api.post<User>("/auth/login", { user_id: user.id });
       if (pin.trim()) await api.post("/auth/pin", { pin: pin.trim() });
       return user;
     },
-    onSuccess: async (u) => { await qc.invalidateQueries(); toast.fun(`Welcome to the league, ${u.name}.`, "Helmet on. Let's set up your project."); next(); },
+    onSuccess: async (u) => { await qc.invalidateQueries(); toast.fun(`Welcome, ${u.name}.`, "Let's set up your project."); next(); },
     onError: (e) => toast.error("Couldn't create your profile", String(e)),
   });
   const pinOk = !pin || /^\d{4,8}$/.test(pin);
@@ -31,7 +31,7 @@ export function StepProfile({ next, back }: StepProps) {
 
   if (me && !addingAnother) return (
     <div className="space-y-6">
-      <div><div className="eyebrow">Step 2 · Profile</div><h2 className="text-2xl mt-1">You're already suited up</h2><p className="text-text-3 text-sm mt-1">Signed in and ready. Continue, or add a teammate's profile now.</p></div>
+      <div><div className="eyebrow">Step 2 · Profile</div><h2 className="text-2xl mt-1">You're already signed in</h2><p className="text-text-3 text-sm mt-1">Signed in and ready. Continue, or add a teammate's profile now.</p></div>
       <div className="panel panel-cut p-5 flex items-center gap-4 glow-gold"><Avatar user={me} size={56} /><div><div className="font-display font-bold text-lg">{me.name}</div><div className="text-text-3 text-sm">{me.role}{me.has_pin ? " · PIN set" : ""}</div></div></div>
       <div className="flex justify-between"><Button variant="ghost" icon={ArrowLeft} onClick={back}>Back</Button><div className="flex gap-2"><Button variant="outline" icon={UserPlus} onClick={() => setAddingAnother(true)}>Add another profile</Button><Button variant="primary" size="lg" iconRight={ArrowRight} onClick={next}>Continue</Button></div></div>
     </div>

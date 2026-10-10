@@ -1,5 +1,6 @@
-/* Hyperlane design tokens. Inspired by a gritty racing-league HUD: dark panels, cream type,
-   gold hairlines, teal interactives, rust for danger, purple for epics. */
+/* Hyperlane design tokens.
+   Palette lifted from the inspiration site: warm cream surfaces, deep charcoal type,
+   and bold color-blocked cards in purple, rust, teal and gold with cream text. */
 
 :root {
   --font-display: "Titillium Web", "Overpass Variable", system-ui, sans-serif;
@@ -7,83 +8,98 @@
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* brand */
+  --purple: #6b3a8e;
+  --purple-deep: #4f2a6b;
+  --purple-light: #a97cc7;
+  --purple-tint: #ece2f3;
+  --rust: #bc553c;
+  --rust-deep: #9a4330;
+  --rust-light: #e07a5f;
+  --rust-tint: #f6e3dc;
+  --teal: #306376;
+  --teal-deep: #244c5b;
+  --teal-bright: #27cfc3;
+  --teal-tint: #dcecf0;
   --gold: #e4b963;
+  --gold-deep: #c99a3f;
   --gold-light: #fff0d7;
   --gold-border: #f9dfad;
-  --teal: #27cfc3;
-  --teal-deep: #306376;
-  --rust: #bc553c;
-  --rust-light: #e07a5f;
-  --purple: #6b3a8e;
-  --purple-light: #9b6bc0;
-  --green: #67a671;
+  --gold-tint: #faf0dc;
+  --green: #5f9a68;
+  --green-tint: #e0eedf;
   --cream: #f7f2f0;
   --sand: #f0edeb;
   --ash: #c5c2c2;
-  --smoke: #869791;
+  --smoke: #7d7873;
   --coal: #282828;
-  --ink: #141311;
+  --ink: #1a1816;
 
-  /* radii & motion */
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 16px;
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --cut: 14px; /* HUD corner cut */
+  --cut: 0px;
 
-  /* dark (default) */
-  --bg: #141311;
-  --bg-2: #1a1917;
-  --surface: #1f1d1b;
-  --surface-2: #282624;
-  --surface-3: #33302d;
-  --border: #35322e;
-  --border-strong: #4a463f;
-  --text: #f7f2f0;
-  --text-2: #c5c2c2;
-  --text-3: #869791;
-  --accent: var(--gold);
-  --accent-contrast: #141311;
-  --link: var(--teal);
-  --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
-  --glow-gold: 0 0 0 1px rgba(228, 185, 99, 0.35), 0 0 24px -6px rgba(228, 185, 99, 0.45);
-  --glow-teal: 0 0 0 1px rgba(39, 207, 195, 0.4), 0 0 24px -6px rgba(39, 207, 195, 0.5);
-  --scanline: rgba(255, 255, 255, 0.025);
-  --grid: rgba(228, 185, 99, 0.05);
-  color-scheme: dark;
-}
-
-:root[data-theme="light"] {
+  /* light (default) */
   --bg: #f0edeb;
-  --bg-2: #ebe7e3;
-  --surface: #f7f2f0;
-  --surface-2: #ffffff;
-  --surface-3: #e6e4dc;
-  --border: #d9d4ce;
-  --border-strong: #bfb8b0;
+  --bg-2: #ebe6e2;
+  --surface: #ffffff;
+  --surface-2: #f7f2f0;
+  --surface-3: #ebe6e2;
+  --border: #e6dfd9;
+  --border-strong: #cfc6be;
   --text: #282828;
-  --text-2: #4a4745;
-  --text-3: #7a7572;
-  --accent: #bc553c;
-  --accent-contrast: #f7f2f0;
-  --link: #306376;
-  --shadow: 0 10px 30px -14px rgba(40, 40, 40, 0.35);
-  --glow-gold: 0 0 0 1px rgba(188, 85, 60, 0.35), 0 0 20px -6px rgba(188, 85, 60, 0.35);
-  --glow-teal: 0 0 0 1px rgba(48, 99, 118, 0.4), 0 0 20px -6px rgba(48, 99, 118, 0.4);
-  --scanline: rgba(0, 0, 0, 0.02);
-  --grid: rgba(188, 85, 60, 0.05);
+  --text-2: #4e4946;
+  --text-3: #7d7873;
+  --accent: var(--purple);
+  --accent-contrast: #fff7f2;
+  --link: var(--teal);
+  --shadow: 0 1px 2px rgba(40, 40, 40, 0.04), 0 10px 30px -16px rgba(40, 40, 40, 0.25);
+  --shadow-lg: 0 20px 50px -20px rgba(40, 40, 40, 0.35);
+  --glow-gold: 0 0 0 2px var(--gold-border);
+  --glow-teal: 0 0 0 2px color-mix(in oklab, var(--teal-bright) 55%, transparent);
+  --scanline: transparent;
+  --grid: rgba(107, 58, 142, 0.06);
   color-scheme: light;
 }
 
-/* status / priority semantic colors */
+:root[data-theme="dark"] {
+  --bg: #221f1d;
+  --bg-2: #1d1a18;
+  --surface: #2d2926;
+  --surface-2: #363230;
+  --surface-3: #413c39;
+  --border: #44403c;
+  --border-strong: #5a544f;
+  --text: #f7f2f0;
+  --text-2: #d6d0cb;
+  --text-3: #a39c95;
+  --accent: var(--gold);
+  --accent-contrast: #1a1816;
+  --link: var(--teal-bright);
+  --shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  --glow-gold: 0 0 0 2px color-mix(in oklab, var(--gold) 55%, transparent);
+  --glow-teal: 0 0 0 2px color-mix(in oklab, var(--teal-bright) 55%, transparent);
+  --scanline: transparent;
+  --grid: rgba(228, 185, 99, 0.06);
+  --purple-tint: #3b2a48;
+  --rust-tint: #4a2d25;
+  --teal-tint: #243a42;
+  --gold-tint: #45392a;
+  --green-tint: #2b3c2d;
+  color-scheme: dark;
+}
+
+/* semantic */
 :root {
-  --cat-todo: var(--smoke);
+  --cat-todo: var(--gold-deep);
   --cat-in_progress: var(--teal);
   --cat-done: var(--green);
   --prio-critical: var(--rust);
-  --prio-high: #e07a5f;
-  --prio-medium: var(--gold);
-  --prio-low: var(--teal-deep);
+  --prio-high: var(--rust-light);
+  --prio-medium: var(--gold-deep);
+  --prio-low: var(--teal);
   --prio-none: var(--smoke);
 }

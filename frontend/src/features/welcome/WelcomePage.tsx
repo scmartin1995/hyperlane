@@ -1,4 +1,4 @@
-// "Welcome to the League" — full-screen onboarding wizard. Survives refresh; re-runnable from Settings.
+// "Welcome to Hyperlane" — full-screen onboarding wizard. Survives refresh; re-runnable from Settings.
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Check } from "lucide-react";
@@ -36,7 +36,7 @@ export default function WelcomePage() {
   }, [me, meLoading, health, projects]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const go = (step: number) => update({ step: Math.max(0, Math.min(STEPS.length - 1, step)) });
-  const finish = () => { celebrate("big"); toast.fun("Welcome to the League.", "No prophecy. Just skill, strategy, and the will to ship."); clearState(); ui.setProjectId(state.projectId); nav("/"); };
+  const finish = () => { celebrate("big"); toast.fun("Welcome to Hyperlane.", "Your assistant is ready whenever you are."); clearState(); ui.setProjectId(state.projectId); nav("/"); };
   const props = { state, update, next: () => go(state.step + 1), back: () => go(state.step - 1) };
 
   return (
@@ -45,9 +45,9 @@ export default function WelcomePage() {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-[360px_1fr] max-w-[1200px] w-full mx-auto p-6 gap-8">
         <aside className="flex flex-col gap-8 lg:sticky lg:top-6 self-start">
           <div className="animate-in">
-            <div className="flex items-center gap-3"><span className="text-4xl animate-float">🏁</span><div><div className="font-display font-black uppercase tracking-[0.18em] text-gold text-xl leading-none">Hyperlane</div><div className="eyebrow mt-1">Welcome to the League</div></div></div>
-            <p className="mt-4 font-display text-lg leading-snug text-text">No prophecy. Just skill, strategy, and the will to ship.</p>
-            <p className="mt-2 text-sm text-text-3">Local-first project management with an agent in the pit lane. Five quick steps; every one can be redone later from Settings.</p>
+            <div className="flex items-center gap-3"><span className="w-12 h-12 rounded-[14px] bg-[linear-gradient(135deg,var(--purple),var(--rust))] text-cream inline-flex items-center justify-center font-display font-black text-xl shadow-md animate-float">H</span><div><div className="font-display font-black uppercase tracking-[0.18em] text-gold text-xl leading-none">Hyperlane</div><div className="eyebrow mt-1">Welcome to Hyperlane</div></div></div>
+            <p className="mt-4 font-display text-lg leading-snug text-text">Plan, build and ship with an AI analyst on the team.</p>
+            <p className="mt-2 text-sm text-text-3">Local-first project management with an AI analyst on the team. Five quick steps; every one can be redone later from Settings.</p>
           </div>
           <ol className="space-y-1" aria-label="Setup progress">
             {STEPS.map((s, i) => { const done = i < state.step; const cur = i === state.step; return (

@@ -28,11 +28,10 @@ export function CommandPalette() {
     { id: "actions", label: `${label("actionItems", ui.flavor)} · Action items`, hint: "Go", run: () => nav("/action-items") },
     { id: "people", label: `${label("people", ui.flavor)} · People`, hint: "Go", run: () => nav("/people") },
     { id: "settings", label: `${label("settings", ui.flavor)} · Settings`, hint: "Go", run: () => nav("/settings") },
-    { id: "agent", label: "Open the agent", hint: "/", run: () => ui.setAgentOpen(true) },
+    { id: "agent", label: "Open the assistant", hint: "/", run: () => ui.setAgentOpen(true) },
     { id: "new-item", label: "New work item", hint: "c", run: () => nav("/backlog?new=1") },
     { id: "theme", label: "Toggle theme", hint: "", run: () => ui.setTheme(ui.theme === "dark" ? "light" : "dark") },
-    { id: "flavor", label: ui.flavor ? "Use plain labels" : "Use racing labels", hint: "", run: () => ui.setFlavor(!ui.flavor) },
-  ].filter((c) => !q || c.label.toLowerCase().includes(q.toLowerCase())), [q, ui, nav]);
+      ].filter((c) => !q || c.label.toLowerCase().includes(q.toLowerCase())), [q, ui, nav]);
 
   const rows = useMemo(() => [
     ...(results ?? []).map((it) => ({ id: it.id, label: `${it.key} · ${it.title}`, hint: it.status, run: () => nav(`/items/${it.id}`) })),
@@ -51,7 +50,7 @@ export function CommandPalette() {
         <div className="max-h-[50vh] overflow-y-auto border-t border-border p-1">
           {rows.length === 0 && <div className="p-4 text-sm text-text-3">Nothing matches.</div>}
           {rows.map((r, i) => (
-            <button key={r.id} onMouseEnter={() => setIdx(i)} onClick={() => { r.run(); set(false); }} className={cn("w-full flex items-center justify-between px-3 h-9 rounded-[6px] text-sm text-left", i === idx ? "bg-surface-2 text-gold" : "text-text-2")}>
+            <button key={r.id} onMouseEnter={() => setIdx(i)} onClick={() => { r.run(); set(false); }} className={cn("w-full flex items-center justify-between px-3 h-9 rounded-[6px] text-sm text-left", i === idx ? "bg-purple-tint text-purple dark:text-gold" : "text-text-2")}>
               <span className="truncate">{r.label}</span>{r.hint && <Kbd>{r.hint}</Kbd>}
             </button>
           ))}

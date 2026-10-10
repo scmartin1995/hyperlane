@@ -38,7 +38,7 @@ export function BacklogRow({ row, project, selected, focused, collapsed, onToggl
       <span className="inline-flex items-center gap-1.5 opacity-0 group-hover:opacity-100 focus-within:opacity-100 shrink-0">
         <IconButton size="xs" icon={Pencil} label="Rename" onClick={() => setEditing(true)} />
         {canHaveChildren && <IconButton size="xs" icon={Plus} label="Add child" onClick={onAddChild} />}
-        {row.depth === 0 && <IconButton size="xs" icon={Sparkles} label="Ask the agent to build this out" onClick={onAskAgent} className="text-gold" />}
+        {row.depth === 0 && <IconButton size="xs" icon={Sparkles} label="Ask the assistant to build this out" onClick={onAskAgent} className="text-gold" />}
       </span>
       {n.blocked && <BlockedTag reason={n.blocked_reason} />}
       <LabelChips labels={n.labels} max={2} />

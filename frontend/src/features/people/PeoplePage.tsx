@@ -1,4 +1,4 @@
-// Pit Crew · People. Grid at /people, detail at /people/:id.
+// Team · People. Grid at /people, detail at /people/:id.
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Plus, Slack, Clock } from "lucide-react";
@@ -27,10 +27,10 @@ function PeopleGrid() {
   if (isError) return <EmptyState icon="⚠️" title="Couldn't load people" />;
   return (
     <div>
-      <PageHeader eyebrow="People · Team" title={label("people", flavor)} subtitle="Everyone in the garage: roles, skills, hours and what the planner has learned about them."
+      <PageHeader eyebrow="Team" title={label("people", flavor)} subtitle="Roles, skills, hours, and what the planner has learned about each person."
         actions={<><Input placeholder="Filter by name, role, skill…" value={q} onChange={(e) => setQ(e.target.value)} className="h-8 w-56" /><label className="text-xs text-text-3 inline-flex items-center gap-1"><input type="checkbox" checked={inactive} onChange={(e) => setInactive(e.target.checked)} /> show inactive</label><Kbd>n</Kbd><Button variant="primary" icon={Plus} onClick={() => setShowAdd(true)}>Add person</Button></>} />
       {isLoading ? <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-40" />)}</div>
-        : list.length === 0 ? <EmptyState icon="👥" title={q ? "Nobody matches" : "No crew yet"} body={q ? "Try a different filter." : "Add the people who'll be racing. Each gets a profile and a private checklist."} action={!q && <Button variant="primary" icon={Plus} onClick={() => setShowAdd(true)}>Add person</Button>} />
+        : list.length === 0 ? <EmptyState icon="👥" title={q ? "Nobody matches" : "No people yet"} body={q ? "Try a different filter." : "Add the people on the team. Each gets a profile and a private checklist."} action={!q && <Button variant="primary" icon={Plus} onClick={() => setShowAdd(true)}>Add person</Button>} />
         : <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{list.map((u) => <PersonCard key={u.id} user={u} isMe={me?.id === u.id} onOpen={() => nav(`/people/${u.id}`)} />)}</div>}
       <AddPersonModal open={showAdd} onClose={() => setShowAdd(false)} />
     </div>

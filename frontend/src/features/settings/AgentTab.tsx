@@ -33,7 +33,7 @@ export function AgentTab() {
       <section className="panel p-4 text-sm">
         <div className="eyebrow">How to switch</div>
         <ol className="list-decimal pl-5 mt-1 space-y-1 text-text-2"><li>Edit <code>.env</code> in the Hyperlane folder (next to <code>pyproject.toml</code>). Secrets are never stored in the database.</li><li>Restart the server (<code>./hyperlane</code>).</li><li>Come back here and hit Re-check.</li></ol>
-        <div className="mt-3 flex items-start gap-2 p-3 rounded-[8px] border border-border bg-surface-2/60"><ShieldCheck size={16} className="text-green shrink-0 mt-0.5" /><p className="text-xs text-text-2"><b>Privacy.</b> The only things that leave this machine are the prompts sent to the provider you choose (item titles, descriptions, metrics the agent reads) and messages you explicitly route to Slack, Teams or email. Private action items are never sent to anyone but you.</p></div>
+        <div className="mt-3 flex items-start gap-2 p-3 rounded-[8px] border border-border bg-surface-2/60"><ShieldCheck size={16} className="text-green shrink-0 mt-0.5" /><p className="text-xs text-text-2"><b>Privacy.</b> The only things that leave this machine are the prompts sent to the provider you choose (item titles, descriptions, metrics the assistant reads) and messages you explicitly route to Slack, Teams or email. Private action items are never sent to anyone but you.</p></div>
       </section>
     </div>
   );

@@ -1,4 +1,6 @@
-// Mission Control cards: active sprint, your lane, action items, intake, activity feed.
+import { useState } from "react";
+import { Sparkles } from "lucide-react";
+// Home cards: active sprint, your lane, action items, intake, activity feed.
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, CheckSquare, Inbox, Flag } from "lucide-react";
@@ -93,14 +95,25 @@ export function ActivityFeed({ pid }: { pid: string | undefined }) {
   return <Panel eyebrow="Recent" title="Activity"><ActivityList rows={q.data} loading={q.isLoading} emptyText="Quiet so far. Create or move something and it shows up here." /></Panel>;
 }
 
-export function Greeting({ name, emoji, flavor }: { name: string | undefined; emoji: string | undefined; flavor: boolean }) {
+export function Greeting({ name, emoji }: { name: string | undefined; emoji: string | undefined; flavor?: boolean }) {
+  const ui = useUI();
+  const [q, setQ] = useState("");
   const h = new Date().getHours();
-  const tod = h < 5 ? "Burning the midnight fuel" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : h < 22 ? "Good evening" : "Late shift";
+  const tod = h < 5 ? "Working late" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  const ask = (text: string) => { if (!text.trim()) return; ui.setAgentOpen(true, { prefill: text, nonce: Date.now() }); setQ(""); };
+  const chips = ["How is the sprint tracking?", "What should we pull into next sprint?", "Draft stories for a new feature", "Summarize this week"];
   return (
-    <div>
-      <div className="eyebrow">{flavor ? "Mission Control" : "Home"}</div>
-      <h1 className="text-2xl leading-none mt-1">{tod}, {name ?? "driver"} <span className="inline-block animate-float">{emoji ?? "🏁"}</span></h1>
-      <p className="text-text-3 text-sm mt-1.5">{flavor ? "Engines warm. Here's the state of the league." : "Here's where things stand."}</p>
+    <div className="panel tone tone-purple p-6 md:p-7 overflow-hidden relative">
+      <div className="absolute -right-10 -top-10 w-56 h-56 rounded-full bg-[radial-gradient(circle,rgba(228,185,99,0.35),transparent_65%)] pointer-events-none" />
+      <div className="eyebrow">Home</div>
+      <h1 className="text-[28px] md:text-[32px] leading-none mt-1 text-cream">{tod}, {name?.split(" ")[0] ?? "there"} <span className="inline-block animate-float">{emoji ?? "✨"}</span></h1>
+      <p className="text-cream/80 text-sm mt-2">Here's where things stand. Ask me anything about the project.</p>
+      <form onSubmit={(e) => { e.preventDefault(); ask(q); }} className="mt-4 flex items-center gap-2 h-12 pl-4 pr-1.5 rounded-full bg-cream text-coal shadow-lg max-w-[720px]">
+        <Sparkles size={16} className="text-purple shrink-0" />
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask the assistant…" className="flex-1 bg-transparent outline-none text-[15px] placeholder:text-smoke" />
+        <button type="submit" className="h-9 px-4 rounded-full bg-purple text-cream font-display font-semibold text-sm hover:brightness-110">Ask</button>
+      </form>
+      <div className="mt-3 flex flex-wrap gap-1.5">{chips.map((c) => <button key={c} onClick={() => ask(c)} className="text-xs px-3 h-7 rounded-full bg-cream/15 text-cream hover:bg-cream/25 border border-cream/20 transition-colors">{c}</button>)}</div>
     </div>
   );
 }

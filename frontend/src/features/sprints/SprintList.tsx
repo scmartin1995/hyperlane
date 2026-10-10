@@ -37,10 +37,10 @@ export function SprintList({ projectId }: { projectId: string }) {
   if (isError) return <EmptyState icon="⚠️" title="Couldn't load sprints" body="The server didn't answer. Try again in a moment." />;
   return (
     <div>
-      <PageHeader eyebrow={flavor ? "Sprints" : "Iterations"} title={label("sprints", flavor)} subtitle="Every lap is a sprint. Plan it, run it, learn from it."
+      <PageHeader eyebrow="Sprints" title={label("sprints", flavor)} subtitle="Plan it, run it, learn from it. The assistant learns your team's capacity as you go."
         actions={<><span className="hidden md:inline-flex items-center gap-1 text-xs text-text-3"><Kbd>j</Kbd><Kbd>k</Kbd> move · <Kbd>n</Kbd> new</span><Button variant="primary" icon={Plus} onClick={() => setShowNew(true)}>New sprint</Button></>} />
       {isLoading ? <LoadingRows n={3} /> : sorted.length === 0 ? (
-        <EmptyState icon="🏎️" title="No laps on the board" body="Create the first sprint. Dates default to your project's sprint length." action={<Button variant="primary" icon={Plus} onClick={() => setShowNew(true)}>New sprint</Button>} />
+        <EmptyState icon="🗓️" title="No sprints yet" body="Create the first sprint. Dates default to your project's sprint length." action={<Button variant="primary" icon={Plus} onClick={() => setShowNew(true)}>New sprint</Button>} />
       ) : (
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {sorted.map((s, i) => <SprintCard key={s.id} sprint={s} focused={i === cursor} />)}
@@ -87,11 +87,11 @@ export function NewSprintModal({ open, onClose, projectId, sprints, sprintLength
   const [start, setStart] = useState(format(defStart, "yyyy-MM-dd")); const [end, setEnd] = useState(format(addDays(defStart, sprintLength - 1), "yyyy-MM-dd"));
   useEffect(() => { if (open) { setName(`Sprint ${nextNumber}`); setGoal(""); setStart(format(defStart, "yyyy-MM-dd")); setEnd(format(addDays(defStart, sprintLength - 1), "yyyy-MM-dd")); } /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [open]);
   const submit = () => create.mutate({ name: name.trim() || undefined, goal: goal.trim() || undefined, start_date: start, end_date: end }, {
-    onSuccess: (s) => { toast.success(`${s.name} is on the grid`, "Head to Plan to fill it."); onClose(); nav(`/sprints/${s.id}/plan`); },
+    onSuccess: (s) => { toast.success(`${s.name} created`, "Head to Plan to fill it."); onClose(); nav(`/sprints/${s.id}/plan`); },
     onError: (e) => toast.error("Couldn't create the sprint", String((e as Error).message)),
   });
   return (
-    <Modal open={open} onClose={onClose} eyebrow="New lap" title="New sprint" footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" loading={create.isPending} onClick={submit}>Create sprint</Button></>}>
+    <Modal open={open} onClose={onClose} eyebrow="New" title="New sprint" footer={<><Button variant="ghost" onClick={onClose}>Cancel</Button><Button variant="primary" loading={create.isPending} onClick={submit}>Create sprint</Button></>}>
       <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); submit(); }}>
         <Field label="Name" required><Input autoFocus value={name} onChange={(e) => setName(e.target.value)} /></Field>
         <Field label="Goal" hint="One sentence the team can rally around."><Textarea value={goal} onChange={(e) => setGoal(e.target.value)} placeholder="Ship the onboarding flow end to end." onKeyDown={(e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submit(); }} /></Field>

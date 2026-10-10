@@ -12,9 +12,9 @@ import { SeedImport } from "./SeedImport";
 
 type Option = "agent" | "import" | "demo" | "empty";
 const OPTIONS: { key: Option; icon: typeof Sparkles; title: string; sub: string; accent: string }[] = [
-  { key: "agent", icon: Sparkles, title: "Build it with the agent", sub: "Describe the product; get epics → features → stories.", accent: "var(--gold)" },
+  { key: "agent", icon: Sparkles, title: "Build it with the assistant", sub: "Describe the product; get epics → features → stories.", accent: "var(--gold)" },
   { key: "import", icon: FileSpreadsheet, title: "Import from Excel/CSV", sub: "Bring an existing backlog. We map the columns.", accent: "var(--teal)" },
-  { key: "demo", icon: Trophy, title: "Load the demo league", sub: "5 drivers, 45 items, 4 sprints of history. Explore everything.", accent: "var(--purple-light)" },
+  { key: "demo", icon: Trophy, title: "Load the demo project", sub: "5 people, 56 items, 4 sprints of history. Explore everything.", accent: "var(--purple-light)" },
   { key: "empty", icon: Square, title: "Start empty", sub: "A clean grid. Add items as you go.", accent: "var(--smoke)" },
 ];
 
@@ -31,7 +31,7 @@ export function StepSeed({ state, update, next, back }: StepProps) {
   });
   return (
     <div className="space-y-5">
-      <div><div className="eyebrow">Step 4 · Backlog</div><h2 className="text-2xl mt-1">Load the grid</h2><p className="text-text-3 text-sm mt-1">How should the first backlog get here? You can do any of these again later from the backlog page.</p></div>
+      <div><div className="eyebrow">Step 4 · Backlog</div><h2 className="text-2xl mt-1">Seed the backlog</h2><p className="text-text-3 text-sm mt-1">How should the first backlog get here? You can do any of these again later from the backlog page.</p></div>
       {!projectId && <p className="text-sm text-rust-light">No project yet — go back one step to create one.</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Seed option">
         {OPTIONS.map((o) => (

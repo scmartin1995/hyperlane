@@ -1,4 +1,4 @@
-// The Kanban board ("Pit Wall"). Columns = project.workflow; dnd-kit drag with optimistic moves.
+// The Kanban board ("Board"). Columns = project.workflow; dnd-kit drag with optimistic moves.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, closestCorners, useSensor, useSensors, type DragEndEvent, type DragOverEvent, type DragStartEvent } from "@dnd-kit/core";
@@ -91,11 +91,11 @@ export default function BoardPage() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-7.5rem)]">
       <PageHeader eyebrow={ui.flavor ? "Board" : undefined} title={label("board", ui.flavor)} subtitle={activeSprint ? `${activeSprint.name}${activeSprint.goal ? ` · ${activeSprint.goal}` : ""}` : "No active sprint — showing everything. Start one under Sprints."}
-        actions={<><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, view: "board" })}>Ask the agent</Button><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button></>} />
+        actions={<><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, view: "board" })}>Ask the assistant</Button><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>New item <Kbd>c</Kbd></Button></>} />
       <BoardFilters f={f} set={set} users={users} labels={labels} project={project} activeSprint={activeSprint} />
 
       {itemsQ.isLoading ? <div className="flex gap-3">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-72 w-[272px] shrink-0" />)}</div>
-        : all.length === 0 ? <EmptyState icon="🛸" title="The grid is empty" body="Add your first work item, or let the agent draft a backlog from a paragraph." action={<div className="flex gap-2"><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>Create an item</Button><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build it with the agent</Button></div>} />
+        : all.length === 0 ? <EmptyState icon="🗂️" title="The board is empty" body="Add your first work item, or let the assistant draft a backlog from a paragraph." action={<div className="flex gap-2"><Button variant="primary" icon={Plus} onClick={() => setCreateOpen(true)}>Create an item</Button><Button variant="outline" icon={Sparkles} onClick={() => ui.setAgentOpen(true, { project_id: pid, intent: "build_backlog" })}>Build it with the assistant</Button></div>} />
         : (
           <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd} onDragCancel={() => { setActiveId(null); setLocal(null); }}>
             <div className="overflow-x-auto pb-4 -mx-1 px-1 flex-1">

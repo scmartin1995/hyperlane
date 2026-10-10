@@ -37,12 +37,11 @@ docs/API.md                 # the API contract — read it before writing any en
   Use the UI kit; don't invent new primitives when one exists. Tailwind utility classes with the theme colors
   (`bg-surface`, `text-text-2`, `text-gold`, `border-border`, …). Page container is provided by AppShell (padding, max width).
   Keyboard-first: every list has a shortcut; every form submits on Enter/Ctrl+Enter.
-- **Look & feel**: dark HUD by default (tokens in `styles/tokens.css`). Display font Titillium Web (uppercase, tracked), body Overpass,
-  numbers in JetBrains Mono (`.num`). Gold = primary accent, teal = interactive/in-progress, rust = danger, purple = epics, green = done.
-  Panels: `.panel` (+ `.panel-cut` for the angled HUD corners), `.hairline`, `.eyebrow`, `.grid-bg`, `.animate-in/pop`.
-  Copy is punchy and a little playful ("No prophecy. Just skill, strategy, and the will to ship."), but every flavored label has a plain
-  subtitle (see `LABELS` in `lib/store.ts`; `useUI().flavor` toggles). Fun moments: `celebrate()` confetti on done/sprint close,
-  `toast.fun()` for wins. Never block the user with flavor.
+- **Look & feel**: warm cream by default, charcoal dark theme optional (tokens in `styles/tokens.css`). Display font Titillium Web,
+  body Overpass, numbers in JetBrains Mono (`.num`). Purple = primary/AI, teal = in-progress, rust = danger, gold = highlights, green = done.
+  Color-blocked cards via `Panel tone="purple|rust|teal|dark|gold|cream"` / `Stat tone=...` (`.tone-*` classes); `.tint-*` for soft backgrounds.
+  `.panel`, `.hairline`, `.eyebrow`, `.grid-bg`, `.animate-in/pop`. Copy is plain, confident product language ("assistant", "Insights",
+  "Inbox", "My tasks"); no themed jargon in the UI. Fun moments: `celebrate()` confetti on done/sprint close, `toast.fun()` for wins.
 - **Privacy**: action items + notes are only ever returned for `CurrentUser`. No analytics, no CDNs at runtime (fonts are bundled).
 - **Events**: see docs/API.md → Events. The UI refetches via SSE; don't build polling.
 - **Tests**: `uv run pytest` – use `fastapi.testclient.TestClient(app)` with `HYPERLANE_DB_PATH` pointed at a temp file (see tests/conftest.py).

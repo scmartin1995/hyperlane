@@ -9,7 +9,7 @@ import { Help, ItemDrawer, LoadingRows } from "./common";
 import { useCommitPlan, usePlanSuggest, usePutCapacity, useSprintCapacity } from "./hooks";
 
 type Step = 1 | 2 | 3;
-const STEPS: { n: Step; title: string; sub: string }[] = [{ n: 1, title: "Capacity", sub: "Who's racing and for how long" }, { n: 2, title: "Pick work", sub: "Fill the sprint to capacity" }, { n: 3, title: "Commit", sub: "Lock it in and go" }];
+const STEPS: { n: Step; title: string; sub: string }[] = [{ n: 1, title: "Capacity", sub: "Who's available and for how long" }, { n: 2, title: "Pick work", sub: "Fill the sprint to capacity" }, { n: 3, title: "Commit", sub: "Lock it in and go" }];
 
 export function SprintPlan({ sprint, project, onStart }: { sprint: Sprint; project: Project | undefined; onStart: () => void }) {
   const [step, setStep] = useState<Step>(1);
@@ -18,7 +18,7 @@ export function SprintPlan({ sprint, project, onStart }: { sprint: Sprint; proje
   const suggest = usePlanSuggest(sprint.id, step >= 2);
   useEffect(() => { if (suggest.data && picked === null) setPicked(new Set(suggest.data.recommended_ids)); }, [suggest.data, picked]);
 
-  if (sprint.state === "closed") return <EmptyState icon="🏁" title="This lap is over" body="Planning is for planned or active sprints. Check the retro instead." />;
+  if (sprint.state === "closed") return <EmptyState icon="✅" title="This sprint is closed" body="Planning is for planned or active sprints. Check the retro instead." />;
   return (
     <div className="grid gap-4 lg:grid-cols-[220px_1fr]">
       <ol className="panel p-2 self-start space-y-1">
@@ -52,8 +52,8 @@ function CapacityStep({ sprint, cap, loading, error, onNext }: { sprint: Sprint;
   const maxHours = Math.max(1, ...cap.entries.map((e) => e.available_hours + e.days_off * 8));
   return (
     <section className="panel p-0 overflow-hidden animate-in">
-      <header className="px-4 pt-4 pb-3 flex items-start justify-between gap-3"><div><div className="eyebrow">Step 1 of 3</div><h2 className="text-base">Who's in the car this sprint?</h2><p className="text-xs text-text-3 mt-0.5">Set days off; hours and suggested {cap.method === "points" ? "points" : cap.method === "hours" ? "hours" : "throughput"} update from each person's learned profile.</p></div></header>
-      {cap.entries.length === 0 ? <div className="p-4"><EmptyState icon="👥" title="No crew yet" body="Add people in Pit Crew to plan capacity." /></div> : (
+      <header className="px-4 pt-4 pb-3 flex items-start justify-between gap-3"><div><div className="eyebrow">Step 1 of 3</div><h2 className="text-base">Who's available this sprint?</h2><p className="text-xs text-text-3 mt-0.5">Set days off; hours and suggested {cap.method === "points" ? "points" : cap.method === "hours" ? "hours" : "throughput"} update from each person's learned profile.</p></div></header>
+      {cap.entries.length === 0 ? <div className="p-4"><EmptyState icon="👥" title="No team yet" body="Add people under Team to plan capacity." /></div> : (
         <table className="w-full text-sm">
           <thead><tr className="text-left border-y border-border bg-surface-2/50"><th className="px-4 py-2 eyebrow">Person</th><th className="px-2 py-2 eyebrow">Days off</th><th className="px-2 py-2 eyebrow text-right">Available</th><th className="px-2 py-2 eyebrow text-right">Suggested</th><th className="px-2 py-2 eyebrow">Confidence <Help text="How much history the suggestion is based on." /></th></tr></thead>
           <tbody>
@@ -110,7 +110,7 @@ function PickStep({ sprint, project, plan, loading, error, refetch, picked, setP
     <section className="panel overflow-hidden animate-in">
       <header className="px-4 pt-4 pb-3 flex flex-wrap items-start justify-between gap-3">
         <div><div className="eyebrow">Step 2 of 3</div><h2 className="text-base">Fill the sprint</h2><p className="text-xs text-text-3 mt-0.5">Recommended items are pre-checked ({Math.round(plan.confidence * 100)}% confidence). {plan.notes[0] ?? ""}</p></div>
-        <div className="flex items-center gap-2"><Button size="sm" variant="ghost" icon={RefreshCw} onClick={refetch}>Re-rank</Button><Button size="sm" variant="teal" icon={Sparkles} onClick={askAgent}>Ask the agent to review</Button></div>
+        <div className="flex items-center gap-2"><Button size="sm" variant="ghost" icon={RefreshCw} onClick={refetch}>Re-rank</Button><Button size="sm" variant="teal" icon={Sparkles} onClick={askAgent}>Ask the assistant to review</Button></div>
       </header>
       <div className="px-4 pb-3 grid gap-3 md:grid-cols-[1fr_auto] items-end">
         <div>

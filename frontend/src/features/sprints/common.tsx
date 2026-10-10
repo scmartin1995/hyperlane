@@ -8,7 +8,7 @@ export const useProjectId = () => useUI((s) => s.projectId);
 
 export function NoProject({ what = "this page" }: { what?: string }) {
   return (
-    <EmptyState icon="🏁" title="No project on the grid yet" body={`Pick or create a project to use ${what}.`}
+    <EmptyState icon="✨" title="No project yet" body={`Pick or create a project to use ${what}.`}
       action={<Link to="/welcome"><Button variant="primary">Open the welcome setup</Button></Link>} />
   );
 }

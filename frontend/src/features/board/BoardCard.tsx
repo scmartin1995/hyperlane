@@ -8,9 +8,11 @@ import { BlockedTag, DueChip, LabelChips, PointsChip, PriorityGlyph, TypeIcon, i
 
 export function CardBody({ item, project, dragging, overlay }: { item: WorkItem; project: Project | undefined; dragging?: boolean; overlay?: boolean }) {
   const done = isDone(project, item.status);
+  const typeColor = project?.item_types.find((t) => t.key === item.type)?.color ?? "var(--gold)";
   return (
-    <div className={cn("panel p-2.5 pl-3 relative select-none transition-shadow", "hover:border-border-strong", dragging && "opacity-40", overlay && "glow-teal rotate-[1.5deg] cursor-grabbing", done && "opacity-75")}>
-      {item.blocked && <span className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-rust" aria-hidden />}
+    <div className={cn("panel p-3 pl-4 relative select-none transition-shadow overflow-hidden", "hover:shadow-[var(--shadow-lg)]", dragging && "opacity-40", overlay && "glow-gold rotate-[1.5deg] cursor-grabbing", done && "opacity-75")}>
+      <span className="absolute left-0 top-0 bottom-0 w-[5px]" style={{ background: typeColor }} aria-hidden />
+      {item.blocked && <span className="absolute left-0 right-0 top-0 h-[3px] stripe" aria-hidden />}
       <div className="flex items-center gap-1.5 text-[11px]">
         <TypeIcon project={project} type={item.type} />
         <span className="num text-text-3 font-semibold">{item.key}</span>

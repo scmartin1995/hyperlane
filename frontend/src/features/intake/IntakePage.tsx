@@ -42,11 +42,11 @@ function Inbox() {
   const tabs = (["all", "new", "clarifying", "ready", "converted", "on_hold", "rejected"] as F[]).map((k) => ({ key: k, label: k === "all" ? "All" : STATE_LABEL[k], count: counts[k] ?? 0 }));
   return (
     <div>
-      <PageHeader eyebrow="Intake · Requests" title={label("intake", flavor)} subtitle="Requests from email, Slack, Teams and the web. The agent clarifies, drafts requirements, and you convert."
+      <PageHeader eyebrow="Intake · Requests" title={label("intake", flavor)} subtitle="Requests from email, Slack, Teams and the web. The assistant clarifies, drafts requirements, and you convert."
         actions={<><Input placeholder="Search requests…" value={q} onChange={(e) => setQ(e.target.value)} className="h-8 w-52" /><Kbd>n</Kbd><Button variant="primary" icon={Plus} onClick={() => setShowNew(true)}>New request</Button></>} />
       <Tabs className="mb-3 flex-wrap" value={filter} onChange={setFilter} tabs={tabs} />
       {isLoading ? <div className="space-y-2">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-16" />)}</div> : list.length === 0 ? (
-        <EmptyState icon="📡" title={filter === "all" ? "Comms are quiet" : `Nothing ${STATE_LABEL[filter as IntakeRequest["state"]]?.toLowerCase()}`} body={filter === "all" ? "Requests arrive from email intake, Slack, Teams, or the form here." : "Switch filters to see other requests."} action={filter === "all" && <Button variant="primary" icon={Plus} onClick={() => setShowNew(true)}>Log a request</Button>} />
+        <EmptyState icon="📨" title={filter === "all" ? "The inbox is quiet" : `Nothing ${STATE_LABEL[filter as IntakeRequest["state"]]?.toLowerCase()}`} body={filter === "all" ? "Requests arrive from email intake, Slack, Teams, or the form here." : "Switch filters to see other requests."} action={filter === "all" && <Button variant="primary" icon={Plus} onClick={() => setShowNew(true)}>Log a request</Button>} />
       ) : (
         <ul className="space-y-1.5">
           {list.map((r, i) => {
