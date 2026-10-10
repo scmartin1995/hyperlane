@@ -1,0 +1,17 @@
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+# node
+node_modules/
+frontend/dist/
+# local data & secrets (never commit)
+data/
+.env
+*.db
+*.db-wal
+*.db-shm
+# misc
+.DS_Store

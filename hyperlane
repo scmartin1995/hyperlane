@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Hyperlane launcher. One command to install, build and run. Everything stays local.
+#   ./hyperlane            run (builds the UI if needed), opens http://127.0.0.1:8787
+#   ./hyperlane --dev      API with reload on :8787 + Vite dev server on :5173
+#   ./hyperlane --build    rebuild the UI only
+#   ./hyperlane --seed     load the demo league into the database
+set -euo pipefail
+cd "$(dirname "$0")"
+
+bold() { printf '\033[1m%s\033[0m\n' "$*"; }
+need() { command -v "$1" >/dev/null 2>&1 || { echo "Missing '$1'. $2"; exit 1; }; }
+need uv  "Install from https://docs.astral.sh/uv/ (curl -LsSf https://astral.sh/uv/install.sh | sh)"
+need npm "Install Node.js 20+ from https://nodejs.org"
+
+[ -f .env ] || { cp .env.example .env; sed -i "s/change-me-to-a-long-random-string/$(head -c 32 /dev/urandom | base64 | tr -d '=+/')/" .env; bold "Created .env (edit it to enable Claude, Slack, Teams or email intake)."; }
+mkdir -p data
+
+if [ ! -d .venv ]; then bold "Setting up Python environment…"; uv venv -q --python 3.13; fi
+uv pip install -q -e ".[dev,claude-code]"
+
+build_ui() { bold "Building the UI…"; (cd frontend && [ -d node_modules ] || npm install --silent; cd frontend && npm run build --silent); }
+
+case "${1:-}" in
+  --dev)
+    (cd frontend && [ -d node_modules ] || npm install --silent)
+    bold "API  → http://127.0.0.1:8787   UI → http://127.0.0.1:5173"
+    (cd frontend && npm run dev --silent) &
+    trap 'kill 0' EXIT
+    .venv/bin/python -m hyperlane.main --dev ;;
+  --build) build_ui ;;
+  --seed) .venv/bin/python -c "from hyperlane.services.seed import seed; from hyperlane.db import init_db; init_db(); print(seed())" ;;
+  *)
+    [ -f frontend/dist/index.html ] || build_ui
+    PORT=$(grep -E '^HYPERLANE_PORT=' .env | cut -d= -f2 || echo 8787); PORT=${PORT:-8787}
+    bold "Hyperlane → http://127.0.0.1:${PORT}   (Ctrl+C to stop)"
+    ( sleep 1.5; (xdg-open "http://127.0.0.1:${PORT}" >/dev/null 2>&1 || open "http://127.0.0.1:${PORT}" >/dev/null 2>&1 || true) ) &
+    exec .venv/bin/python -m hyperlane.main ;;
+esac

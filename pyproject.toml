@@ -1,0 +1,47 @@
+[project]
+name = "hyperlane"
+version = "0.1.0"
+description = "Local-first agentic project management: kanban, backlog, sprints, EVM, Claude business-analyst agent"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.143",
+  "uvicorn[standard]>=0.34",
+  "sqlalchemy>=2.0.40",
+  "pydantic>=2.10",
+  "pydantic-settings>=2.8",
+  "python-multipart>=0.0.20",
+  "itsdangerous>=2.2",
+  "openpyxl>=3.1",
+  "anthropic>=1.13",
+  "slack-bolt>=1.30",
+  "slack-sdk>=3.33",
+  "httpx>=0.28",
+  "sse-starlette>=2.2",
+  "apscheduler>=3.11,<4",
+  "python-dotenv>=1.0",
+  "bcrypt>=4.2",
+  "markdown-it-py>=3.0",
+]
+
+[project.optional-dependencies]
+claude-code = ["claude-agent-sdk>=0.2"]
+bedrock = ["anthropic[bedrock]>=1.13"]
+dev = ["pytest>=8", "pytest-asyncio>=0.25", "ruff>=0.9"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+hyperlane = "hyperlane.main:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend/hyperlane"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"

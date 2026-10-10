@@ -1,0 +1,89 @@
+/* Hyperlane design tokens. Inspired by a gritty racing-league HUD: dark panels, cream type,
+   gold hairlines, teal interactives, rust for danger, purple for epics. */
+
+:root {
+  --font-display: "Titillium Web", "Overpass Variable", system-ui, sans-serif;
+  --font-body: "Overpass Variable", "Overpass", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* brand */
+  --gold: #e4b963;
+  --gold-light: #fff0d7;
+  --gold-border: #f9dfad;
+  --teal: #27cfc3;
+  --teal-deep: #306376;
+  --rust: #bc553c;
+  --rust-light: #e07a5f;
+  --purple: #6b3a8e;
+  --purple-light: #9b6bc0;
+  --green: #67a671;
+  --cream: #f7f2f0;
+  --sand: #f0edeb;
+  --ash: #c5c2c2;
+  --smoke: #869791;
+  --coal: #282828;
+  --ink: #141311;
+
+  /* radii & motion */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --cut: 14px; /* HUD corner cut */
+
+  /* dark (default) */
+  --bg: #141311;
+  --bg-2: #1a1917;
+  --surface: #1f1d1b;
+  --surface-2: #282624;
+  --surface-3: #33302d;
+  --border: #35322e;
+  --border-strong: #4a463f;
+  --text: #f7f2f0;
+  --text-2: #c5c2c2;
+  --text-3: #869791;
+  --accent: var(--gold);
+  --accent-contrast: #141311;
+  --link: var(--teal);
+  --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  --glow-gold: 0 0 0 1px rgba(228, 185, 99, 0.35), 0 0 24px -6px rgba(228, 185, 99, 0.45);
+  --glow-teal: 0 0 0 1px rgba(39, 207, 195, 0.4), 0 0 24px -6px rgba(39, 207, 195, 0.5);
+  --scanline: rgba(255, 255, 255, 0.025);
+  --grid: rgba(228, 185, 99, 0.05);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f0edeb;
+  --bg-2: #ebe7e3;
+  --surface: #f7f2f0;
+  --surface-2: #ffffff;
+  --surface-3: #e6e4dc;
+  --border: #d9d4ce;
+  --border-strong: #bfb8b0;
+  --text: #282828;
+  --text-2: #4a4745;
+  --text-3: #7a7572;
+  --accent: #bc553c;
+  --accent-contrast: #f7f2f0;
+  --link: #306376;
+  --shadow: 0 10px 30px -14px rgba(40, 40, 40, 0.35);
+  --glow-gold: 0 0 0 1px rgba(188, 85, 60, 0.35), 0 0 20px -6px rgba(188, 85, 60, 0.35);
+  --glow-teal: 0 0 0 1px rgba(48, 99, 118, 0.4), 0 0 20px -6px rgba(48, 99, 118, 0.4);
+  --scanline: rgba(0, 0, 0, 0.02);
+  --grid: rgba(188, 85, 60, 0.05);
+  color-scheme: light;
+}
+
+/* status / priority semantic colors */
+:root {
+  --cat-todo: var(--smoke);
+  --cat-in_progress: var(--teal);
+  --cat-done: var(--green);
+  --prio-critical: var(--rust);
+  --prio-high: #e07a5f;
+  --prio-medium: var(--gold);
+  --prio-low: var(--teal-deep);
+  --prio-none: var(--smoke);
+}
