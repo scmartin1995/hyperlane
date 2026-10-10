@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hyperlane · Backlog</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#f0edeb}
+a{color:#306376}a:hover{color:#244c5b}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #f0edeb; font-family: Inter, system-ui, sans-serif; color: #282828; font-size: 14px; line-height: 1.5">
+
+  <nav aria-label="Main" style="flex: 0 0 232px; box-sizing: border-box; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; background: #f7f2f0; border-right: 1px solid #e6dfd9">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 4px 8px 20px">
+      <span style="width: 32px; height: 32px; border-radius: 10px; background: #6b3a8e; color: #f7f2f0; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800">H</span>
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px">Hyperlane</span>
+    </div>
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; color: #4e4946; text-decoration: none; font-weight: 500">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="Board.dc.html" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; color: #4e4946; text-decoration: none; font-weight: 500">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v12"/></svg>Board</a>
+    <a href="Backlog.dc.html" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; background: #6b3a8e; color: #f7f2f0; text-decoration: none; font-weight: 600">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l10 5-10 5L2 7z"/><path d="M2 12l10 5 10-5M2 17l10 5 10-5"/></svg>Backlog</a>
+    <a href="#" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; color: #4e4946; text-decoration: none; font-weight: 500">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Sprints</a>
+    <a href="#" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; color: #4e4946; text-decoration: none; font-weight: 500">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-6"/></svg>Insights</a>
+    <a href="#" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; color: #4e4946; text-decoration: none; font-weight: 500">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l3 3 5-6"/></svg>My tasks</a>
+    <a href="#" style="display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 10px; color: #4e4946; text-decoration: none; font-weight: 500">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/></svg>Team</a>
+    <div style="flex-grow: 1"></div>
+    <button type="button" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 12px; border: 0; background: #306376; color: #f7f2f0; font: inherit; font-weight: 600; text-align: left; cursor: pointer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Assistant</button>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: {{pagePad}}; display: flex; flex-direction: column; gap: {{sectionGap}}">
+    <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <h1 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.02em; line-height: 1.15">Backlog</h1>
+        <p style="margin: 0; color: #4e4946">Epics, features and stories. Drag to reorder; drop on a sprint to schedule.</p>
+      </div>
+      <div style="display: flex; gap: 8px">
+        <button type="button" style="height: 40px; padding: 0 16px; border-radius: 10px; border: 1px solid #cfc6be; background: #ffffff; color: #282828; font: inherit; font-weight: 600; cursor: pointer">Build with the assistant</button>
+        <button type="button" style="height: 40px; padding: 0 16px; border-radius: 10px; border: 0; background: #6b3a8e; color: #f7f2f0; font: inherit; font-weight: 600; cursor: pointer">New item</button>
+      </div>
+    </header>
+
+    <section aria-label="Needs triage" style="border-radius: 16px; background: #fff0d7; border: 1px solid #f9dfad; padding: {{cardPad}}; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <span style="width: 36px; height: 36px; border-radius: 999px; background: #bc553c; color: #f7f2f0; display: flex; align-items: center; justify-content: center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+        <div style="display: flex; flex-direction: column">
+          <span style="font-size: 12px; font-weight: 600; color: #9a4330">Needs triage</span>
+          <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700">2 requests waiting for a decision</h2>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: {{gridGap}}">
+        <sc-for list="{{requests}}" as="r" hint-placeholder-count="2">
+          <article style="border-radius: 12px; background: #ffffff; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
+            <div style="display: flex; align-items: flex-start; gap: 12px">
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+                <span style="font-weight: 700">{{r.title}}</span>
+                <span style="font-size: 12px; color: #7d7873">{{r.meta}}</span>
+              </div>
+              <span style="font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 10px; color: {{r.badgeFg}}; background: {{r.badgeBg}}">{{r.state}}</span>
+            </div>
+            <p style="margin: 0; color: #4e4946">{{r.summary}}</p>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid #f0ebe6">
+              <button type="button" style="height: 36px; padding: 0 14px; border-radius: 10px; border: 0; background: #6b3a8e; color: #f7f2f0; font: inherit; font-weight: 600; cursor: pointer">Accept</button>
+              <button type="button" style="height: 36px; padding: 0 14px; border-radius: 10px; border: 0; background: #306376; color: #f7f2f0; font: inherit; font-weight: 600; cursor: pointer">Escalate</button>
+              <button type="button" style="height: 36px; padding: 0 12px; border-radius: 10px; border: 0; background: transparent; color: #4e4946; font: inherit; cursor: pointer">Discuss</button>
+              <span style="flex: 1"></span>
+              <button type="button" style="height: 36px; padding: 0 12px; border-radius: 10px; border: 0; background: transparent; color: #4e4946; font: inherit; cursor: pointer">Snooze</button>
+              <button type="button" style="height: 36px; padding: 0 12px; border-radius: 10px; border: 0; background: transparent; color: #9a4330; font: inherit; cursor: pointer">Decline</button>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display: flex; flex-wrap: wrap; gap: {{gridGap}}; align-items: flex-start">
+      <section aria-label="Backlog tree" style="flex: 999 1 560px; min-width: 0; border-radius: 16px; background: #ffffff; border: 1px solid #e6dfd9; padding: 8px 0">
+        <sc-for list="{{rows}}" as="row" hint-placeholder-count="8">
+          <div style="display: flex; align-items: center; gap: 12px; min-height: {{rowH}}; padding: 0 20px; padding-left: {{row.indent}}; border-bottom: 1px solid #f5f1ee">
+            <span style="width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; background: {{row.color}}"></span>
+            <span style="font-size: 12px; color: #7d7873; font-variant-numeric: tabular-nums; width: 44px; flex-shrink: 0">{{row.key}}</span>
+            <span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: {{row.weight}}">{{row.title}}</span>
+            <span style="font-size: 12px; font-weight: 600; color: #4f2a6b; background: #ece2f3; border-radius: 999px; padding: 1px 8px">{{row.label}}</span>
+            <span style="font-size: 12px; color: #4e4946; width: 48px; text-align: right; font-variant-numeric: tabular-nums">{{row.pts}}</span>
+            <span style="font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 10px; width: 84px; text-align: center; color: {{row.statusFg}}; background: {{row.statusBg}}">{{row.status}}</span>
+          </div>
+        </sc-for>
+      </section>
+
+      <aside aria-label="Sprint planning" style="flex: 1 1 280px; min-width: 0; border-radius: 16px; background: #ffffff; border: 1px solid #e6dfd9; padding: {{cardPad}}; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700">Sprint planning</h2>
+        <p style="margin: 0; font-size: 13px; color: #7d7873">Drag a story onto a sprint to schedule it.</p>
+        <div style="border-radius: 12px; border: 1px solid #f9dfad; background: #fffaf1; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; align-items: center"><span style="font-weight: 700">Sprint 4</span><span style="font-size: 12px; color: #7d7873">Oct 7 – 20</span></div>
+          <span style="font-size: 13px; color: #4e4946">25 of 30 pts · 8 items</span>
+          <div style="height: 6px; border-radius: 999px; background: #ebe6e2"><div style="width: 83%; height: 6px; border-radius: 999px; background: #c99a3f"></div></div>
+        </div>
+        <div style="border-radius: 12px; border: 1px dashed #cfc6be; padding: 14px 16px; display: flex; justify-content: space-between; font-size: 13px; color: #7d7873"><span>Unscheduled</span><span>22 items · 67 pts</span></div>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"density":{"editor":"enum","options":["comfortable","compact"],"default":"comfortable","section":"Spacing"},"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const compact = (this.props.density ?? 'comfortable') === 'compact';
+    const prog = { statusFg: '#244c5b', statusBg: '#dcecf0', status: 'In progress' };
+    const ready = { statusFg: '#4e4946', statusBg: '#ebe6e2', status: 'Ready' };
+    const review = { statusFg: '#4f2a6b', statusBg: '#ece2f3', status: 'In review' };
+    const epic = '#6b3a8e', feature = '#306376', story = '#27cfc3', task = '#e4b963';
+    const l0 = '20px', l1 = '44px', l2 = '68px';
+    return {
+      pagePad: compact ? '24px' : '32px 40px',
+      sectionGap: compact ? '16px' : '24px',
+      gridGap: compact ? '12px' : '20px',
+      cardPad: compact ? '16px' : '20px 24px',
+      rowH: compact ? '40px' : '48px',
+      requests: [
+        { title: 'Download all invoices for a month', meta: 'Lena Ortiz · 1 day ago · AP-57', state: 'New', badgeFg: '#6b4d14', badgeBg: '#faf0dc', summary: 'Finance wants every invoice for a month as one zip file instead of downloading them one at a time.' },
+        { title: 'SSO for our contractors', meta: 'Tom Becker · 3 days ago · AP-58', state: 'Assistant clarifying', badgeFg: '#244c5b', badgeBg: '#dcecf0', summary: 'Orgs that enforce SSO need a way to let external contractors sign in without a shared login.' }
+      ],
+      rows: [
+        { key: 'AP-24', title: 'Support center', label: 'support', pts: '30 pts', indent: l0, color: epic, weight: 700, ...prog },
+        { key: 'AP-29', title: 'Knowledge base', label: 'support', pts: '15 pts', indent: l1, color: feature, weight: 600, ...prog },
+        { key: 'AP-32', title: 'Suggested articles while writing a ticket', label: 'support', pts: '3', indent: l2, color: story, weight: 400, ...prog },
+        { key: 'AP-33', title: 'Help center icon set', label: 'support', pts: '2', indent: l2, color: task, weight: 400, ...review },
+        { key: 'AP-34', title: 'Launch readiness', label: 'ga-blocker', pts: '84 pts', indent: l0, color: epic, weight: 700, ...prog },
+        { key: 'AP-35', title: 'Observability', label: 'ga-blocker', pts: '10 pts', indent: l1, color: feature, weight: 600, ...prog },
+        { key: 'AP-37', title: 'Performance dashboard', label: 'ga-blocker', pts: '5', indent: l2, color: story, weight: 400, ...prog },
+        { key: 'AP-38', title: 'Alerting rules for the API', label: 'ga-blocker', pts: '2', indent: l2, color: task, weight: 400, ...ready },
+        { key: 'AP-39', title: 'Onboarding', label: 'ga-blocker', pts: '74 pts', indent: l1, color: feature, weight: 600, ...prog },
+        { key: 'AP-40', title: 'Guided setup checklist', label: 'ga-blocker', pts: '5', indent: l2, color: story, weight: 400, ...prog }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

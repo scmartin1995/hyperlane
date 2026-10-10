@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hyperlane · Spacing and tokens</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#f0edeb}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1040px; box-sizing: border-box; padding: 56px 64px; background: #f0edeb; font-family: Inter, system-ui, sans-serif; color: #282828; font-size: 14px; display: flex; flex-direction: column; gap: 40px">
+  <div style="display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em">Spacing and tokens</h1>
+    <p style="margin: 0; color: #4e4946; max-width: 760px">One 4 px grid for everything. These values are what the app will use once you're happy with the screens. Edit them here and I'll carry them into the code.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+    <section style="border-radius: 16px; background: #ffffff; border: 1px solid #e6dfd9; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700">Spacing scale</h2>
+      <sc-for list="{{scale}}" as="s" hint-placeholder-count="8">
+        <div style="display: flex; align-items: center; gap: 16px">
+          <span style="width: 56px; font-size: 13px; font-weight: 600">{{s.name}}</span>
+          <span style="width: 40px; font-size: 12px; color: #7d7873; font-variant-numeric: tabular-nums">{{s.px}}</span>
+          <span style="height: 12px; border-radius: 3px; background: #6b3a8e; width: {{s.w}}"></span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="border-radius: 16px; background: #ffffff; border: 1px solid #e6dfd9; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700">Where each step is used</h2>
+      <sc-for list="{{usage}}" as="u" hint-placeholder-count="8">
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid #f0ebe6">
+          <span>{{u.what}}</span><span style="font-weight: 600; font-variant-numeric: tabular-nums">{{u.value}}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="border-radius: 16px; background: #ffffff; border: 1px solid #e6dfd9; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700">Radius and height</h2>
+      <div style="display: flex; gap: 16px; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 64px; height: 64px; border-radius: 8px; background: #ece2f3"></span><span style="font-size: 12px">8 · inputs</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 64px; height: 64px; border-radius: 10px; background: #dcecf0"></span><span style="font-size: 12px">10 · buttons</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 64px; height: 64px; border-radius: 12px; background: #faf0dc"></span><span style="font-size: 12px">12 · cards</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 64px; height: 64px; border-radius: 16px; background: #f6e3dc"></span><span style="font-size: 12px">16 · panels</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; padding-top: 8px">
+        <div style="display: flex; align-items: center; gap: 12px"><button type="button" style="height: 32px; padding: 0 12px; border-radius: 10px; border: 0; background: #6b3a8e; color: #f7f2f0; font: inherit; font-weight: 600">Small 32</button><button type="button" style="height: 40px; padding: 0 16px; border-radius: 10px; border: 0; background: #6b3a8e; color: #f7f2f0; font: inherit; font-weight: 600">Default 40</button><button type="button" style="height: 48px; padding: 0 20px; border-radius: 12px; border: 0; background: #6b3a8e; color: #f7f2f0; font: inherit; font-weight: 600">Large 48</button></div>
+      </div>
+    </section>
+  </div>
+
+  <section style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px">
+    <sc-for list="{{colors}}" as="c" hint-placeholder-count="6">
+      <div style="border-radius: 16px; overflow: hidden; background: #ffffff; border: 1px solid #e6dfd9">
+        <div style="height: 88px; background: {{c.hex}}"></div>
+        <div style="padding: 12px 16px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600">{{c.name}}</span><span style="font-size: 12px; color: #7d7873">{{c.hex}} · {{c.use}}</span></div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section style="border-radius: 16px; background: #ffffff; border: 1px solid #e6dfd9; padding: 24px; display: flex; gap: 48px; align-items: baseline; flex-wrap: wrap">
+    <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">Page title 30</span>
+    <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px">Section title 18</span>
+    <span style="font-size: 14px">Body text 14 Inter</span>
+    <span style="font-size: 13px; color: #4e4946">Secondary 13</span>
+    <span style="font-size: 12px; font-weight: 600; color: #6b3a8e">Label 12</span>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const steps = [4, 8, 12, 16, 20, 24, 32, 40];
+    return {
+      scale: steps.map((px, i) => ({ name: 'space-' + (i + 1), px: px + 'px', w: (px * 5) + 'px' })),
+      usage: [
+        { what: 'Page padding (sides / top)', value: '40 / 32' },
+        { what: 'Between page sections', value: '24–28' },
+        { what: 'Between cards in a grid', value: '20' },
+        { what: 'Card padding', value: '20 × 24' },
+        { what: 'Inside a card, between blocks', value: '12–16' },
+        { what: 'List row height', value: '44–48' },
+        { what: 'Icon to label', value: '12' },
+        { what: 'Between buttons', value: '8' }
+      ],
+      colors: [
+        { name: 'Purple', hex: '#6b3a8e', use: 'primary, AI' },
+        { name: 'Teal', hex: '#306376', use: 'in progress' },
+        { name: 'Rust', hex: '#bc553c', use: 'attention' },
+        { name: 'Gold', hex: '#e4b963', use: 'highlight' },
+        { name: 'Green', hex: '#5f9a68', use: 'done' },
+        { name: 'Charcoal', hex: '#282828', use: 'text, dark card' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
