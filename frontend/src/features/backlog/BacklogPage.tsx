@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 // Hierarchical backlog ("Backlog"): tree with drag reorder/re-parent, sprint rail drop targets, bulk actions, list view.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -169,9 +170,9 @@ export default function BacklogPage() {
               )}
           </div>
           <SprintRail project={project} sprints={sprints} items={flatQ.data ?? []} loading={sprintsLoading} />
-          <DragOverlay dropAnimation={null}>
+          {createPortal(<DragOverlay dropAnimation={null}>
             {activeNode && <div className={cn("panel px-3 py-2 flex items-center gap-2 text-sm glow-teal", shift && "border-purple-light")}><TypeIcon project={project} type={activeNode.type} /><span className="num text-xs text-text-3">{activeNode.key}</span><span className="truncate max-w-[320px]">{activeNode.title}</span>{selected.has(activeNode.id) && selected.size > 1 && <span className="num text-[10px] bg-teal text-ink rounded-full px-1.5">+{selected.size - 1}</span>}{shift && <span className="text-[10px] text-purple-light font-display uppercase">nest</span>}</div>}
-          </DragOverlay>
+          </DragOverlay>, document.body)}
         </DndContext>
       </div>
 

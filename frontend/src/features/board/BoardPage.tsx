@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 // The Kanban board ("Board"). Columns = project.workflow; dnd-kit drag with optimistic moves.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -117,7 +118,7 @@ export default function BoardPage() {
                 </section>
               ))}
             </div>
-            <DragOverlay dropAnimation={null}>{activeId && byId.get(activeId) ? <div style={{ width: COL_W - 12 }}><CardBody item={byId.get(activeId)!} project={project} overlay /></div> : null}</DragOverlay>
+            {createPortal(<DragOverlay dropAnimation={null}>{activeId && byId.get(activeId) ? <div style={{ width: COL_W - 12 }}><CardBody item={byId.get(activeId)!} project={project} overlay /></div> : null}</DragOverlay>, document.body)}
           </DndContext>
         )}
 

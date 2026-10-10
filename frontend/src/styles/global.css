@@ -130,8 +130,8 @@
 }
 
 @layer utilities {
-  .animate-in { animation: hl-in 0.28s var(--ease-out) both; }
-  .animate-pop { animation: hl-pop 0.35s var(--ease-out) both; }
+  .animate-in { animation: hl-in 0.28s var(--ease-out) backwards; }
+  .animate-pop { animation: hl-pop 0.35s var(--ease-out) backwards; }
   .animate-shimmer { background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: hl-shimmer 1.4s infinite; }
   .animate-float { animation: hl-float 6s ease-in-out infinite; }
   .animate-sweep { position: relative; overflow: hidden; }
