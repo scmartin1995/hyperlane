@@ -56,3 +56,21 @@ export function useLogout() {
   const qc = useQueryClient();
   return useMutation({ mutationFn: () => api.post("/auth/logout"), onSuccess: () => qc.invalidateQueries() });
 }
+
+// ---- appended by frontend-b (sprints/reports/people/action-items/intake/chat/settings) ----
+import type { AgentStatus, IntegrationsStatus, Sprint, ActionItem } from "./types";
+export const useAgentStatus = () => useQuery({ queryKey: qk.agentStatus, queryFn: () => api.get<AgentStatus>("/agent/status"), staleTime: 30_000 });
+export const useIntegrationsStatus = () => useQuery({ queryKey: qk.integrations, queryFn: () => api.get<IntegrationsStatus>("/integrations/status") });
+export const useSprintList = (pid: string | null | undefined, state?: Sprint["state"]) =>
+  useQuery({ queryKey: [...qk.sprints(pid ?? ""), state ?? "all"] as const, queryFn: () => api.get<Sprint[]>(`/projects/${pid}/sprints${state ? `?state=${state}` : ""}`), enabled: !!pid });
+export const useSprint = (id: string | undefined) => useQuery({ queryKey: qk.sprint(id ?? ""), queryFn: () => api.get<Sprint>(`/sprints/${id}`), enabled: !!id });
+export const useMyActionItems = (includeDone = true) =>
+  useQuery({ queryKey: [...qk.actionItems, includeDone] as const, queryFn: () => api.get<ActionItem[]>(`/me/action-items?include_done=${includeDone}`) });
+
+// ---- appended by frontend-a: generic read hooks used by Home (and reusable elsewhere) ----
+export const useMetricsOverview = (pid: string | undefined) =>
+  useQuery({ queryKey: qk.metrics(pid ?? "", "overview"), queryFn: () => api.get<import("./types").MetricsOverview>(`/projects/${pid}/metrics/overview`), enabled: !!pid, retry: false });
+export const useMeOverview = () =>
+  useQuery({ queryKey: [...qk.me, "overview"] as const, queryFn: () => api.get<import("./types").MeOverview>("/me/overview") });
+export const useProjectActivity = (pid: string | undefined, limit = 20) =>
+  useQuery({ queryKey: [...qk.activity(pid ?? ""), { limit }] as const, queryFn: () => api.get<import("./types").Activity[]>(`/projects/${pid}/activity?limit=${limit}`), enabled: !!pid });

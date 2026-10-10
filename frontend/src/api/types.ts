@@ -163,3 +163,15 @@ export interface IntegrationsStatus { slack: { enabled: boolean; connected: bool
 export interface NotificationLogEntry { id: Id; channel: string; target: string | null; kind: string; entity_type: string | null; entity_id: Id | null; body: string; ok: boolean; error: string | null; created_at: string }
 
 export interface LiveEvent { type: string; project_id: Id | null; entity_type: string | null; entity_id: Id | null; actor_id: Id | null; data: Record<string, unknown>; at: string }
+
+// ---- appended by frontend-a (shapes referenced by docs/API.md but not typed above) ----
+/** GET /me/overview */
+export interface MeOverview { assigned: WorkItem[]; in_progress: WorkItem[]; action_items_open: number; action_items_overdue: number; mentions: Comment[]; active_sprints: Sprint[] }
+/** POST /items/{id}/move response: the item plus an optional WIP warning. */
+export type MoveResult = WorkItem & { wip_warning?: string | null };
+/** POST /projects/{pid}/import/excel/commit response */
+export interface ImportCommitResult { created: WorkItem[]; skipped: number; warnings: string[] }
+/** POST /dev/seed response (loosely typed; the project is what the UI needs) */
+export interface SeedResult { project?: Project; users?: User[]; [k: string]: unknown }
+
+export interface EvmSnapshot { id: Id; project_id: Id; as_of: string; sprint_id: Id | null; bac: number; pv: number; ev: number; ac: number; planned_points: number; completed_points: number; total_points: number; metrics: Record<string, number>; note: string | null; created_at: string }

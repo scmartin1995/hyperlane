@@ -6,6 +6,7 @@ import { useMe, useProjects, useLogout, useWorkspace } from "@/api/queries";
 import { useLiveEvents } from "@/lib/live";
 import { Avatar, Button, IconButton, Kbd, Menu, Select, Toaster, cn } from "@/components/ui";
 import { CommandPalette, useCommandPalette } from "./CommandPalette";
+import { ShortcutHelp, useShortcutHelp } from "./ShortcutHelp";
 import { AgentDrawer } from "@/features/chat/AgentDrawer";
 
 const NAV = [
@@ -30,6 +31,7 @@ export function AppShell() {
   const nav = useNavigate();
   const loc = useLocation();
   const palette = useCommandPalette();
+  const help = useShortcutHelp();
 
   useEffect(() => { document.documentElement.dataset.theme = ui.theme; }, [ui.theme]);
   useEffect(() => {
@@ -41,6 +43,7 @@ export function AppShell() {
       const typing = tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable;
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); palette.toggle(); }
       if (!typing && e.key === "/" ) { e.preventDefault(); ui.setAgentOpen(!ui.agentOpen); }
+      if (!typing && e.key === "?") { e.preventDefault(); help.toggle(); }
       if (!typing && !e.ctrlKey && !e.metaKey && e.key === "g") { (window as unknown as { __g?: number }).__g = Date.now(); }
       else if (!typing && (window as unknown as { __g?: number }).__g && Date.now() - ((window as unknown as { __g?: number }).__g ?? 0) < 800) {
         const map: Record<string, string> = { h: "/", b: "/board", l: "/backlog", s: "/sprints", r: "/reports", i: "/intake", a: "/action-items", p: "/people" };
@@ -50,7 +53,7 @@ export function AppShell() {
     };
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
-  }, [palette, ui, nav]);
+  }, [palette, ui, nav, help]);
 
   const collapsed = ui.sidebarCollapsed;
   const project = projects?.find((p) => p.id === ui.projectId);
@@ -110,6 +113,7 @@ export function AppShell() {
       </div>
       <AgentDrawer />
       <CommandPalette />
+      <ShortcutHelp />
       <Toaster />
     </div>
   );

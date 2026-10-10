@@ -84,8 +84,8 @@ export function AvatarStack({ users, max = 4, size = 22 }: { users: UserBrief[];
 
 /* ---------- Inputs ---------- */
 const fieldCls = "w-full bg-surface-2 border border-border rounded-[8px] px-3 text-sm placeholder:text-text-3 transition-colors focus:border-teal focus:outline-none disabled:opacity-60";
-export function Input({ className, ...rest }: InputHTMLAttributes<HTMLInputElement>) { return <input className={cn(fieldCls, "h-9", className)} {...rest} />; }
-export function Textarea({ className, ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement>) { return <textarea className={cn(fieldCls, "py-2 min-h-[80px] leading-relaxed", className)} {...rest} />; }
+export function Input({ className, ref, ...rest }: InputHTMLAttributes<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> }) { return <input ref={ref} className={cn(fieldCls, "h-9", className)} {...rest} />; }
+export function Textarea({ className, ref, ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement> & { ref?: React.Ref<HTMLTextAreaElement> }) { return <textarea ref={ref} className={cn(fieldCls, "py-2 min-h-[80px] leading-relaxed", className)} {...rest} />; }
 export function Select({ className, children, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) { return <select className={cn(fieldCls, "h-9 pr-8 appearance-none bg-no-repeat bg-[right_0.6rem_center] bg-[length:12px]", className)} style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3e%3cpath fill='%23869791' d='M3 4.5l3 3 3-3'/%3e%3c/svg%3e\")" }} {...rest}>{children}</select>; }
 export function Field({ label, hint, children, className, required }: { label?: ReactNode; hint?: ReactNode; children: ReactNode; className?: string; required?: boolean }) {
   return <label className={cn("block", className)}>{label && <span className="block mb-1 text-xs font-display font-semibold tracking-wide text-text-2 uppercase">{label}{required && <span className="text-rust"> *</span>}</span>}{children}{hint && <span className="block mt-1 text-[11px] text-text-3">{hint}</span>}</label>;
